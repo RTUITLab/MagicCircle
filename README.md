@@ -1,4 +1,4 @@
-# circle-shit
+# Magic-circle
 
 ## Project setup
 ```
