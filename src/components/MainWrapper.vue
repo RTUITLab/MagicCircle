@@ -54,7 +54,7 @@
           </filter>
         </defs>
 <!---->
-        <g id="BitchyCircle">
+        <g id="MagicCircle">
           <circle id="L0-CIO" v-b-modal="'my-modal'" cx="1500" cy="1500" r="197"
                   fill-opacity="0.01"
                   fill="#C4C4C4"></circle>
@@ -249,16 +249,16 @@ export default {
   outline: none !important;
 }
 
-#BitchyCircle {
+#MagicCircle {
   cursor: pointer;
 }
 
-#BitchyCircle *:not(#L3-L1, #L3-L2, #L3-L3, #L3-ITSM):hover {
+#MagicCircle *:not(#L3-L1, #L3-L2, #L3-L3, #L3-ITSM):hover {
   stroke: black;
   stroke-width: 3px;
 }
 
-#BitchyCircle *:active {
+#MagicCircle *:active {
   fill-opacity: 0.5;
   stroke-width: 3px;
   filter: url(#inset-shadow);
@@ -309,6 +309,12 @@ export default {
     width: 600px;
     height: 600px;
   }
+  .svg-layer {
+    left: 10%;
+  }
+  .img-layer img {
+    left: 10%;
+  }
 }
 
 /* Устройства со средним экраном (ноутбуки и компьютеры, 992px и выше) */
@@ -320,6 +326,12 @@ export default {
   .svg-layer__circle {
     width: 900px;
     height: 900px;
+  }
+  .svg-layer {
+    left: 15%;
+  }
+  .img-layer img {
+    left: 15%;
   }
 }
 
