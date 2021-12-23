@@ -1,0 +1,28 @@
+name: Delete packages
+
+on:
+  # Choose what you need or configure new trigger
+
+  # On every push to default branch
+  push:
+    branches:
+      - master
+  # Every day in 13:00
+  schedule:
+    - cron: '0 13 * * *'
+
+env:
+  # Name of your package to delete
+  PACKAGE_NAME: magic-circle/frontend
+  # Number of packages you want to keep
+  NUMBER_OF_PACKAGES_TO_KEEP: 2
+
+jobs:
+  delete_packages:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete package
+        uses: smartsquaregmbh/delete-old-packages@v0.3.3
+        with:
+          names: ${{ env.PACKAGE_NAME }}
+          keep: ${{ env.NUMBER_OF_PACKAGES_TO_KEEP }}
