@@ -2,32 +2,18 @@
   <div class="">
     <div class="header">
       <div class="selects-row">
-<!--        <v-select placeholder="Институт" v-model="selectInst"  multiple :options=instituteList class="selects-row__item"></v-select>-->
-<!--        <v-select placeholder="Направление" v-model="selectDirection" multiple :options=directionList class="selects-row__item"></v-select>-->
-<!--        <v-select placeholder="Профиль" v-model="selectProfile" multiple :options=profileList class="selects-row__item"></v-select>-->
-        <multiselect class="selects-row__item" v-model="selectInst" tag-placeholder="Выберите институт" placeholder="Выберите институт" label="name" track-by="id" :options="instituteList" :multiple="true" :taggable="true"></multiselect>
+        <multiselect class="selects-row__item" v-model="selectInst"  tag-placeholder="Выберите институт" placeholder="Выберите институт" label="name" track-by="id" :options="instituteList" :multiple="true" :taggable="true"></multiselect>
         <multiselect class="selects-row__item" v-model="selectDirection" tag-placeholder="Выберите направление" placeholder="Выберите направление" label="name" track-by="id" :options="directionList" :multiple="true" :taggable="true"></multiselect>
         <multiselect class="selects-row__item" v-model="selectProfile" tag-placeholder="Выберите профиль" placeholder="Выберите профиль" label="name" track-by="id" :options="profileList" :multiple="true" :taggable="true" ></multiselect>
 
       </div>
-      <button @click="test"> TEST</button>
+      <button class="btn btn-success" @click="test"> TEST</button>
     </div>
     <div class="wrapper">
       <div class="svg-layer">
         <div>
-          <b-modal id="my-modal" title="Example" scrollable>
-            <div class="d-block text-center">
-              <h4>Id element = {{this.modalContent}}</h4>
-            </div>
-            <div>
-              Равным образом постоянный количественный рост и сфера нашей активности позволяет выполнить важнейшие задания по разработке экономической целесообразности принимаемых решений. Таким образом, рамки и место обучения кадров играет важную роль в формировании системы обучения кадров, соответствующей насущным потребностям. Разнообразный и богатый опыт выбранный нами инновационный путь напрямую зависит от системы обучения кадров, соответствующей насущным потребностям.
-
-              Повседневная практика показывает, что социально-экономическое развитие требует определения и уточнения всесторонне сбалансированных нововведений. Задача организации, в особенности же курс на социально-ориентированный национальный проект обеспечивает широкому кругу специалистов участие в формировании экономической целесообразности принимаемых решений. Разнообразный и богатый опыт курс на социально-ориентированный национальный проект требует от нас системного анализа соответствующих условий активизации? Равным образом курс на социально-ориентированный национальный проект требует от нас системного анализа дальнейших направлений развитая системы массового участия.
-
-              Повседневная практика показывает, что консультация с профессионалами из IT представляет собой интересный эксперимент проверки соответствующих условий активизации. Таким образом, сложившаяся структура организации обеспечивает актуальность системы обучения кадров, соответствующей насущным потребностям! Значимость этих проблем настолько очевидна, что рамки и место обучения кадров позволяет оценить значение модели развития. С другой стороны начало повседневной работы по формированию позиции требует от нас системного анализа дальнейших направлений развития проекта.
-
-              Дорогие друзья, сложившаяся структура организации обеспечивает широкому кругу специалистов участие в формировании дальнейших...
-            </div>
+          <b-modal id="my-modal" :title=this.modalContent.name scrollable>
+            <ModalContent :modalContent="this.modalContent" />
           </b-modal>
         </div>
         <!-- Button trigger modal -->
@@ -231,21 +217,26 @@
 <script>
 import 'vue-select/dist/vue-select.css';
 import vSelect from 'vue-select'
+import ModalContent from "./ModalContent";
 import Vue from "vue";
 import Multiselect from 'vue-multiselect'
 import api from '@/services/api'
+import textContent from '@/services/textContent'
 // register globally
 Vue.component('multiselect', Multiselect)
 Vue.component('v-select', vSelect)
+Vue.component('modal-content', ModalContent)
 export default {
   name: "MainWrapper",
-  components: {Multiselect},
+  components: { Multiselect, ModalContent},
   data() {
     return {
       value: [
         { name: 'Javascript', code: 'js' }
       ],
-      modalContent: '',
+      allTextContent: '',
+      modalContent: {},
+      modalIndex: 0,
       instituteList: ['ИИТ', 'РТС', 'ФТИ'],
       directionList: [
         {name: 'Прикладная информатика', code: '09.03.01'},
@@ -263,27 +254,13 @@ export default {
     }
   },
   methods: {
-    setId(id) {
-      this.modalContent = id;
-    },
     test() {
-      // const paths = document.querySelectorAll("path, circle")
-      // this.sectorsTest.forEach(function (elem) {
-      //   document.getElementById(elem).setAttribute("style", "fill-opacity: 0.7")
-      // })
-      api.getSectorsFromApi().then(data => {
+      this.sectorsTest.forEach(function (elem) {
+        document.getElementById(elem).setAttribute("style", "fill-opacity: 0.7; pointer-events: none;")
+      })
+      api.getSectorsFromApi(this.selectInst[0], this.selectDirection[0], this.selectProfile[0]).then(data => {
         console.log('getSectorsFromApi DATA', data)
       })
-    },
-    setIdToPaths() {
-      const paths = document.querySelectorAll("path, circle")
-      console.log("test", paths)
-      paths.forEach((path) => {
-        path.addEventListener('click', () => {
-          this.setId(path.id)
-          console.log("forEach worked", path.id);
-        });
-      });
     },
     getAllDataFromApi() {
       // get institutes
@@ -313,14 +290,19 @@ export default {
         alert('Ошибка', err)
         console.log('err', err)
       })
+    },
+    setTextContent() {
+      Object.keys(this.allTextContent).forEach((id) => {
+        document.getElementById(id).addEventListener('click', () => {
+          this.modalContent = this.allTextContent[id]
+        })
+      })
     }
   },
   mounted() {
-    this.setIdToPaths()
     this.getAllDataFromApi()
-    console.log('STORE profileList', this.profileList)
-    console.log('STORE instituteList', this.instituteList)
-    console.log('STORE directionList', this.profileList)
+    this.allTextContent = textContent.textContent
+    this.setTextContent()
   }
 }
 </script>
@@ -328,29 +310,19 @@ export default {
 
 <style>
 
-*:focus {
-  outline: none !important;
+
+.modal__title{
+  text-align: left;
+  font-weight: bold;
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+.modal__content{
+  text-align: left;
+  font-size: 14px;
+  margin-bottom: 15px;
 }
 
-#MagicCircle {
-  cursor: pointer;
-}
-
-#MagicCircle *:not(#L3-L1, #L3-L2, #L3-L3, #L3-ITSM):hover {
-  stroke: black;
-  stroke-width: 3px;
-}
-
-#MagicCircle *:active {
-  fill-opacity: 0.5;
-  stroke-width: 3px;
-  filter: url(#inset-shadow);
-
-}
-
-#L3-L1:hover, #L3-L2:hover, #L3-L3:hover, #L3-ITSM:hover {
-  fill-opacity: 0.15;
-}
 .close {
   float: right;
   font-size: 1.5rem;
@@ -368,26 +340,16 @@ export default {
   z-index: 999;
 }
 
-.svg-layer__circle {
-  width: 800px;
-  height: 800px;
-}
-
-.img-layer img {
-  position: absolute;
-  width: 800px;
-}
-
 .selects-row {
   display: flex;
   justify-content: space-between;
-  margin: 0 auto;
+  margin: 0 auto 15px;
   max-width: 900px;
 }
 .selects-row__item{
   margin-right: 30px;
   width: 33.333%;
-  z-index: 9999999;
+  z-index: 1000;
 }
 @media (min-width: 768px) {
   /* Стили для устройств с шириной viewport, находящейся в диапазоне 768px - 991px */

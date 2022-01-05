@@ -21,5 +21,6 @@ export default {
 .selects-row__item{
   margin-right: 30px;
   width: 33.333%;
+  z-index: 1000000;
 }
 </style>

@@ -32,16 +32,38 @@ export default {
         })
     },
     //TODO default value for params
-    async getSectorsFromApi() {
+    async getSectorsFromApi(institute, direction, profile) {
+        console.log('getSectorsFromApi', institute.name, direction.name, profile.name)
           return await axios.request({
               url: 'v1/sector',
               method: 'GET',
-              params: { institute: '', direction: '', profile: '' }
+              params: { institute: institute.name, direction: direction.name, profile: profile.name }
           }).then(resp => {
               return resp.data
           }).catch(err => {
               return err
           })
+    },
+    async postSectorsToApi(data) {
+        return await axios.request({
+            url: 'v1/adjacenttables',
+            method: 'POST',
+            data: data
+        }).then(resp => {
+            return resp.data
+        }).catch(err => {
+            return err
+        })
+    },
+    async deleteInstituteFromApi(id) {
+        return await axios.request({
+            url: 'v1/institute/' + id,
+            method: 'DELETE',
+        }).then(resp => {
+            return resp.data
+        }).catch(err => {
+            return err
+        })
     },
 
 
