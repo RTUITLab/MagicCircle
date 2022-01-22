@@ -2,6 +2,8 @@ import Vue from 'vue'
 import App from './App.vue'
 import { BootstrapVue, IconsPlugin, ModalPlugin } from 'bootstrap-vue'
 import router from './router'
+import VueRouter from 'vue-router'
+
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import './assets/style/style.css'
@@ -13,6 +15,7 @@ Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 Vue.use(ModalPlugin)
 
+Vue.use(VueRouter)
 axios.defaults.baseURL = process.env.VUE_APP_SERVER_URL || window.location.origin
 
 new Vue({

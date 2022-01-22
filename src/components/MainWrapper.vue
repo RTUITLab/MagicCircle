@@ -7,7 +7,7 @@
         <multiselect class="selects-row__item" v-model="selectProfile" tag-placeholder="Выберите профиль" placeholder="Выберите профиль" label="name" track-by="id" :options="profileList" :multiple="true" :taggable="true" ></multiselect>
 
       </div>
-      <button class="btn btn-success" @click="test"> TEST</button>
+      <button class="btn btn-success" @click="findSectors"> Найти</button>
     </div>
     <div class="wrapper">
       <div class="svg-layer">
@@ -254,13 +254,22 @@ export default {
     }
   },
   methods: {
-    test() {
-      this.sectorsTest.forEach(function (elem) {
-        document.getElementById(elem).setAttribute("style", "fill-opacity: 0.7; pointer-events: none;")
+    findSectors() {
+      const paths = document.querySelectorAll("path, circle")
+      paths.forEach((item) => {
+        document.getElementById(item.id).setAttribute("style", "fill-opacity: 0; pointer-events: all;")
       })
-      api.getSectorsFromApi(this.selectInst[0], this.selectDirection[0], this.selectProfile[0]).then(data => {
+      api.getSectorsFromApi(this.selectInst, this.selectDirection, this.selectProfile).then(data => {
         console.log('getSectorsFromApi DATA', data)
+        data.sectors.forEach((item) => {
+          if (document.getElementById(item.coords) != null) {
+            document.getElementById(item.coords).setAttribute("style", "fill-opacity: 0.7; pointer-events: none;")
+          }
+        })
       })
+      // this.sectorsTest.forEach(function (elem) {
+      //   document.getElementById(elem).setAttribute("style", "fill-opacity: 0.7; pointer-events: none;")
+      // })
     },
     getAllDataFromApi() {
       // get institutes
