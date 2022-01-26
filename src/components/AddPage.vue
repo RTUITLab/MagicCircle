@@ -233,7 +233,7 @@ export default {
       // get institutes
       api.getInstitutesFromApi().then(data => {
         console.log('data ', data)
-        this.instituteList = data
+        this.instituteList = (data === null) ? [] : data
       }).catch(err => {
         alert('Ошибка', err)
         console.log('err', err)
@@ -242,7 +242,7 @@ export default {
       // get directions
       api.getDirectionsFromApi().then(data => {
         console.log('data ', data)
-        this.directionList = data
+        this.directionList = (data === null) ? [] : data
       }).catch(err => {
         alert('Ошибка', err)
         console.log('err', err)
@@ -252,7 +252,7 @@ export default {
       // get profiles
       api.getProfilesFromApi().then(data => {
         console.log('data ', data)
-        this.profileList = data
+        this.profileList = (data === null) ? [] : data
       }).catch(err => {
         alert('Ошибка', err)
         console.log('err', err)
@@ -260,10 +260,21 @@ export default {
     },
     addSectors() {
       const data = {
-        directionName: this.selectDirection.name,
-        instituteName: this.selectInst.name,
-        profileName: this.selectProfile.name,
-        sectors: this.sectorList,
+        direction: {
+          id: this.selectDirection.id,
+          name: this.selectDirection.name
+        },
+        institute: {
+          id: this.selectInst.id,
+          name: this.selectInst.name
+        },
+        profile: {
+          id: this.selectProfile.id,
+          name: this.selectProfile.name
+        },
+        sectors: {
+          coords: this.sectorList
+        },
       }
       console.log('DATA', data)
       api.postSectorsToApi(data)

@@ -26,16 +26,21 @@ export default {
             url: 'v1/profile',
             method: 'GET'
         }).then(resp => {
+            console.log('getProfilesFromApi', resp)
             return resp.data.profiles
         }).catch(err => {
             return err
         })
     },
-    async getSectorsFromApi(institute = {name:''}, direction = {name:''}, profile = {name:''}) {
-        console.log('getSectorsFromApi', institute, direction, profile)
-        let instituteList = institute.map((item) => { return item.name})
-        let profileList = direction.map((item) => { return item.name})
-        let directionList = profile.map((item) => { return item.name})
+    async getSectorsFromApi(institute = {id:''}, direction = {id:''}, profile = {id:''}) {
+        console.log('institute', institute)
+
+        let instituteList = institute.map((item) => { return item.id})
+        let profileList = direction.map((item) => { return item.id})
+        let directionList = profile.map((item) => { return item.id})
+        console.log('instituteList', instituteList)
+        console.log('profileList', profileList)
+        console.log('directionList', directionList)
           return await axios.request({
               url: 'v1/sector',
               method: 'GET',
@@ -48,12 +53,17 @@ export default {
     },
     async postSectorsToApi(data) {
         return await axios.request({
-            url: 'v1/adjacenttables',
+            url: 'v1',
             method: 'POST',
             data: data
         }).then(resp => {
+            console.log('postSectorsToApi ', resp)
+            if (resp.data === 201) {
+                alert('Успешно создано!')
+            }
             return resp.data
         }).catch(err => {
+            alert('Не получилось, проверьте правильность ввденных данных')
             return err
         })
     },
@@ -62,11 +72,13 @@ export default {
             url: 'v1/institute/' + id,
             method: 'DELETE',
         }).then(resp => {
+            console.log('then')
             if (resp.status === 200) {
                 alert('Запись успешно удалена')
             }
             return resp.data
         }).catch(err => {
+            alert('Невозможно удалить институт. Проверьте привязаны ли к нему направления')
             return err
         })
     },
@@ -80,6 +92,7 @@ export default {
             }
             return resp.data
         }).catch(err => {
+            alert('Невозможно удалить институт. Проверьте привязаны ли к нему профили')
             return err
         })
     },

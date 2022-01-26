@@ -231,23 +231,11 @@ export default {
   components: { Multiselect, ModalContent},
   data() {
     return {
-      value: [
-        { name: 'Javascript', code: 'js' }
-      ],
       allTextContent: '',
       modalContent: {},
-      modalIndex: 0,
-      instituteList: ['ИИТ', 'РТС', 'ФТИ'],
-      directionList: [
-        {name: 'Прикладная информатика', code: '09.03.01'},
-        {name: 'Программная инженерия', code: '09.03.02'},
-        {name: 'Информатика и вычислительная техника', code: '09.03.03'}
-      ],
-      sectorsTest: ['L6-T1', 'L6-T2', 'L6-US', 'L6-ITIS', 'L6-TW', 'L6-SASEECT'],
-      profileList: [
-        {name: 'ИиППО', code: '09.03.01' },
-        {name: 'МОСИТ', code: '09.03.02' },
-        {name: 'ИВТ <3', code: '09.03.03' }],
+      instituteList: [],
+      directionList: [],
+      profileList: [],
       selectInst: [],
       selectDirection: [],
       selectProfile: []
@@ -256,26 +244,29 @@ export default {
   methods: {
     findSectors() {
       const paths = document.querySelectorAll("path, circle")
-      paths.forEach((item) => {
-        document.getElementById(item.id).setAttribute("style", "fill-opacity: 0; pointer-events: all;")
-      })
       api.getSectorsFromApi(this.selectInst, this.selectDirection, this.selectProfile).then(data => {
-        console.log('getSectorsFromApi DATA', data)
-        data.sectors.forEach((item) => {
-          if (document.getElementById(item.coords) != null) {
-            document.getElementById(item.coords).setAttribute("style", "fill-opacity: 0.7; pointer-events: none;")
-          }
+        paths.forEach((item) => {
+          document.getElementById(item.id).setAttribute("style", "fill-opacity: 0.3; pointer-events: none;")
         })
+        console.log('getSectorsFromApi DATA', data)
+        if (data.sectors === null) {
+          paths.forEach((item) => {
+            document.getElementById(item.id).setAttribute("style", "fill-opacity: 0.3; pointer-events: none;")
+          })
+        }
+        else {
+          data.sectors.forEach((item) => {
+            if (document.getElementById(item.coords) != null) {
+              document.getElementById(item.coords).setAttribute("style", "stroke: black; stroke-width: 3px")
+            }
+          })
+        }
       })
-      // this.sectorsTest.forEach(function (elem) {
-      //   document.getElementById(elem).setAttribute("style", "fill-opacity: 0.7; pointer-events: none;")
-      // })
     },
     getAllDataFromApi() {
       // get institutes
       api.getInstitutesFromApi().then(data => {
-        console.log('data ', data)
-        this.instituteList = data
+        this.instituteList = (data === null) ? [] : data
       }).catch(err => {
         alert('Ошибка', err)
         console.log('err', err)
@@ -283,8 +274,7 @@ export default {
 
       // get directions
       api.getDirectionsFromApi().then(data => {
-        console.log('data ', data)
-        this.directionList = data
+        this.directionList = (data === null) ? [] : data
       }).catch(err => {
         alert('Ошибка', err)
         console.log('err', err)
@@ -293,8 +283,7 @@ export default {
 
       // get profiles
       api.getProfilesFromApi().then(data => {
-        console.log('data ', data)
-        this.profileList = data
+        this.profileList = (data === null) ? [] : data
       }).catch(err => {
         alert('Ошибка', err)
         console.log('err', err)

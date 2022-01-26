@@ -59,7 +59,7 @@ export default {
       // get institutes
       api.getInstitutesFromApi().then(data => {
         console.log('data ', data)
-        this.instituteList = data
+        this.instituteList = (data === null) ? [] : data
       }).catch(err => {
         alert('Ошибка', err)
         console.log('err', err)
@@ -68,7 +68,7 @@ export default {
       // get directions
       api.getDirectionsFromApi().then(data => {
         console.log('data ', data)
-        this.directionList = data
+        this.directionList = (data === null) ? [] : data
       }).catch(err => {
         alert('Ошибка', err)
         console.log('err', err)
@@ -78,7 +78,7 @@ export default {
       // get profiles
       api.getProfilesFromApi().then(data => {
         console.log('data ', data)
-        this.profileList = data
+        this.profileList = (data === null) ? [] : data
       }).catch(err => {
         alert('Ошибка', err)
         console.log('err', err)
