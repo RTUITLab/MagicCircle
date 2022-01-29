@@ -3,8 +3,8 @@
     <div class="add-form">
       <h3> Добавить или обновить сектор</h3>
       <multiselect class="selects-row__item inst" v-model="selectInst"  tag-placeholder="Выберите институт" placeholder="Выберите институт" label="name" track-by="id" :options="instituteList" :taggable="true"></multiselect>
-      <multiselect class="selects-row__item dirs" v-model="selectDirection" tag-placeholder="Выберите направление" placeholder="Выберите направление" label="name" track-by="id" :options="directionList" :taggable="true"></multiselect>
-      <multiselect class="selects-row__item profs" v-model="selectProfile" tag-placeholder="Выберите профиль" placeholder="Выберите профиль" label="name" track-by="id" :options="profileList" :taggable="true" ></multiselect>
+      <multiselect class="selects-row__item dirs" :disabled="selectInst === '' || selectInst === null" v-model="selectDirection" tag-placeholder="Выберите направление" placeholder="Выберите направление" label="name" track-by="id" :options="directionList" :taggable="true"></multiselect>
+      <multiselect class="selects-row__item profs" :disabled="selectDirection === '' || selectDirection === null" v-model="selectProfile" tag-placeholder="Выберите профиль" placeholder="Выберите профиль" label="name" track-by="id" :options="profileList" :taggable="true" ></multiselect>
       <button type="submit" @click="addSectors" class="btn btn-success">Добавить</button>
       <div>
         <div class="wrapper">
@@ -225,7 +225,22 @@ export default {
       selectInst: '',
       selectDirection: '',
       selectProfile: '',
-      sectorList: []
+      sectorList: [],
+      directionData: {},
+      instituteData: {},
+      allDirections: [],
+      allProfs: [],
+      profileData: {}
+    }
+  },
+  watch: {
+    selectInst: function (selectDir) {
+      console.log('WATCH INST', selectDir)
+      this.changeDirsList()
+    },
+    selectDirection: function (selectProf) {
+      console.log('WATCH DIR', selectProf)
+      this.changeProfList()
     }
   },
   methods: {
@@ -243,6 +258,7 @@ export default {
       api.getDirectionsFromApi().then(data => {
         console.log('data ', data)
         this.directionList = (data === null) ? [] : data
+        this.allDirections = (data === null) ? [] : data
       }).catch(err => {
         alert('Ошибка', err)
         console.log('err', err)
@@ -253,25 +269,35 @@ export default {
       api.getProfilesFromApi().then(data => {
         console.log('data ', data)
         this.profileList = (data === null) ? [] : data
+        this.allProfs = (data === null) ? [] : data
       }).catch(err => {
         alert('Ошибка', err)
         console.log('err', err)
       })
     },
     addSectors() {
-      const data = {
-        direction: {
+      if (this.selectDirection !== ''){
+        this.directionData = {
           id: this.selectDirection.id,
           name: this.selectDirection.name
-        },
-        institute: {
+        }
+      }
+      if (this.selectInst !== ''){
+        this.instituteData = {
           id: this.selectInst.id,
           name: this.selectInst.name
-        },
-        profile: {
+        }
+      }
+      if (this.selectProfile !== '') {
+        this.profileData = {
           id: this.selectProfile.id,
           name: this.selectProfile.name
-        },
+        }
+      }
+      const data = {
+        direction: this.directionData,
+        institute: this.instituteData,
+        profile: this.profileData,
         sectors: {
           coords: this.sectorList
         },
@@ -281,31 +307,49 @@ export default {
     },
     setIdToPaths() {
       const paths = document.querySelectorAll("path, circle")
-      console.log("test", paths)
       paths.forEach((path) => {
         path.addEventListener('click', () => {
-          console.log("forEach worked", path.id);
           if (this.sectorList.includes(path.id)) {
-            console.log('include', path.id)
             document.getElementById(path.id).setAttribute("style", "fill-opacity: 0.01;")
             this.sectorList.pop(path.id)
-            console.log('if', this.sectorList)
           }
           else {
             this.sectorList.push(path.id)
             document.getElementById(path.id).setAttribute("style", "fill-opacity: 0.4;")
-            console.log('else', this.sectorList)
           }
         });
       });
     },
+    changeDirsList() {
+      if (this.selectInst !== null ) {
+        if (this.selectInst.directions !== null) {
+          this.directionList = this.selectInst.directions
+        }
+        else {
+          this.directionList = []
+        }
+      }
+      else {
+        this.directionList = this.allDirections
+      }
+    },
+    changeProfList() {
+      if (this.selectDirection !== null ) {
+        if (this.selectDirection.profiles !== null) {
+          this.profileList = this.selectDirection.profiles
+        }
+        else {
+          this.profileList = []
+        }
+      }
+      else {
+        this.profileList = this.allProfs
+      }
+    }
   },
   mounted() {
     this.getAllDataFromApi()
     this.setIdToPaths()
-    console.log('STORE profileList', this.profileList)
-    console.log('STORE instituteList', this.instituteList)
-    console.log('STORE directionList', this.directionList)
   }
 }
 </script>

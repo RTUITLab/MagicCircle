@@ -2,9 +2,9 @@
   <div class="">
     <div class="header">
       <div class="selects-row">
-        <multiselect class="selects-row__item" v-model="selectInst"  tag-placeholder="Выберите институт" placeholder="Выберите институт" label="name" track-by="id" :options="instituteList" :multiple="true" :taggable="true"></multiselect>
-        <multiselect class="selects-row__item" v-model="selectDirection" tag-placeholder="Выберите направление" placeholder="Выберите направление" label="name" track-by="id" :options="directionList" :multiple="true" :taggable="true"></multiselect>
-        <multiselect class="selects-row__item" v-model="selectProfile" tag-placeholder="Выберите профиль" placeholder="Выберите профиль" label="name" track-by="id" :options="profileList" :multiple="true" :taggable="true" ></multiselect>
+        <multiselect class="selects-row__item" v-model="selectInst"  tag-placeholder="Выберите институт" placeholder="Выберите институт" label="name" track-by="id" :options="instituteList" :taggable="true"></multiselect>
+        <multiselect class="selects-row__item" :disabled="selectInst === null || selectInst.length === 0 "  v-model="selectDirection" tag-placeholder="Выберите направление" placeholder="Выберите направление" label="name" track-by="id" :options="directionList" :taggable="true"></multiselect>
+        <multiselect class="selects-row__item" :disabled="selectDirection === null || selectDirection.length === 0 " v-model="selectProfile" tag-placeholder="Выберите профиль" placeholder="Выберите профиль" label="name" track-by="id" :options="profileList" :taggable="true" ></multiselect>
 
       </div>
       <button class="btn btn-success" @click="findSectors"> Найти</button>
@@ -238,7 +238,19 @@ export default {
       profileList: [],
       selectInst: [],
       selectDirection: [],
-      selectProfile: []
+      selectProfile: [],
+      allDirections: [],
+      allProfs: []
+    }
+  },
+  watch: {
+    selectInst: function (selectDir) {
+      console.log('WATCH INST', selectDir)
+      this.changeDirsList()
+    },
+    selectDirection: function (selectProf) {
+      console.log('WATCH DIR', selectProf)
+      this.changeProfList()
     }
   },
   methods: {
@@ -275,6 +287,7 @@ export default {
       // get directions
       api.getDirectionsFromApi().then(data => {
         this.directionList = (data === null) ? [] : data
+        this.allDirections = (data === null) ? [] : data
       }).catch(err => {
         alert('Ошибка', err)
         console.log('err', err)
@@ -284,6 +297,7 @@ export default {
       // get profiles
       api.getProfilesFromApi().then(data => {
         this.profileList = (data === null) ? [] : data
+        this.allProfs = (data === null) ? [] : data
       }).catch(err => {
         alert('Ошибка', err)
         console.log('err', err)
@@ -295,6 +309,33 @@ export default {
           this.modalContent = this.allTextContent[id]
         })
       })
+    },
+    changeDirsList() {
+      console.log('changeDirsList', this.selectInst)
+      if (this.selectInst !== null ) {
+        if (this.selectInst.directions !== null) {
+          this.directionList = this.selectInst.directions
+        }
+        else {
+          this.directionList = []
+        }
+      }
+      else {
+        this.directionList = this.allDirections
+      }
+    },
+    changeProfList() {
+      if (this.selectDirection !== null ) {
+        if (this.selectDirection.profiles !== null) {
+          this.profileList = this.selectDirection.profiles
+        }
+        else {
+          this.profileList = []
+        }
+      }
+      else {
+        this.profileList = this.allProfs
+      }
     }
   },
   mounted() {

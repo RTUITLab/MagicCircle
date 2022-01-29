@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import AddPage from "../components/AddPage";
+import AddSector from "../components/AddSector";
+import AddProfile from "../components/AddProfile";
 import DelPage from "../components/DelPage";
 Vue.use(VueRouter)
 
@@ -16,16 +17,16 @@ const routes = [
         component: () => import('@/views/Admin'),
         children: [
             {
-                // при совпадении пути с шаблоном /user/:id/profile
-                // в <router-view> компонента User будет показан UserProfile
-                path: 'add',
-                component: AddPage
+                path: 'addSector',
+                component: AddSector
             },
             {
-                // при совпадении пути с шаблоном /user/:id/posts
-                // в <router-view> компонента User будет показан UserPosts
                 path: 'del',
                 component: DelPage
+            },
+            {
+                path: 'addProfile',
+                component: AddProfile
             }
         ]
     },

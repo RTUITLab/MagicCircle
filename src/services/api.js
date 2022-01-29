@@ -33,18 +33,13 @@ export default {
         })
     },
     async getSectorsFromApi(institute = {id:''}, direction = {id:''}, profile = {id:''}) {
-        console.log('institute', institute)
-
-        let instituteList = institute.map((item) => { return item.id})
-        let profileList = direction.map((item) => { return item.id})
-        let directionList = profile.map((item) => { return item.id})
-        console.log('instituteList', instituteList)
-        console.log('profileList', profileList)
-        console.log('directionList', directionList)
+        console.log('getSectorsFromApi institute', institute )
+        console.log('getSectorsFromApi direction', direction )
+        console.log('getSectorsFromApi profile', profile )
           return await axios.request({
               url: 'v1/sector',
               method: 'GET',
-              params: { institute: instituteList[0], direction: profileList[0], profile: directionList[0] }
+              params: { institute: institute.id, direction: direction.id, profile: profile.id }
           }).then(resp => {
               return resp.data
           }).catch(err => {
@@ -58,12 +53,11 @@ export default {
             data: data
         }).then(resp => {
             console.log('postSectorsToApi ', resp)
-            if (resp.data === 201) {
-                alert('Успешно создано!')
-            }
+            alert('Успешно создано!')
             return resp.data
         }).catch(err => {
             alert('Не получилось, проверьте правильность ввденных данных')
+            console.log(err)
             return err
         })
     },

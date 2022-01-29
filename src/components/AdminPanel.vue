@@ -5,8 +5,11 @@
   </div>
   <div class="wrapper-panel">
     <div class="nav-row">
-      <b-link  to="/admin/add" title="First" active>
-        Добавить
+      <b-link  to="/admin/addSector" title="First" active>
+        Добавить сектор
+      </b-link>
+      <b-link  to="/admin/addProfile" title="second" active>
+        Добавить профиль
       </b-link>
       <b-link to="/admin/del" title="second" active>
         Удалить
