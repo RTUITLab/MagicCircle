@@ -360,6 +360,7 @@ export default {
   text-align: left;
   font-size: 14px;
   margin-bottom: 15px;
+  white-space: pre-wrap;
 }
 
 .close {
