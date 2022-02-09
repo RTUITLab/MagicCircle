@@ -49,8 +49,8 @@ export default {
   props: {
     modalContent: Object,
   },
-  mounted() {
-    console.log('modalCobntent: ', this.modalContent)
+  destroyed() {
+    this.$emit("clearModalContent")
   }
 }
 </script>

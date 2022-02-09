@@ -5,7 +5,6 @@
         <multiselect class="selects-row__item" v-model="selectInst"  tag-placeholder="Выберите институт" placeholder="Выберите институт" label="name" track-by="id" :options="instituteList" :taggable="true"></multiselect>
         <multiselect class="selects-row__item" :disabled="selectInst === null || selectInst.length === 0 "  v-model="selectDirection" tag-placeholder="Выберите направление" placeholder="Выберите направление" label="name" track-by="id" :options="directionList" :taggable="true"></multiselect>
         <multiselect class="selects-row__item" :disabled="selectDirection === null || selectDirection.length === 0 " v-model="selectProfile" tag-placeholder="Выберите профиль" placeholder="Выберите профиль" label="name" track-by="id" :options="profileList" :taggable="true" ></multiselect>
-
       </div>
       <button class="btn btn-success" @click="findSectors"> Найти</button>
     </div>
@@ -13,7 +12,7 @@
       <div class="svg-layer">
         <div>
           <b-modal id="my-modal" :title=this.modalContent.name scrollable>
-            <ModalContent :modalContent="this.modalContent" />
+            <ModalContent @clearModalContent="clearModalContent" :modalContent="this.modalContent" />
           </b-modal>
         </div>
         <!-- Button trigger modal -->
@@ -254,6 +253,9 @@ export default {
     }
   },
   methods: {
+    clearModalContent() {
+      this.modalContent = {}
+    },
     findSectors() {
       const paths = document.querySelectorAll("path, circle")
       api.getSectorsFromApi(this.selectInst, this.selectDirection, this.selectProfile).then(data => {
@@ -342,12 +344,15 @@ export default {
     this.getAllDataFromApi()
     this.allTextContent = textContent.textContent
     this.setTextContent()
+    console.log('mounted MainWrapper')
+    this.$root.$emit('modalContent', this.modalContent);
+
   }
 }
 </script>
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 
-<style>
+<style lang="scss">
 
 
 .modal__title{
