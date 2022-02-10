@@ -26,21 +26,18 @@ export default {
             url: 'v1/profile',
             method: 'GET'
         }).then(resp => {
-            console.log('getProfilesFromApi', resp)
             return resp.data.profiles
         }).catch(err => {
             return err
         })
     },
     async getSectorsFromApi(institute = {id:''}, direction = {id:''}, profile = {id:''}) {
-        console.log('getSectorsFromApi institute', institute )
-        console.log('getSectorsFromApi direction', direction )
-        console.log('getSectorsFromApi profile', profile )
           return await axios.request({
               url: 'v1/sector',
               method: 'GET',
               params: { institute: institute.id, direction: direction.id, profile: profile.id }
           }).then(resp => {
+              console.log('getSectorsFromApi ', institute)
               return resp.data
           }).catch(err => {
               return err
@@ -56,6 +53,30 @@ export default {
             alert('Успешно создано!')
             return resp.data
         }).catch(err => {
+            if (err.response.status === 404){
+                console.log('404', err.response.status, data.sectors.coords[0])
+                this.postNewSectorToApi(data.sectors.coords[0], data)
+            }
+            else {
+                alert('Не получилось, проверьте правильность ввденных данных')
+            }
+            console.log(err)
+            return err
+        })
+    },
+    async postNewSectorToApi(idSectors, dataLastRequest) {
+        return await axios.request({
+            url: 'v1/sector',
+            method: 'POST',
+            data: {
+                "coords": idSectors
+            }
+        }).then(resp => {
+            console.log('postNewSectorToApi ', resp)
+            this.postSectorsToApi(dataLastRequest)
+            return resp.data
+        }).catch(err => {
+            console.log('404', err.response.status, idSectors)
             alert('Не получилось, проверьте правильность ввденных данных')
             console.log(err)
             return err
