@@ -16,7 +16,7 @@ Vue.use(IconsPlugin)
 Vue.use(ModalPlugin)
 
 Vue.use(VueRouter)
-axios.defaults.baseURL = process.env.VUE_APP_SERVER_URL || window.location.origin
+axios.defaults.baseURL = process.env.VUE_APP_SERVER_URL || window.location.origin + "/api/magic-circle/"
 
 new Vue({
   render: h => h(App),
