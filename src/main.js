@@ -3,7 +3,7 @@ import App from './App.vue'
 import { BootstrapVue, IconsPlugin, ModalPlugin } from 'bootstrap-vue'
 import router from './router'
 import VueRouter from 'vue-router'
-
+import store from './store'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import './assets/style/style.css'
@@ -20,5 +20,6 @@ axios.defaults.baseURL = process.env.VUE_APP_SERVER_URL || window.location.origi
 
 new Vue({
   render: h => h(App),
-  router
+  router,
+  store
 }).$mount('#app')

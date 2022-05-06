@@ -11,12 +11,17 @@
     <div class="wrapper">
       <div class="svg-layer">
         <div>
-          <b-modal id="my-modal" :title=this.modalContent.name scrollable>
+          <b-modal id="my-modal" 
+            size="xl" 
+            :title="this.modalContent.name" 
+            scrollable
+            header-class="header-preview"
+            cancel-title="Отмена"
+            ok-title="Сохранить"
+          >
             <ModalContent @clearModalContent="clearModalContent" :modalContent="this.modalContent" />
           </b-modal>
         </div>
-        <!-- Button trigger modal -->
-        <!-- Large modal -->
         <svg class="svg-layer__circle" viewBox="0 0 3000 3000" fill="1" xmlns="http://www.w3.org/2000/svg">
           <!--    Define styles for :active    -->
           <defs>
@@ -344,7 +349,6 @@ export default {
     this.getAllDataFromApi()
     this.allTextContent = textContent.textContent
     this.setTextContent()
-    console.log('mounted MainWrapper')
     this.$root.$emit('modalContent', this.modalContent);
 
   }
@@ -354,7 +358,10 @@ export default {
 
 <style lang="scss">
 
-
+.img-layer, .svg-layer {
+  position: absolute;
+  left: calc((100% - 900px)/2);
+}
 .modal__title{
   text-align: left;
   font-weight: bold;
@@ -396,50 +403,47 @@ export default {
   width: 33.333%;
   z-index: 1000;
 }
-@media (min-width: 768px) {
+@media (max-width: 768px) {
   /* Стили для устройств с шириной viewport, находящейся в диапазоне 768px - 991px */
   .img-layer img {
+    margin: 0 auto;
     width: 600px;
   }
   .svg-layer__circle {
+    margin: 0 auto;
     width: 600px;
     height: 600px;
   }
-  .svg-layer {
-    left: 10%;
-  }
-  .img-layer img {
-    left: 10%;
-  }
+  
 }
 
-/* Устройства со средним экраном (ноутбуки и компьютеры, 992px и выше) */
-@media (min-width: 992px){
-  /* Стили для устройств с шириной viewport, находящейся в диапазоне 992px - 1199px */
-  .img-layer img {
-    width: 900px;
-  }
-  .svg-layer__circle {
-    width: 900px;
-    height: 900px;
-  }
-  .svg-layer {
-    left: 15%;
-  }
-  .img-layer img {
-    left: 15%;
-  }
-}
+// /* Устройства со средним экраном (ноутбуки и компьютеры, 992px и выше) */
+// @media (min-width: 992px){
+//   /* Стили для устройств с шириной viewport, находящейся в диапазоне 992px - 1199px */
+//   .img-layer img {
+//     width: 900px;
+//   }
+//   .svg-layer__circle {
+//     width: 900px;
+//     height: 900px;
+//   }
+//   .svg-layer {
+//     left: 15%;
+//   }
+//   .img-layer img {
+//     left: 15%;
+//   }
+// }
 
 /* Устройства с большим экраном (компьютеры, 1200px и выше) */
-@media (min-width: 1200px) and  (min-height: 1000px) {
-  .img-layer img {
-    width: 1000px;
-  }
-  .svg-layer__circle {
-    width: 1000px;
-    height: 1000px;
-  }
-}
+// @media (min-width: 1200px) and  (min-height: 1000px) {
+//   .img-layer img {
+//     width: 1000px;
+//   }
+//   .svg-layer__circle {
+//     width: 1000px;
+//     height: 1000px;
+//   }
+// }
 
 </style>

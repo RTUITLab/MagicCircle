@@ -1,51 +1,16 @@
 <template>
-  <div class="d-block text-center">
-    <div class="modal-direction">
-      <div class="modal__title">
-        Описание должности:
-      </div>
-      <div class="modal__content">
-        {{this.modalContent.direction}}
-      </div>
-    </div>
-    <div class="modal-activity">
-      <div class="modal__title">
-        Чем занимается:
-      </div>
-      <div class="modal__content">
-        {{this.modalContent.typeOfActivity}}
-      </div>
-    </div>
-    <div class="modal-requirements">
-      <div class="modal__title">
-        Требования к должности:
-      </div>
-      <div class="modal__content">
-        {{this.modalContent.requirements}}
-      </div>
-    </div>
-    <div class="modal-how-become">
-      <div class="modal__title">
-        Как стать:
-      </div>
-      <div class="modal__content">
-        {{this.modalContent.howBecome}}
-      </div>
-    </div>
-    <div class="modal-career">
-      <div class="modal__title">
-        Куда и как расти дальше:
-      </div>
-      <div class="modal__content">
-        {{this.modalContent.careerGrowth}}
-      </div>
-    </div>
+  <div>
+    <MarkdownEditor
+      v-show="this.$store.state.isAdmin"
+    />
   </div>
 </template>
 
 <script>
+import MarkdownEditor from './MarkdownEditor.vue'
 export default {
   name: "modalContent",
+  components: {MarkdownEditor},
   props: {
     modalContent: Object,
   },
@@ -56,5 +21,7 @@ export default {
 </script>
 
 <style scoped>
-
+.modal-preview {
+  width: 466px;
+}
 </style>

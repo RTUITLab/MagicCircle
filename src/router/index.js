@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import AddSector from "../components/AddSector";
 import AddProfile from "../components/AddProfile";
 import DelPage from "../components/DelPage";
+import UpdProfile from "../components/UpdProfile";
 Vue.use(VueRouter)
 
 const routes = [
@@ -27,6 +28,10 @@ const routes = [
             {
                 path: 'addProfile',
                 component: AddProfile
+            },
+            {
+                path: 'updProfile',
+                component: UpdProfile
             }
         ]
     },
