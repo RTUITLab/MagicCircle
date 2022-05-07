@@ -49,6 +49,7 @@ export default {
   },
   computed: {
    markdownToHtml(){
+     this.$store.dispatch('changeMarkdown', this.markdown)
      return marked(this.markdown);
    }
   },

@@ -2,11 +2,47 @@
   <div class="">
     <div class="header">
       <div class="selects-row">
-        <multiselect class="selects-row__item" v-model="selectInst"  tag-placeholder="Выберите институт" placeholder="Выберите институт" label="name" track-by="id" :options="instituteList" :taggable="true"></multiselect>
-        <multiselect class="selects-row__item" :disabled="selectInst === null || selectInst.length === 0 "  v-model="selectDirection" tag-placeholder="Выберите направление" placeholder="Выберите направление" label="name" track-by="id" :options="directionList" :taggable="true"></multiselect>
-        <multiselect class="selects-row__item" :disabled="selectDirection === null || selectDirection.length === 0 " v-model="selectProfile" tag-placeholder="Выберите профиль" placeholder="Выберите профиль" label="name" track-by="id" :options="profileList" :taggable="true" ></multiselect>
+        <multiselect 
+          class="selects-row__item" 
+          v-model="selectInst"  
+          tag-placeholder="Выберите институт" 
+          :limitText="count => `и ${count} еще`" 
+          :limit="3" 
+          placeholder="Выберите институт" 
+          label="name" 
+          track-by="id" 
+          :options="instituteList" 
+          :taggable="true" 
+          :multiple="true" 
+        />
+        <multiselect 
+          class="selects-row__item" 
+          v-model="selectDirection" 
+          tag-placeholder="Выберите направление" 
+          :limit="3"
+          :limitText="count => `и ${count} еще`" 
+          placeholder="Выберите направление" 
+          label="name" 
+          track-by="id" 
+          :options="directionList" 
+          :taggable="true" 
+          :multiple="true" 
+        />
+        <multiselect 
+          class="selects-row__item" 
+          v-model="selectProfile" 
+          tag-placeholder="Выберите профиль" 
+          :limit="3"
+          :limitText="count => `и ${count} еще`" 
+          placeholder="Выберите профиль" 
+          label="name"
+          track-by="id" 
+          :options="profileList"
+          taggable="true" 
+          :multiple="true" 
+        />
+      <button class="btn btn-primary" @click="findSectors"> Найти</button>
       </div>
-      <button class="btn btn-success" @click="findSectors"> Найти</button>
     </div>
     <div class="wrapper">
       <div class="svg-layer">
@@ -17,6 +53,7 @@
             scrollable
             header-class="header-preview"
             cancel-title="Отмена"
+            @ok="submitForm()"
             ok-title="Сохранить"
           >
             <ModalContent @clearModalContent="clearModalContent" :modalContent="this.modalContent" />
@@ -248,14 +285,14 @@ export default {
     }
   },
   watch: {
-    selectInst: function (selectDir) {
-      console.log('WATCH INST', selectDir)
-      this.changeDirsList()
-    },
-    selectDirection: function (selectProf) {
-      console.log('WATCH DIR', selectProf)
-      this.changeProfList()
-    }
+    // selectInst: function (selectDir) {
+    //   console.log('WATCH INST', selectDir)
+    //   this.changeDirsList()
+    // },
+    // selectDirection: function (selectProf) {
+    //   console.log('WATCH DIR', selectProf)
+    //   this.changeProfList()
+    // }
   },
   methods: {
     clearModalContent() {
@@ -316,6 +353,9 @@ export default {
           this.modalContent = this.allTextContent[id]
         })
       })
+    },
+    submitForm() {
+      console.log('data', this.$store.state.markdown);
     },
     changeDirsList() {
       console.log('changeDirsList', this.selectInst)
@@ -396,7 +436,7 @@ export default {
   display: flex;
   justify-content: space-between;
   margin: 0 auto 15px;
-  max-width: 900px;
+  max-width: 1000px;
 }
 .selects-row__item{
   margin-right: 30px;

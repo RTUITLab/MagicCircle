@@ -31,13 +31,13 @@ export default {
             return err
         })
     },
-    async getSectorsFromApi(institute = {id: ''}, direction = {id: ''}, profile = {id: ''}) {
+    // async getSectorsFromApi(institute = {id: ''}, direction = {id: ''}, profile = {id: ''}) {
+    async getSectorsFromApi(institutes, directions, profiles) {
         return await axios.request({
             url: 'v1/sector',
             method: 'GET',
-            params: {institute: institute.id, direction: direction.id, profile: profile.id}
+            params: {institute: institutes[0]?.id, direction: directions[0]?.id, profile: profiles[0]?.id}
         }).then(resp => {
-            console.log('getSectorsFromApi ', institute)
             return resp.data
         }).catch(err => {
             return err

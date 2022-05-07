@@ -56,15 +56,12 @@
     border: 1px solid #D7DBEC;
 }
 
-/* .modal-body::-webkit-scrollbar {
-    width: 10px;
-}
-   
-.modal-body::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 6px #F5F6FA;
-}
 
-.modal-body::-webkit-scrollbar-thumb {
-    background-color: #336DFF;
-    outline: 1px solid transparent;
-} */
+.header .btn {
+    min-width: 138px;
+    font-weight: 400;
+    border-radius: 6px;
+    font-size: 16px;
+    line-height: 24px;
+    height: 40px;
+}

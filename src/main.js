@@ -4,14 +4,17 @@ import { BootstrapVue, IconsPlugin, ModalPlugin } from 'bootstrap-vue'
 import router from './router'
 import VueRouter from 'vue-router'
 import store from './store'
+
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+
 import './assets/style/style.css'
+import './assets/style/_multiselect.scss'
 Vue.config.productionTip = false
 import axios from "axios";
 // Make BootstrapVue available throughout your project
 Vue.use(BootstrapVue)
-// Optionally install the BootstrapVue icon components plugin
+
 Vue.use(IconsPlugin)
 Vue.use(ModalPlugin)
 
