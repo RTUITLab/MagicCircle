@@ -15,7 +15,7 @@
           :taggable="true" 
           :multiple="true" 
         />
-        <multiselect 
+        <multiselect
           class="selects-row__item" 
           v-model="selectDirection" 
           tag-placeholder="Выберите направление" 
@@ -337,7 +337,6 @@ export default {
         console.log('err', err)
       })
 
-
       // get profiles
       api.getProfilesFromApi().then(data => {
         this.profileList = (data === null) ? [] : data
@@ -415,17 +414,7 @@ export default {
   white-space: pre-wrap;
 }
 
-.close {
-  float: right;
-  font-size: 1.5rem;
-  font-weight: 700;
-  line-height: 1;
-  border: none;
-  background: transparent;
-  color: #000;
-  text-shadow: 0 1px 0 #fff;
-  opacity: .5;
-}
+
 
 .svg-layer {
   position: absolute;

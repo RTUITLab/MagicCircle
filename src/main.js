@@ -8,7 +8,7 @@ import store from './store'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
-import './assets/style/style.css'
+import './assets/style/style.scss'
 import './assets/style/_multiselect.scss'
 Vue.config.productionTip = false
 import axios from "axios";

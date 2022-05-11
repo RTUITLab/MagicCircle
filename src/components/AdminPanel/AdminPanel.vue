@@ -1,16 +1,19 @@
 <template>
 <div class="admin-panel">
-  <div>
-    <h2> ADMIN PANEL</h2>
+  <div class="admin-panel__header">
+    <span> Панель управления</span>
   </div>
   <div class="wrapper-panel">
     <div class="nav-row">
       <b-link  to="/admin/addSector" title="First" active>
-        Добавить сектор
+        Добавление сектора
       </b-link>
       <b-link  to="/admin/addProfile" title="second" active>
-        Добавить профиль
+        Добавление института
       </b-link>
+      <!-- <b-link  to="/admin/updProfile" title="second" active>
+        Изменить
+      </b-link> -->
       <b-link to="/admin/del" title="second" active>
         Удалить
       </b-link>
@@ -63,4 +66,10 @@ a.router-link-active {
   text-align: left;
 }
 
+.admin-panel__header {
+  font-weight: 700;
+  font-size: 64px;
+  line-height: 77px;
+  color: #000000;
+}
 </style>

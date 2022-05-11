@@ -27,6 +27,24 @@
       background-color: var(--color-primary-blue);
       color: var(--color-darkblue);
     }
+    &__tags {
+      font-weight: 400;
+      color: #212529;
+      background-color: #fff;
+      background-clip: padding-box;
+      height: 40px;
+      border: 1px solid #D9E1EC;
+      border-radius: 6px;
+      input::placeholder{
+        color: #A1A7C4;
+        font-size: 16px;
+      }
+    
+    }
+    &__placeholder {
+      color: #A1A7C4;
+      font-size: 16px;
+    }
     &__tag-icon {
       color: #B6CBFF;
       &:hover {

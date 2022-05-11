@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import AdminPanel from "../components/AdminPanel";
+import AdminPanel from "../components/AdminPanel/AdminPanel";
 export default {
   name: "Admin",
   components: {AdminPanel}

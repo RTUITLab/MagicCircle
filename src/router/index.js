@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import AddSector from "../components/AddSector";
-import AddProfile from "../components/AddProfile";
-import DelPage from "../components/DelPage";
-import UpdProfile from "../components/UpdProfile";
+import AddSector from "../components/AdminPanel/AddSector";
+import AddProfile from "../components/AdminPanel/AddProfile";
+import DelPage from "../components/AdminPanel/DelPage";
+import UpdProfile from "../components/AdminPanel/UpdProfile";
 Vue.use(VueRouter)
 
 const routes = [
@@ -34,6 +34,11 @@ const routes = [
                 component: UpdProfile
             }
         ]
+    },
+    {
+        path: '/login',
+        name: 'Login',
+        component: () => import('@/views/Login')
     },
 ]
 

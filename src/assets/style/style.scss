@@ -65,3 +65,50 @@
     line-height: 24px;
     height: 40px;
 }
+
+.close {
+    float: right;
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1;
+    border: none;
+    background: transparent;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    opacity: .5;
+}
+.modal-add {
+    max-width: 720px;
+    width: 100%;
+    padding: 8px 20px;
+    .modal-footer {
+        border: none;
+    }
+    .form-control {
+        font-weight: 400;
+        color: #212529;
+        background-color: #fff;
+        background-clip: padding-box;
+        height: 40px;
+        border: 1px solid #D9E1EC;
+        border-radius: 6px;
+        &::placeholder{
+            color: #A1A7C4;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+    }
+    button {
+        border-radius: 6px;
+    }
+    .btn-primary {
+        color: #1E5EFF;
+        border-color: #1E5EFF;
+        background-color: #fff;
+        &:hover {
+            transition-duration: 0.3s;
+            background-color: #1E5EFF;
+            color: #fff;
+        }
+    }
+}

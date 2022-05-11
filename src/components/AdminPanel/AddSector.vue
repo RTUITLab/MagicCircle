@@ -1,11 +1,105 @@
 <template>
+
   <div class="add-section">
+  <div class="div">    
+
+  </div>
+  
     <div class="add-form">
       <h3> Добавить или обновить сектор</h3>
-      <multiselect class="selects-row__item inst" v-model="selectInst"  tag-placeholder="Выберите институт" placeholder="Выберите институт" label="name" track-by="id" :options="instituteList" :taggable="true"></multiselect>
-      <multiselect class="selects-row__item dirs" :disabled="selectInst === '' || selectInst === null" v-model="selectDirection" tag-placeholder="Выберите направление" placeholder="Выберите направление" label="name" track-by="id" :options="directionList" :taggable="true"></multiselect>
-      <multiselect class="selects-row__item profs" :disabled="selectDirection === '' || selectDirection === null" v-model="selectProfile" tag-placeholder="Выберите профиль" placeholder="Выберите профиль" label="name" track-by="id" :options="profileList" :taggable="true" ></multiselect>
-      <button type="submit" @click="addSectors" class="btn btn-success">Добавить</button>
+      <div class="add-form__selectrow">
+        <multiselect
+          class="selects-row__item inst" 
+          :value="selectInst"  
+          v-model="selectInst"  
+          tag-placeholder="Выберите институт" 
+          placeholder="Выберите институт" 
+          label="name" 
+          track-by="id" 
+          :options="instituteList"
+          :taggable="true"
+         />
+         <b-modal id="modal-inst" 
+            size="xl"
+            title="Создание института" 
+            cancel-title="Отмена"
+            header-class="header-preview"
+            centered
+            content-class="modal-add"
+            ok-title="Создать"
+          >
+            <!-- @ok="submitForm()" -->
+          <b-form-input placeholder="Введите новое название института" required/>
+         </b-modal>
+         <span>
+          <img src="@/assets/add.svg" alt="" class="add-form__iconadd" v-b-modal="'modal-inst'">
+         </span>
+      </div>
+      
+      <div class="add-form__selectrow">
+        <multiselect class="selects-row__item dirs" 
+          v-model="selectDirection" 
+          tag-placeholder="Выберите направление" 
+          placeholder="Выберите направление" 
+          label="name" 
+          track-by="id" 
+          :options="directionList" 
+          :taggable="true"
+          />
+          <b-modal id="modal-dir" 
+            size="xl"
+            title="Создание направления" 
+            cancel-title="Отмена"
+            header-class="header-preview"
+            centered
+            content-class="modal-add"
+            ok-title="Создать"
+          >
+            <!-- @ok="submitForm()" -->
+          <multiselect
+            class="selects-row__item"
+            v-model="modalSelectInst"
+            tag-placeholder="Выберите институт"
+            placeholder="Выберите институт"
+            label="name"
+            :options="directionList" 
+            :taggable="true" 
+          />
+          <b-form-input placeholder="Введите новое название направления" required/>
+         </b-modal>
+         <span>
+          <img src="@/assets/add.svg" alt="" class="add-form__iconadd" v-b-modal="'modal-dir'">
+         </span>
+      </div>
+      <div class="add-form__selectrow">
+        <multiselect 
+          class="selects-row__item profs" 
+          :disabled="selectDirection === '' || selectDirection === null" 
+          v-model="selectProfile" 
+          tag-placeholder="Выберите профиль" 
+          placeholder="Выберите профиль" 
+          label="name" 
+          track-by="id" 
+          :options="profileList" 
+          :taggable="true" 
+        />
+        <b-modal id="modal-prof" 
+            size="xl"
+            title="Создание профиля" 
+            cancel-title="Отмена"
+            header-class="header-preview"
+            centered
+            content-class="modal-add"
+            ok-title="Создать"
+          >
+            <!-- @ok="submitForm()" -->
+          <b-form-input placeholder="Введите новое название профиля" required/>
+         </b-modal>
+         <span>
+          <img src="@/assets/add.svg" alt="" class="add-form__iconadd" v-b-modal="'modal-prof'">
+         </span>
+      </div>
+      <button type="submit" @click="addSectors" class="btn btn-primary">Добавить привязку к сектору</button>
       <div>
         <div class="wrapper">
           <div class="svg-layer">
@@ -201,7 +295,7 @@
             </svg>
           </div>
           <div class="img-layer">
-            <img :src="require(`../assets/Chudesnyi_774_krug_c_telekommunikatsiami_1.svg`)" alt="">
+            <img :src="require(`../../assets/Chudesnyi_774_krug_c_telekommunikatsiami_1.svg`)" alt="">
           </div>
         </div>
       </div>
@@ -210,7 +304,7 @@
 </template>
 
 <script>
-import api from "../services/api";
+import api from "../../services/api";
 import Vue from "vue";
 import Multiselect from "vue-multiselect";
 Vue.component('multiselect', Multiselect)
@@ -222,7 +316,7 @@ export default {
       instituteList: [],
       directionList: [],
       profileList: [],
-      selectInst: '',
+      selectInst: [],
       selectDirection: '',
       selectProfile: '',
       sectorList: [],
@@ -230,25 +324,34 @@ export default {
       instituteData: {},
       allDirections: [],
       allProfs: [],
-      profileData: {}
+      profileData: {},
+      //
+      isTouched: false,
+      value: [],
+      options: ['Select option', 'Disable me!', 'Reset me!', 'mulitple', 'label', 'searchable'],
+      modalSelectInst: '',
+      modalSelectDir: '',
     }
   },
   watch: {
-    selectInst: function (selectDir) {
-      console.log('WATCH INST', selectDir)
-      this.changeDirsList()
+    selectInst: function (selectInst) {
+      console.log('WATCH INST', selectInst)
+      // this.changeDirsList()
     },
-    selectDirection: function (selectProf) {
-      console.log('WATCH DIR', selectProf)
-      this.changeProfList()
-    }
+    // selectDirection: function (selectProf) {
+    //   console.log('WATCH DIR', selectProf)
+    //   this.changeProfList()
+    // }
   },
+
   methods: {
     getAllDataFromApi() {
       // get institutes
       api.getInstitutesFromApi().then(data => {
-        console.log('data ', data)
         this.instituteList = (data === null) ? [] : data
+        console.log('instituteList ', this.instituteList)
+        this.instituteList.unshift({ name: "Добавить институт", id: -1})
+
       }).catch(err => {
         alert('Ошибка', err)
         console.log('err', err)
@@ -354,7 +457,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 
 .inst{
   z-index: 1002;
@@ -370,10 +473,22 @@ export default {
 }
 .add-form{
   margin-bottom: 30px;
+  &__selectrow {
+    display: flex;
+    align-items: baseline;
+    cursor: pointer;
+  }
+  &__iconadd {
+    margin-left: 10px;
+  }
 }
 .selects-row__item{
   /*z-index: 1000;*/
 }
 
+.custom-select {
+  color: #336DFF;
+  border-bottom: #D7DBEC;
+}
 </style>
 
