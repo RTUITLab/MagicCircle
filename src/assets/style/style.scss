@@ -112,3 +112,38 @@
         }
     }
 }
+.modal-delete {
+    max-width: 720px;
+    width: 100%;
+    padding: 8px 20px;
+    .modal-footer {
+        border: none;
+    }
+    .form-control {
+        font-weight: 400;
+        color: #212529;
+        background-color: #fff;
+        background-clip: padding-box;
+        height: 40px;
+        border: 1px solid #D9E1EC;
+        border-radius: 6px;
+        &::placeholder{
+            color: #A1A7C4;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+    }
+    button {
+        border-radius: 6px;
+    }
+    .btn-primary {
+        color: #F34359;
+        border-color: #F34359;
+        background-color: #fff;
+        &:hover {
+            transition-duration: 0.3s;
+            background-color: #F34359;
+            color: #fff;
+        }
+    }
+}

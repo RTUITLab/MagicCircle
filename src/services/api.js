@@ -94,6 +94,8 @@ export default {
             console.log('then')
             if (resp.status === 200) {
                 alert('Запись успешно удалена')
+                // временное решение todo хранить список направлений в стор
+                location.reload()
             }
             return resp.data
         }).catch(err => {
@@ -108,6 +110,8 @@ export default {
         }).then(resp => {
             if (resp.status === 200) {
                 alert('Запись успешно удалена')
+                // временное решение todo хранить список направлений в стор
+                location.reload()
             }
             return resp.data
         }).catch(err => {
@@ -121,7 +125,9 @@ export default {
             method: 'DELETE',
         }).then(resp => {
             if (resp.status === 200) {
-                alert('Запись успешно удалена')
+                alert('Запись успешно удалена');
+                // временное решение todo хранить список направлений в стор
+                location.reload()
             }
             return resp.data
         }).catch(err => {
