@@ -27,9 +27,9 @@
             centered
             content-class="modal-add"
             ok-title="Создать"
+            @ok="addInst()"
           >
-            <!-- @ok="submitForm()" -->
-          <b-form-input placeholder="Введите новое название института" required/>
+          <b-form-input v-model="modalAddInstitute" placeholder="Введите новое название института" required/>
          </b-modal>
          <span>
           <img src="@/assets/add.svg" alt="" class="add-form__iconadd" v-b-modal="'modal-inst'">
@@ -54,18 +54,18 @@
             centered
             content-class="modal-add"
             ok-title="Создать"
+            @ok="addDir()"
           >
-            <!-- @ok="submitForm()" -->
           <multiselect
             class="selects-row__item"
             v-model="modalSelectInst"
             tag-placeholder="Выберите институт"
             placeholder="Выберите институт"
             label="name"
-            :options="directionList" 
+            :options="instituteList" 
             :taggable="true" 
           />
-          <b-form-input placeholder="Введите новое название направления" required/>
+          <b-form-input v-model="modalAddDirection" placeholder="Введите новое название направления" required/>
          </b-modal>
          <span>
           <img src="@/assets/add.svg" alt="" class="add-form__iconadd" v-b-modal="'modal-dir'">
@@ -91,9 +91,27 @@
             centered
             content-class="modal-add"
             ok-title="Создать"
+            @ok="addProf()"
           >
-            <!-- @ok="submitForm()" -->
-          <b-form-input placeholder="Введите новое название профиля" required/>
+          <multiselect
+            class="selects-row__item"
+            v-model="modalSelectInst"
+            tag-placeholder="Выберите институт"
+            placeholder="Выберите институт"
+            label="name"
+            :options="instituteList" 
+            :taggable="true" 
+          />
+          <multiselect
+            class="selects-row__item"
+            v-model="modalSelectDir"
+            tag-placeholder="Выберите направление"
+            placeholder="Выберите направление"
+            label="name"
+            :options="directionList"
+            :taggable="true"
+          />
+          <b-form-input v-model="modalAddProfile" placeholder="Введите новое название профиля" required/>
          </b-modal>
          <span>
           <img src="@/assets/add.svg" alt="" class="add-form__iconadd" v-b-modal="'modal-prof'">
@@ -316,12 +334,15 @@ export default {
       instituteList: [],
       directionList: [],
       profileList: [],
+
       selectInst: [],
       selectDirection: '',
       selectProfile: '',
       sectorList: [],
+
       directionData: {},
       instituteData: {},
+
       allDirections: [],
       allProfs: [],
       profileData: {},
@@ -331,17 +352,21 @@ export default {
       options: ['Select option', 'Disable me!', 'Reset me!', 'mulitple', 'label', 'searchable'],
       modalSelectInst: '',
       modalSelectDir: '',
+
+      modalAddInstitute: '',
+      modalAddDirection: '',
+      modalAddProfile: '',
     }
   },
   watch: {
-    selectInst: function (selectInst) {
+    modalSelectInst: function (selectInst) {
       console.log('WATCH INST', selectInst)
-      // this.changeDirsList()
+      this.changeDirsList()
     },
-    // selectDirection: function (selectProf) {
-    //   console.log('WATCH DIR', selectProf)
-    //   this.changeProfList()
-    // }
+    modalSelectDir: function (selectProf) {
+      console.log('WATCH DIR', selectProf)
+      this.changeProfList()
+    }
   },
 
   methods: {
@@ -349,9 +374,6 @@ export default {
       // get institutes
       api.getInstitutesFromApi().then(data => {
         this.instituteList = (data === null) ? [] : data
-        console.log('instituteList ', this.instituteList)
-        this.instituteList.unshift({ name: "Добавить институт", id: -1})
-
       }).catch(err => {
         alert('Ошибка', err)
         console.log('err', err)
@@ -359,7 +381,6 @@ export default {
 
       // get directions
       api.getDirectionsFromApi().then(data => {
-        console.log('data ', data)
         this.directionList = (data === null) ? [] : data
         this.allDirections = (data === null) ? [] : data
       }).catch(err => {
@@ -424,9 +445,9 @@ export default {
       });
     },
     changeDirsList() {
-      if (this.selectInst !== null ) {
-        if (this.selectInst.directions !== null) {
-          this.directionList = this.selectInst.directions
+      if (this.modalSelectInst !== null ) {
+        if (this.modalSelectInst.directions !== null) {
+          this.directionList = this.modalSelectInst.directions
         }
         else {
           this.directionList = []
@@ -437,9 +458,9 @@ export default {
       }
     },
     changeProfList() {
-      if (this.selectDirection !== null ) {
-        if (this.selectDirection.profiles !== null) {
-          this.profileList = this.selectDirection.profiles
+      if (this.modalSelectDir !== null ) {
+        if (this.modalSelectDir.profiles !== null) {
+          this.profileList = this.modalSelectDir.profiles
         }
         else {
           this.profileList = []
@@ -448,7 +469,54 @@ export default {
       else {
         this.profileList = this.allProfs
       }
-    }
+    },
+    addInst() {
+      const data = {
+        institute: {
+          name: this.modalAddInstitute
+        }
+      }
+      api.postSectorsToApi(data)
+    },
+    addDir() {
+      const data = {
+        direction: {
+          name: this.modalAddDirection
+        },
+        institute: {
+          id: this.modalSelectInst.id,
+          name: this.modalSelectInst.name
+        }
+      }
+      api.postSectorsToApi(data)
+    },
+    addProf() {
+      const data = {
+        direction: {
+            id: this.modalSelectDir.id,
+            name: this.modalSelectDir.name
+        },
+        institute: {
+          id: this.modalSelectInst.id,
+          name: this.modalSelectInst.name
+        },
+        profile: {
+          name: this.modalAddProfile
+        }
+      }
+      api.postSectorsToApi(data)
+    },
+
+    //     changeDirsList() {
+    //   if (this.selectInstOfProfs !== null && this.selectInstOfProfs.directions !== null) {
+    //     this.directionList = this.selectInstOfProfs.directions
+    //     console.log('TESTsad')
+    //   }
+    //   else {
+    //     console.log('else')
+    //     this.directionList = this.allDirections
+    //   }
+    // },
   },
   mounted() {
     this.getAllDataFromApi()

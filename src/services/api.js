@@ -1,4 +1,5 @@
 import axios from "axios";
+import store from '../store'
 
 export default {
     async getDirectionsFromApi() {
@@ -16,6 +17,7 @@ export default {
             url: 'v1/institute',
             method: 'GET'
         }).then(resp => {
+            store.dispatch('changeInstitutes', resp.data.institutes)
             return resp.data.institutes
         }).catch(err => {
             return err
@@ -93,9 +95,7 @@ export default {
         }).then(resp => {
             console.log('then')
             if (resp.status === 200) {
-                alert('Запись успешно удалена')
-                // временное решение todo хранить список направлений в стор
-                location.reload()
+                this.getInstitutesFromApi()
             }
             return resp.data
         }).catch(err => {
@@ -109,9 +109,7 @@ export default {
             method: 'DELETE',
         }).then(resp => {
             if (resp.status === 200) {
-                alert('Запись успешно удалена')
-                // временное решение todo хранить список направлений в стор
-                location.reload()
+                this.getInstitutesFromApi()
             }
             return resp.data
         }).catch(err => {
@@ -125,9 +123,7 @@ export default {
             method: 'DELETE',
         }).then(resp => {
             if (resp.status === 200) {
-                alert('Запись успешно удалена');
-                // временное решение todo хранить список направлений в стор
-                location.reload()
+                this.getInstitutesFromApi()
             }
             return resp.data
         }).catch(err => {

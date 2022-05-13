@@ -38,7 +38,7 @@
           <div class="delete-modal-body"> Вы действительно хотите удалить профиль {{selectedProfile ? selectedProfile.name : null}}?</div>
     </b-modal>
     <!-- Accordion -->
-    <div class="accordion" role="tablist" v-for="inst in instituteList" :key="inst.id">
+    <div class="accordion" role="tablist" v-for="inst in institutes" :key="inst.id">
         <div block v-b-toggle="`accordion-inst${inst.id}`" class="accordion-item">
           <span>{{inst.name}}</span>
           <span v-b-modal="'modal-del-inst'" @click="selectedInstitute=inst" class="accordion-delete-label"> <img src="@/assets/delete.svg"  style="margin-right: 12px"> Удалить</span>
@@ -87,15 +87,14 @@ export default {
 
     }
   },
+    computed: {
+      institutes () {
+        return this.$store.state.institutes
+      }
+  },
   methods: {
     deleteInstitute() {
       api.deleteInstituteFromApi(this.selectedInstitute.id)
-      this.instituteList.find(item => {
-        if (item.id === this.selectedInstitute.id){
-          this.instituteList.indexOf(item, 1)
-        }
-      })
-      console.log('this institute after delete', this.instituteList)
     },
     deleteDirection() {
       api.deleteDirectionFromApi(this.selectedDirection.id)
@@ -192,11 +191,11 @@ export default {
     border-bottom: 1px solid #D7DBEC;
   }
 .accordion-subitem {
-  padding-left: 50px;
+  padding-left: 100px;
 }
 
 .accordion-sub-subitem {
-  padding-left: 75px;
+  padding-left: 200px;
 }
 
 .accordion-delete-label {

@@ -8,14 +8,14 @@
       <b-link  to="/admin/addSector" title="First" active>
         Добавление сектора
       </b-link>
-      <b-link  to="/admin/addProfile" title="second" active>
+      <!-- <b-link  to="/admin/addProfile" title="second" active>
         Добавление института
-      </b-link>
+      </b-link> -->
       <!-- <b-link  to="/admin/updProfile" title="second" active>
         Изменить
       </b-link> -->
       <b-link to="/admin/del" title="second" active>
-        Удалить
+        Направления и профили
       </b-link>
     </div>
     <router-view/>
