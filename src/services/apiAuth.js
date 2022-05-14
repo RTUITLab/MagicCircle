@@ -10,10 +10,26 @@ export default {
                 login,
                 password
             }
-        }).then(resp => {
+        }).then(async (resp) => {
             if (resp.data.code === 200) {
-                store.dispatch('changeIsAuth', true)
-                store.dispatch('changeToken', resp.data.token)
+                await store.dispatch('changeIsAuth', true)
+                await localStorage.setItem('token', resp.data.token)
+                await store.dispatch('changeToken', resp.data.token)
+            } 
+            return resp.data
+        }).catch(err => {
+            return err
+        })
+    },
+    async refreshToken() {
+        return await axios.request({
+            url: 'v1/auth/refreshToken',
+            method: 'GET',
+        }).then(async (resp) => {
+            if (resp.data.code === 200) {
+                await store.dispatch('changeIsAuth', true)
+                await localStorage.setItem('token', resp.data.token)
+                await store.dispatch('changeToken', resp.data.token)
             } 
             return resp.data
         }).catch(err => {

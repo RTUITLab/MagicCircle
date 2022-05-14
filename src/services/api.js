@@ -163,5 +163,52 @@ export default {
             return err.response
         })
     },
+    async getAdmins() {
+        return await axios.request({
+            url: 'v1/auth/admin',
+            method: 'GET',
+        }).then(async resp => {
+            store.dispatch('changeAdminList', resp.data.admins)
+            return resp
+        }).catch(err => {
+            console.log('err', err);
+            return err.response
+        })
+    },
+    async getSuperAdmins() {
+        return await axios.request({
+            url: 'v1/auth/superadmin',
+            method: 'GET',
+        }).then(resp => {
+            store.dispatch('changeSuperAdminList', resp.data.admins)
+            return resp
+        }).catch(err => {
+            console.log('err', err);
+            return err.response
+        })
+    },
+    async deleteAdmin(adminId) {
+        return await axios.request({
+            url: 'v1/auth/admin/' + adminId,
+            method: 'DELETE',
+        }).then(resp => {
+            this.getAdmins();
+            return resp
+        }).catch(err => {
+            console.log('err', err);
+            return err.response
+        })
+    },
+    async deleteSuperAdmin(superAdminId) {
+        return await axios.request({
+            url: 'v1/auth/superadmin/' + superAdminId,
+            method: 'DELETE',
+        }).then(resp => {
+            this.getSuperAdmins();
+            return resp
+        }).catch(err => {
+            return err.response
+        })
+    },
 
 }

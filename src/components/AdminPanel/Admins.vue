@@ -9,6 +9,10 @@ export default {
         'Институт',
         'Действия'
       ],
+      superAdminFields: [
+        'Логин',
+        'Действия'
+      ],
       adminLogin: null,
       adminPassword: null,
       selectedInstitute: null,
@@ -23,7 +27,8 @@ export default {
     }
   },
   mounted() {
-    console.log('localStorage', this.$store.state.token);
+    api.getAdmins();
+    api.getSuperAdmins();
   },
   methods: {
     addAdmin() {
@@ -33,6 +38,7 @@ export default {
             type: 'success',
             text: `Админ с логином ${data.data.login} успешно создан!`
           })
+          api.getAdmins();
         }
         if (data.status === 400) {
           this.$notify({
@@ -49,6 +55,7 @@ export default {
             type: 'success',
             text: `Суперадмин с логином ${data.data.login} успешно создан!`
           })
+          api.getSuperAdmins();
         }
         if (data.status === 400) {
           this.$notify({
@@ -57,7 +64,13 @@ export default {
           })
         }
       })
-    }
+    },
+    deleteAdmin(idAdmin) {
+      api.deleteAdmin(idAdmin);
+    },
+    deleteSuperAdmin(idSuperAdmin) {
+      api.deleteSuperAdmin(idSuperAdmin);
+    },
   }
 }
 </script>
@@ -112,6 +125,26 @@ export default {
         <tr class="admin-table__header">
           <th class="table-item" v-for="item in adminFields" :key="item"> {{item}} </th>
         </tr>
+        <tr v-for="admin in $store.state.adminList" :key="admin.id">
+          <th>{{admin.login}}</th>
+          <th>Тут номер института</th>
+          <th class="table-item__delete" @click="deleteAdmin(admin.id)">Удалить </th>
+        </tr>
+      </table>
+    </div>
+
+    <div class="admin-table">
+      <div class="admin-table__name">
+        Суперадмины
+      </div>
+      <table border="1px">
+        <tr class="admin-table__header">
+          <th class="table-item" v-for="item in superAdminFields" :key="item"> {{item}} </th>
+        </tr>
+        <tr v-for="superadmin in $store.state.superAdminList" :key="superadmin.id">
+          <th>{{superadmin.login}}</th>
+          <th class="table-item__delete" @click="deleteSuperAdmin(superadmin.id)">Удалить </th>
+        </tr>
       </table>
     </div>
   </div>
@@ -119,6 +152,12 @@ export default {
 <style lang="scss" scoped>
 table {
   width: 100%;
+  th {
+    border: 1px solid #D7DBEC;
+    padding: 15px 30px;
+    text-align: center;
+    color: #333752;
+  }
 }
 .header {
   display: flex;
@@ -142,12 +181,18 @@ table {
 		}
 
 		&__header {
+      th {
+        background: #F5F6FA;
+      }
 		}
 }
 
 .table-item {
   padding: 10px;
-
+  &__delete {
+    color: #F12B43;
+    cursor: pointer;
+  }
 }
 
 </style>

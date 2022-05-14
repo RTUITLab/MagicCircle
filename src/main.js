@@ -6,6 +6,8 @@ import VueRouter from 'vue-router'
 import store from './store'
 import Notifications from 'vue-notification'
 
+import apiAuth from './services/apiAuth'
+
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
@@ -23,8 +25,30 @@ Vue.use(Notifications)
 
 Vue.use(VueRouter)
 axios.defaults.baseURL = process.env.VUE_APP_SERVER_URL || window.location.origin
-axios.defaults.headers.common['Authorization'] = `Bearer ${store.state.token}`;
+axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
+axios.interceptors.response.use(
+    (res) => {
+      return res;
+    },
+    async (err) => {
+      const originalConfig = err.config;
+      if (err.response) {
+        // Access Token was expired
+        if (err.response.status === 401 && !originalConfig._retry) {
+          axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
 
+          originalConfig._retry = true;
+          try {
+            await apiAuth.refreshToken()
+            return ;
+          } catch (_error) {
+            return Promise.reject(_error);
+          }
+        }
+      }
+      return Promise.reject(err);
+    }
+  );
 new Vue({
   render: h => h(App),
   router,

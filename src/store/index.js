@@ -14,7 +14,10 @@ export default new Vuex.Store({
 
       isAuth: false,
       user: null,
-      token: null,
+      token: '',
+
+      adminList: [],
+      superAdminList: [],
     }
   },
   mutations: {
@@ -34,7 +37,15 @@ export default new Vuex.Store({
     },
     SET_TOKEN_TO_STATE: (state, token) => {
       state.token = token
-    }
+    },
+
+    // Admins
+    SET_ADMINS_TO_STATE: (state, adminList) => {
+      state.adminList = adminList
+    },
+    SET_SUPERADMINS_TO_STATE: (state, superAdminList) => {
+      state.superAdminList = superAdminList
+    },
   },
   actions: {
     changeMarkdown: ({commit}, markdown) => {
@@ -58,6 +69,14 @@ export default new Vuex.Store({
       commit('SET_TOKEN_TO_STATE', null)
       commit('SET_USER_TO_STATE', null)
       commit('SET_AUTH_TO_STATE', null)
-    }
+    },
+
+    // Admins
+    changeAdminList: ({commit}, adminList) => {
+      commit('SET_ADMINS_TO_STATE', adminList)
+    },
+    changeSuperAdminList: ({commit}, superAdminList) => {
+      commit('SET_SUPERADMINS_TO_STATE', superAdminList)
+    },
   }
 })
