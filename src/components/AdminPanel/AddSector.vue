@@ -1,12 +1,7 @@
 <template>
 
   <div class="add-section">
-  <div class="div">    
-
-  </div>
-  
     <div class="add-form">
-      <h3> Добавить или обновить сектор</h3>
       <div class="add-form__selectrow">
         <multiselect
           class="selects-row__item inst" 
@@ -548,6 +543,9 @@ export default {
   &__iconadd {
     margin-left: 10px;
   }
+}
+.add-section {
+  margin-top: 30px;
 }
 .selects-row__item{
   /*z-index: 1000;*/
