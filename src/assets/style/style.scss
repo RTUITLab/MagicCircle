@@ -84,6 +84,9 @@
     .modal-footer {
         border: none;
     }
+    .multiselect__tags {
+        margin-bottom: 20px;
+    }
     .form-control {
         font-weight: 400;
         color: #212529;
@@ -92,6 +95,7 @@
         height: 40px;
         border: 1px solid #D9E1EC;
         border-radius: 6px;
+        margin-bottom: 20px;
         &::placeholder{
             color: #A1A7C4;
             border-radius: 6px;

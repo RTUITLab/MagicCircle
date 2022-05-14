@@ -131,4 +131,37 @@ export default {
         })
     },
 
+    /* 
+    * Admin api
+    */
+    async addAdminToApi(instituteId, login, password) {
+        return await axios.request({
+            url: 'v1/auth/admin/' + instituteId,
+            method: 'POST',
+            data: {
+                login,
+                password
+            }
+        }).then(resp => {
+            return resp
+        }).catch(err => {
+            return err.response
+        })
+    },
+
+    async addSuperAdminToApi(login, password) {
+        return await axios.request({
+            url: 'v1/auth/superadmin',
+            method: 'POST',
+            data: {
+                login,
+                password
+            }
+        }).then(resp => {
+            return resp
+        }).catch(err => {
+            return err.response
+        })
+    },
+
 }

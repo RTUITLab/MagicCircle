@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import AddSector from "../components/AdminPanel/AddSector";
 import AddProfile from "../components/AdminPanel/AddProfile";
 import DelPage from "../components/AdminPanel/DelPage";
+import Admins from "../components/AdminPanel/Admins";
 import UpdProfile from "../components/AdminPanel/UpdProfile";
 import store from "@/store"
 Vue.use(VueRouter)
@@ -34,6 +35,10 @@ const routes = [
             {
                 path: 'updProfile',
                 component: UpdProfile
+            },
+            {
+                path: 'users',
+                component: Admins
             }
         ]
     },

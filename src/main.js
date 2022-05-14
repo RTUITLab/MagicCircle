@@ -23,6 +23,7 @@ Vue.use(Notifications)
 
 Vue.use(VueRouter)
 axios.defaults.baseURL = process.env.VUE_APP_SERVER_URL || window.location.origin
+axios.defaults.headers.common['Authorization'] = `Bearer ${store.state.token}`;
 
 new Vue({
   render: h => h(App),

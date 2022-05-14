@@ -17,6 +17,9 @@
       <b-link to="/admin/del" title="second" active>
         Направления и профили
       </b-link>
+      <b-link to="/admin/users" title="second" active>
+        Администраторы
+      </b-link>
     </div>
     <router-view/>
   </div>
