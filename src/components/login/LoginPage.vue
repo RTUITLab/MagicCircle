@@ -1,15 +1,42 @@
+<script>
+import apiAuth from '@/services/apiAuth';
+
+export default {
+  data() {
+    return {
+      login: '',
+      password: '',
+    }
+  },
+  methods: {
+    fetchLogin() {
+      apiAuth.signIn(this.login, this.password).then(data => {
+        console.log('data', data);
+        if (data.code === 200) {
+          this.$router.push('/admin/addSector')
+        }
+        else  {
+          this.$notify({type: 'error', text: 'Неверный логин или пароль'})
+        }
+      }).catch(err => {
+        console.log('err', err)
+      })
+    }
+  }
+}
+</script>
 <template>
   <div class="container">
     <div class="login-wrapper">
       <div class="login-header"> Вход в панель администратора</div>
       <div class="login-form">
-        <input type="text" class="login-form__name" placeholder="Логин">
-        <input type="password" class="login-form__password" placeholder="Пароль">
-        <div>
+        <input type="text" class="login-form__name" placeholder="Логин" v-model="login">
+        <input type="password" class="login-form__password" placeholder="Пароль" v-model="password">
+        <!-- <div>
           <input type="checkbox" class="login-form__remember" name="is_remember" id="is_remember">
           <label for="is_remember"> Запомнить</label>
-        </div>
-        <button class="btn btn-primary" v-text="'Войти'" />
+        </div> -->
+        <button class="btn btn-primary" v-text="'Войти'" @click="fetchLogin" />
       </div>
     </div>
   </div>

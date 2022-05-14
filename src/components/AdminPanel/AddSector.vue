@@ -347,7 +347,6 @@ export default {
       allProfs: [],
       profileData: {},
       //
-      isTouched: false,
       value: [],
       options: ['Select option', 'Disable me!', 'Reset me!', 'mulitple', 'label', 'searchable'],
       modalSelectInst: '',
