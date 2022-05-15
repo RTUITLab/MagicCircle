@@ -81,7 +81,7 @@ export default {
 
       <!-- Modals -->
       <b-modal id="modal-add-superadmin" 
-            size="xl"
+            size="lg"
             cancel-title="Отмена"
             title="Создание суперадмина"
             header-class="header-preview"
@@ -94,7 +94,7 @@ export default {
           <b-form-input v-model="superAdminPassword" placeholder="Пароль" type="password" required/>
     </b-modal>
       <b-modal id="modal-add-admin" 
-            size="xl"
+            size="lg"
             cancel-title="Отмена"
             title="Создание админа"
             header-class="header-preview"

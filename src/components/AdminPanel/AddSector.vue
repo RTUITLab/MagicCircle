@@ -15,7 +15,7 @@
           :taggable="true"
          />
          <b-modal id="modal-inst" 
-            size="xl"
+            size="lg"
             title="Создание института" 
             cancel-title="Отмена"
             header-class="header-preview"
@@ -42,7 +42,7 @@
           :taggable="true"
           />
           <b-modal id="modal-dir" 
-            size="xl"
+            size="lg"
             title="Создание направления" 
             cancel-title="Отмена"
             header-class="header-preview"
@@ -79,7 +79,7 @@
           :taggable="true" 
         />
         <b-modal id="modal-prof" 
-            size="xl"
+            size="lg"
             title="Создание профиля" 
             cancel-title="Отмена"
             header-class="header-preview"

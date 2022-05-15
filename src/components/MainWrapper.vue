@@ -42,6 +42,7 @@
           :multiple="true" 
         />
       <button class="btn btn-primary" @click="findSectors"> Найти</button>
+      <button class="btn btn-enter" style="margin-left: 60px;" @click="$router.push('/login')">Войти</button>
       </div>
     </div>
     <div class="wrapper">
@@ -395,7 +396,7 @@ export default {
 </script>
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 
-<style lang="scss">
+<style lang="scss" scoped>
 
 .img-layer, .svg-layer {
   position: absolute;
@@ -425,7 +426,7 @@ export default {
   display: flex;
   justify-content: space-between;
   margin: 0 auto 15px;
-  max-width: 1000px;
+  max-width: 1200px;
 }
 .selects-row__item{
   margin-right: 30px;
@@ -445,6 +446,8 @@ export default {
   }
   
 }
+
+
 
 // /* Устройства со средним экраном (ноутбуки и компьютеры, 992px и выше) */
 // @media (min-width: 992px){
