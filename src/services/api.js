@@ -33,18 +33,7 @@ export default {
             return err
         })
     },
-    // async getSectorsFromApi(institute = {id: ''}, direction = {id: ''}, profile = {id: ''}) {
-    async getSectorsFromApi(institutes, directions, profiles) {
-        return await axios.request({
-            url: 'v1/sector',
-            method: 'GET',
-            params: {institute: institutes[0]?.id, direction: directions[0]?.id, profile: profiles[0]?.id}
-        }).then(resp => {
-            return resp.data
-        }).catch(err => {
-            return err
-        })
-    },
+
     async postSectorsToApi(data) {
         return await axios.request({
             url: 'v1',
@@ -205,6 +194,47 @@ export default {
             method: 'DELETE',
         }).then(resp => {
             this.getSuperAdmins();
+            return resp
+        }).catch(err => {
+            return err.response
+        })
+    },
+
+    /* 
+    * Sector Api 
+    */
+    async getSectorsList() {
+        return await axios.request({
+            url: 'v1/sector',
+            method: 'GET',
+        }).then(resp => {
+          store.dispatch('fetchSectors', resp.data.sectors)
+            return resp.data
+        }).catch(err => {
+            return err
+        })
+    },
+    // async getSectorsFromApi(institute = {id: ''}, direction = {id: ''}, profile = {id: ''}) {
+    async getSectorsFromApi(institutes, directions, profiles) {
+        return await axios.request({
+            url: 'v1/sector',
+            method: 'GET',
+            params: {institute: institutes[0]?.id, direction: directions[0]?.id, profile: profiles[0]?.id}
+        }).then(resp => {
+            return resp.data
+        }).catch(err => {
+            return err
+        })
+    },
+    async updateSectorDescription(sectorId, description) {
+        return await axios.request({
+            url: 'v1/sector/' + sectorId,
+            method: 'PUT',
+            data: {
+                description
+            }
+        }).then(resp => {
+            this.getSectorsList();
             return resp
         }).catch(err => {
             return err.response

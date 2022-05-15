@@ -12,7 +12,6 @@
           label="name" 
           track-by="id" 
           :options="instituteList" 
-          :taggable="true" 
           :multiple="true" 
         />
         <multiselect
@@ -25,7 +24,7 @@
           label="name" 
           track-by="id" 
           :options="directionList" 
-          :taggable="true" 
+           
           :multiple="true" 
         />
         <multiselect 
@@ -38,11 +37,10 @@
           label="name"
           track-by="id" 
           :options="profileList"
-          taggable="true" 
           :multiple="true" 
         />
       <button class="btn btn-primary" @click="findSectors"> Найти</button>
-      <button class="btn btn-enter" style="margin-left: 60px;" @click="$router.push('/login')">Войти</button>
+      <button class="btn btn-enter" style="margin-left: 60px;" @click="$store.state.isAuth ? $router.push('/admin/addSector') :$router.push('/login')">Войти</button>
       </div>
     </div>
     <div class="wrapper">
@@ -54,7 +52,7 @@
             scrollable
             header-class="header-preview"
             cancel-title="Отмена"
-            @ok="submitForm()"
+            @ok="updateSectorDescription()"
             ok-title="Сохранить"
           >
             <ModalContent @clearModalContent="clearModalContent" :modalContent="this.modalContent" />
@@ -264,6 +262,7 @@ import Vue from "vue";
 import Multiselect from 'vue-multiselect'
 import api from '@/services/api'
 import textContent from '@/services/textContent'
+
 // register globally
 Vue.component('multiselect', Multiselect)
 Vue.component('v-select', vSelect)
@@ -320,6 +319,18 @@ export default {
         }
       })
     },
+    // async getSectors() {
+    //     return await axios.request({
+    //         url: 'v1/sector',
+    //         method: 'GET',
+    //     }).then(resp => {
+    //       this.$store.dispatch('fetchSectors', resp.data.sectors)
+    //       console.log('respSec', resp.data.sectors);
+    //         return resp.data
+    //     }).catch(err => {
+    //         return err
+    //     })
+    // },
     getAllDataFromApi() {
       // get institutes
       api.getInstitutesFromApi().then(data => {
@@ -350,12 +361,18 @@ export default {
     setTextContent() {
       Object.keys(this.allTextContent).forEach((id) => {
         document.getElementById(id).addEventListener('click', () => {
+          this.$store.dispatch('changeselectedSectorCode', id)
           this.modalContent = this.allTextContent[id]
         })
       })
     },
-    submitForm() {
-      console.log('data', this.$store.state.markdown);
+    updateSectorDescription() {
+      const selectedSector = this.$store.state.sectorList.find(sector => 
+        sector.coords === this.$store.state.selectedSectorCode
+      )
+      api.updateSectorDescription(selectedSector.id, this.$store.state.markdown).then(data => {
+        console.log('dataSuccess', data);
+      }).catch(err => console.log('err', err))
     },
     changeDirsList() {
       console.log('changeDirsList', this.selectInst)
@@ -387,6 +404,7 @@ export default {
   },
   mounted() {
     this.getAllDataFromApi()
+    api.getSectorsList().then(data => console.log('data', data))
     this.allTextContent = textContent.textContent
     this.setTextContent()
     this.$root.$emit('modalContent', this.modalContent);

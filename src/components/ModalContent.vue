@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- TODO isAuth -->
     <MarkdownEditor
       v-show="this.$store.state.isAdmin"
     />

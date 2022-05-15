@@ -230,6 +230,8 @@ export default {
   }
   },
   mounted() {
+    const selectedSector = this.$store.state.sectorList.find(sector => sector.coords === this.$store.state.selectedSectorCode);
+    this.markdown = selectedSector.description
   }
 }
 </script>

@@ -12,7 +12,7 @@
           label="name" 
           track-by="id" 
           :options="instituteList"
-          :taggable="true"
+          
          />
          <b-modal id="modal-inst" 
             size="lg"
@@ -39,7 +39,7 @@
           label="name" 
           track-by="id" 
           :options="directionList" 
-          :taggable="true"
+          
           />
           <b-modal id="modal-dir" 
             size="lg"
@@ -58,7 +58,7 @@
             placeholder="Выберите институт"
             label="name"
             :options="instituteList" 
-            :taggable="true" 
+             
           />
           <b-form-input v-model="modalAddDirection" placeholder="Введите новое название направления" required/>
          </b-modal>
@@ -76,7 +76,7 @@
           label="name" 
           track-by="id" 
           :options="profileList" 
-          :taggable="true" 
+           
         />
         <b-modal id="modal-prof" 
             size="lg"
@@ -95,7 +95,7 @@
             placeholder="Выберите институт"
             label="name"
             :options="instituteList" 
-            :taggable="true" 
+             
           />
           <multiselect
             class="selects-row__item"
@@ -104,7 +104,7 @@
             placeholder="Выберите направление"
             label="name"
             :options="directionList"
-            :taggable="true"
+            
           />
           <b-form-input v-model="modalAddProfile" placeholder="Введите новое название профиля" required/>
          </b-modal>
@@ -432,7 +432,7 @@ export default {
             this.sectorList.pop(path.id)
           }
           else {
-            this.sectorList.push(path.id)
+          this.sectorList.push(path.id)
             document.getElementById(path.id).setAttribute("style", "fill-opacity: 0.4;")
           }
         });

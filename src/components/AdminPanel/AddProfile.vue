@@ -7,14 +7,14 @@
     </div>
     <div class="add-form">
       <h3> Добавить направление</h3>
-      <multiselect class="multiselect" v-model="selectInstOfDirs"  tag-placeholder="Выберите институт" placeholder="Выберите институт" label="name" track-by="id" :options="instituteList" :taggable="true"></multiselect>
+      <multiselect class="multiselect" v-model="selectInstOfDirs"  tag-placeholder="Выберите институт" placeholder="Выберите институт" label="name" track-by="id" :options="instituteList" ></multiselect>
       <b-form-input v-model="directName" placeholder="Введите название направления" required/>
       <button type="submit" @click="addDir(directName)" class="btn btn-success">Добавить</button>
     </div>
     <div class="add-form">
       <h3> Добавить профиль</h3>
-      <multiselect class="multiselect" v-model="selectInstOfProfs"  tag-placeholder="Выберите институт" placeholder="Выберите институт" label="name" track-by="id" :options="instituteList" :taggable="true"></multiselect>
-      <multiselect class="multiselect" :disabled="selectInstOfProfs === '' || selectInstOfProfs === null"  v-model="selectDir"  tag-placeholder="Выберите направление" placeholder="Выберите направление" label="name" track-by="id" :options="directionList" :taggable="true"></multiselect>
+      <multiselect class="multiselect" v-model="selectInstOfProfs"  tag-placeholder="Выберите институт" placeholder="Выберите институт" label="name" track-by="id" :options="instituteList" ></multiselect>
+      <multiselect class="multiselect" :disabled="selectInstOfProfs === '' || selectInstOfProfs === null"  v-model="selectDir"  tag-placeholder="Выберите направление" placeholder="Выберите направление" label="name" track-by="id" :options="directionList" ></multiselect>
       <b-form-input :disabled="selectDir === '' || selectDir === null" v-model="profName" placeholder="Введите название профиля" required/>
       <button type="submit" @click="addProf(profName)" class="btn btn-success">Добавить</button>
     </div>

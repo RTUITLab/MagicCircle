@@ -9,7 +9,11 @@ export default new Vuex.Store({
   state () {
     return {
       isAdmin: true,
+
       markdown: '',
+      selectedSectorCode: null,
+      sectorList: [],
+
       institutes: [],
 
       isAuth: false,
@@ -26,6 +30,12 @@ export default new Vuex.Store({
     },
     SET_MARKDOWN_TO_STATE: (state, markdown) => {
       state.markdown = markdown
+    },
+    SET_SECTORCODE_TO_STATE: (state, selectedSectorCode) => {
+      state.selectedSectorCode = selectedSectorCode
+    },
+    SET_SECTORLIST_TO_STATE: (state, sectorList) => {
+      state.sectorList = sectorList
     },
 
     // Auth
@@ -51,8 +61,14 @@ export default new Vuex.Store({
     changeMarkdown: ({commit}, markdown) => {
       commit('SET_MARKDOWN_TO_STATE', markdown)
     },
+    changeselectedSectorCode: ({commit}, selectedSectorCode) => {
+      commit('SET_SECTORCODE_TO_STATE', selectedSectorCode)
+    },
     changeInstitutes: ({commit}, institutes) => {
       commit('SET_INSTITUTES_TO_STATE', institutes)
+    },
+    fetchSectors: ({commit}, sectors) => {
+      commit('SET_SECTORLIST_TO_STATE', sectors)
     },
 
     // Auth
