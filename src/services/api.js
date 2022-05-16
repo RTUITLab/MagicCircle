@@ -36,7 +36,7 @@ export default {
 
     async postSectorsToApi(data) {
         return await axios.request({
-            url: 'v1',
+            url: 'api/magic-circle/v1',
             method: 'POST',
             data: data
         }).then(resp => {
