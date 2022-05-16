@@ -1,0 +1,9 @@
+.git/
+.vscode/
+.idea/
+.github/
+Backend/
+deploy/
+!deploy/*.conf
+**/*.md
+docker-compose*.yml
