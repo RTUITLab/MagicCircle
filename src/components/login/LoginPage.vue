@@ -11,7 +11,6 @@ export default {
   methods: {
     fetchLogin() {
       apiAuth.signIn(this.login, this.password).then(data => {
-        console.log('data', data);
         if (data.code === 200) {
           this.$router.push('/admin/addSector')
         }
