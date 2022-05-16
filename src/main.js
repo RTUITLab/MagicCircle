@@ -3,22 +3,54 @@ import App from './App.vue'
 import { BootstrapVue, IconsPlugin, ModalPlugin } from 'bootstrap-vue'
 import router from './router'
 import VueRouter from 'vue-router'
+import store from './store'
+import Notifications from 'vue-notification'
+
+import apiAuth from './services/apiAuth'
 
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
-import './assets/style/style.css'
-Vue.config.productionTip = false
+
+import './assets/style/style.scss'
+import './assets/style/_multiselect.scss'
 import axios from "axios";
 // Make BootstrapVue available throughout your project
+Vue.config.productionTip = false
 Vue.use(BootstrapVue)
-// Optionally install the BootstrapVue icon components plugin
+
 Vue.use(IconsPlugin)
 Vue.use(ModalPlugin)
 
-Vue.use(VueRouter)
-axios.defaults.baseURL = process.env.VUE_APP_SERVER_URL || window.location.origin + "/api/magic-circle/"
+Vue.use(Notifications)
 
+Vue.use(VueRouter)
+axios.defaults.baseURL = process.env.VUE_APP_SERVER_URL || window.location.origin
+axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
+axios.interceptors.response.use(
+    (res) => {
+      return res;
+    },
+    async (err) => {
+      const originalConfig = err.config;
+      if (err.response) {
+        // Access Token was expired
+        if (err.response.status === 401 && !originalConfig._retry) {
+          axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
+
+          originalConfig._retry = true;
+          try {
+            await apiAuth.refreshToken()
+            return ;
+          } catch (_error) {
+            return Promise.reject(_error);
+          }
+        }
+      }
+      return Promise.reject(err);
+    }
+  );
 new Vue({
   render: h => h(App),
-  router
+  router,
+  store,
 }).$mount('#app')

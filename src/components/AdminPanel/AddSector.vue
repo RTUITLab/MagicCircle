@@ -1,11 +1,118 @@
 <template>
+
   <div class="add-section">
     <div class="add-form">
-      <h3> Добавить или обновить сектор</h3>
-      <multiselect class="selects-row__item inst" v-model="selectInst"  tag-placeholder="Выберите институт" placeholder="Выберите институт" label="name" track-by="id" :options="instituteList" :taggable="true"></multiselect>
-      <multiselect class="selects-row__item dirs" :disabled="selectInst === '' || selectInst === null" v-model="selectDirection" tag-placeholder="Выберите направление" placeholder="Выберите направление" label="name" track-by="id" :options="directionList" :taggable="true"></multiselect>
-      <multiselect class="selects-row__item profs" :disabled="selectDirection === '' || selectDirection === null" v-model="selectProfile" tag-placeholder="Выберите профиль" placeholder="Выберите профиль" label="name" track-by="id" :options="profileList" :taggable="true" ></multiselect>
-      <button type="submit" @click="addSectors" class="btn btn-success">Добавить</button>
+      <div class="add-form__selectrow">
+        <multiselect
+          class="selects-row__item inst" 
+          :value="selectInst"  
+          v-model="selectInst"  
+          tag-placeholder="Выберите институт" 
+          placeholder="Выберите институт" 
+          label="name" 
+          track-by="id" 
+          :options="instituteList"
+          
+         />
+         <b-modal id="modal-inst" 
+            size="lg"
+            title="Создание института" 
+            cancel-title="Отмена"
+            header-class="header-preview"
+            centered
+            content-class="modal-add"
+            ok-title="Создать"
+            @ok="addInst()"
+          >
+          <b-form-input v-model="modalAddInstitute" placeholder="Введите новое название института" required/>
+         </b-modal>
+         <span>
+          <img src="@/assets/add.svg" alt="" class="add-form__iconadd" v-b-modal="'modal-inst'">
+         </span>
+      </div>
+      
+      <div class="add-form__selectrow">
+        <multiselect class="selects-row__item dirs" 
+          v-model="selectDirection" 
+          tag-placeholder="Выберите направление" 
+          placeholder="Выберите направление" 
+          label="name" 
+          track-by="id" 
+          :options="directionList" 
+          
+          />
+          <b-modal id="modal-dir" 
+            size="lg"
+            title="Создание направления" 
+            cancel-title="Отмена"
+            header-class="header-preview"
+            centered
+            content-class="modal-add"
+            ok-title="Создать"
+            @ok="addDir()"
+          >
+          <multiselect
+            class="selects-row__item"
+            v-model="modalSelectInst"
+            tag-placeholder="Выберите институт"
+            placeholder="Выберите институт"
+            label="name"
+            :options="instituteList" 
+             
+          />
+          <b-form-input v-model="modalAddDirection" placeholder="Введите новое название направления" required/>
+         </b-modal>
+         <span>
+          <img src="@/assets/add.svg" alt="" class="add-form__iconadd" v-b-modal="'modal-dir'">
+         </span>
+      </div>
+      <div class="add-form__selectrow">
+        <multiselect 
+          class="selects-row__item profs" 
+          :disabled="selectDirection === '' || selectDirection === null" 
+          v-model="selectProfile" 
+          tag-placeholder="Выберите профиль" 
+          placeholder="Выберите профиль" 
+          label="name" 
+          track-by="id" 
+          :options="profileList" 
+           
+        />
+        <b-modal id="modal-prof" 
+            size="lg"
+            title="Создание профиля" 
+            cancel-title="Отмена"
+            header-class="header-preview"
+            centered
+            content-class="modal-add"
+            ok-title="Создать"
+            @ok="addProf()"
+          >
+          <multiselect
+            class="selects-row__item"
+            v-model="modalSelectInst"
+            tag-placeholder="Выберите институт"
+            placeholder="Выберите институт"
+            label="name"
+            :options="instituteList" 
+             
+          />
+          <multiselect
+            class="selects-row__item"
+            v-model="modalSelectDir"
+            tag-placeholder="Выберите направление"
+            placeholder="Выберите направление"
+            label="name"
+            :options="directionList"
+            
+          />
+          <b-form-input v-model="modalAddProfile" placeholder="Введите новое название профиля" required/>
+         </b-modal>
+         <span>
+          <img src="@/assets/add.svg" alt="" class="add-form__iconadd" v-b-modal="'modal-prof'">
+         </span>
+      </div>
+      <button type="submit" @click="addSectors" class="btn btn-primary">Добавить привязку к сектору</button>
       <div>
         <div class="wrapper">
           <div class="svg-layer">
@@ -201,7 +308,7 @@
             </svg>
           </div>
           <div class="img-layer">
-            <img :src="require(`../assets/Chudesnyi_774_krug_c_telekommunikatsiami_1.svg`)" alt="">
+            <img :src="require(`../../assets/Chudesnyi_774_krug_c_telekommunikatsiami_1.svg`)" alt="">
           </div>
         </div>
       </div>
@@ -210,7 +317,7 @@
 </template>
 
 <script>
-import api from "../services/api";
+import api from "../../services/api";
 import Vue from "vue";
 import Multiselect from "vue-multiselect";
 Vue.component('multiselect', Multiselect)
@@ -222,32 +329,44 @@ export default {
       instituteList: [],
       directionList: [],
       profileList: [],
-      selectInst: '',
+
+      selectInst: [],
       selectDirection: '',
       selectProfile: '',
       sectorList: [],
+
       directionData: {},
       instituteData: {},
+
       allDirections: [],
       allProfs: [],
-      profileData: {}
+      profileData: {},
+      //
+      value: [],
+      options: ['Select option', 'Disable me!', 'Reset me!', 'mulitple', 'label', 'searchable'],
+      modalSelectInst: '',
+      modalSelectDir: '',
+
+      modalAddInstitute: '',
+      modalAddDirection: '',
+      modalAddProfile: '',
     }
   },
   watch: {
-    selectInst: function (selectDir) {
-      console.log('WATCH INST', selectDir)
+    modalSelectInst: function (selectInst) {
+      console.log('WATCH INST', selectInst)
       this.changeDirsList()
     },
-    selectDirection: function (selectProf) {
+    modalSelectDir: function (selectProf) {
       console.log('WATCH DIR', selectProf)
       this.changeProfList()
     }
   },
+
   methods: {
     getAllDataFromApi() {
       // get institutes
       api.getInstitutesFromApi().then(data => {
-        console.log('data ', data)
         this.instituteList = (data === null) ? [] : data
       }).catch(err => {
         alert('Ошибка', err)
@@ -256,7 +375,6 @@ export default {
 
       // get directions
       api.getDirectionsFromApi().then(data => {
-        console.log('data ', data)
         this.directionList = (data === null) ? [] : data
         this.allDirections = (data === null) ? [] : data
       }).catch(err => {
@@ -314,16 +432,16 @@ export default {
             this.sectorList.pop(path.id)
           }
           else {
-            this.sectorList.push(path.id)
+          this.sectorList.push(path.id)
             document.getElementById(path.id).setAttribute("style", "fill-opacity: 0.4;")
           }
         });
       });
     },
     changeDirsList() {
-      if (this.selectInst !== null ) {
-        if (this.selectInst.directions !== null) {
-          this.directionList = this.selectInst.directions
+      if (this.modalSelectInst !== null ) {
+        if (this.modalSelectInst.directions !== null) {
+          this.directionList = this.modalSelectInst.directions
         }
         else {
           this.directionList = []
@@ -334,9 +452,9 @@ export default {
       }
     },
     changeProfList() {
-      if (this.selectDirection !== null ) {
-        if (this.selectDirection.profiles !== null) {
-          this.profileList = this.selectDirection.profiles
+      if (this.modalSelectDir !== null ) {
+        if (this.modalSelectDir.profiles !== null) {
+          this.profileList = this.modalSelectDir.profiles
         }
         else {
           this.profileList = []
@@ -345,7 +463,54 @@ export default {
       else {
         this.profileList = this.allProfs
       }
-    }
+    },
+    addInst() {
+      const data = {
+        institute: {
+          name: this.modalAddInstitute
+        }
+      }
+      api.postSectorsToApi(data)
+    },
+    addDir() {
+      const data = {
+        direction: {
+          name: this.modalAddDirection
+        },
+        institute: {
+          id: this.modalSelectInst.id,
+          name: this.modalSelectInst.name
+        }
+      }
+      api.postSectorsToApi(data)
+    },
+    addProf() {
+      const data = {
+        direction: {
+            id: this.modalSelectDir.id,
+            name: this.modalSelectDir.name
+        },
+        institute: {
+          id: this.modalSelectInst.id,
+          name: this.modalSelectInst.name
+        },
+        profile: {
+          name: this.modalAddProfile
+        }
+      }
+      api.postSectorsToApi(data)
+    },
+
+    //     changeDirsList() {
+    //   if (this.selectInstOfProfs !== null && this.selectInstOfProfs.directions !== null) {
+    //     this.directionList = this.selectInstOfProfs.directions
+    //     console.log('TESTsad')
+    //   }
+    //   else {
+    //     console.log('else')
+    //     this.directionList = this.allDirections
+    //   }
+    // },
   },
   mounted() {
     this.getAllDataFromApi()
@@ -354,7 +519,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 
 .inst{
   z-index: 1002;
@@ -370,10 +535,25 @@ export default {
 }
 .add-form{
   margin-bottom: 30px;
+  &__selectrow {
+    display: flex;
+    align-items: baseline;
+    cursor: pointer;
+  }
+  &__iconadd {
+    margin-left: 10px;
+  }
+}
+.add-section {
+  margin-top: 30px;
 }
 .selects-row__item{
   /*z-index: 1000;*/
 }
 
+.custom-select {
+  color: #336DFF;
+  border-bottom: #D7DBEC;
+}
 </style>
 

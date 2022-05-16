@@ -1,4 +1,5 @@
 import axios from "axios";
+import store from '../store'
 
 export default {
     async getDirectionsFromApi() {
@@ -16,6 +17,7 @@ export default {
             url: 'v1/institute',
             method: 'GET'
         }).then(resp => {
+            store.dispatch('changeInstitutes', resp.data.institutes)
             return resp.data.institutes
         }).catch(err => {
             return err
@@ -31,30 +33,17 @@ export default {
             return err
         })
     },
-    async getSectorsFromApi(institute = {id: ''}, direction = {id: ''}, profile = {id: ''}) {
-        return await axios.request({
-            url: 'v1/sector',
-            method: 'GET',
-            params: {institute: institute.id, direction: direction.id, profile: profile.id}
-        }).then(resp => {
-            console.log('getSectorsFromApi ', institute)
-            return resp.data
-        }).catch(err => {
-            return err
-        })
-    },
+
     async postSectorsToApi(data) {
         return await axios.request({
             url: 'v1',
             method: 'POST',
             data: data
         }).then(resp => {
-            console.log('postSectorsToApi ', resp)
             alert('Успешно создано!')
             return resp.data
         }).catch(err => {
             if (err.response.status === 404) {
-                console.log('404', err.response.status, data.sectors.coords[0])
                 this.postNewSectorToApi(data.sectors.coords, data)
             } else {
                 alert('Не получилось, проверьте правильность ввденных данных')
@@ -76,7 +65,6 @@ export default {
             method: 'POST',
             data: data
         }).then(resp => {
-            console.log('postNewSectorToApi ', resp)
             this.postSectorsToApi(dataLastRequest)
             return resp.data
         }).catch(err => {
@@ -91,9 +79,8 @@ export default {
             url: 'v1/institute/' + id,
             method: 'DELETE',
         }).then(resp => {
-            console.log('then')
             if (resp.status === 200) {
-                alert('Запись успешно удалена')
+                this.getInstitutesFromApi()
             }
             return resp.data
         }).catch(err => {
@@ -107,7 +94,7 @@ export default {
             method: 'DELETE',
         }).then(resp => {
             if (resp.status === 200) {
-                alert('Запись успешно удалена')
+                this.getInstitutesFromApi()
             }
             return resp.data
         }).catch(err => {
@@ -121,11 +108,132 @@ export default {
             method: 'DELETE',
         }).then(resp => {
             if (resp.status === 200) {
-                alert('Запись успешно удалена')
+                this.getInstitutesFromApi()
             }
             return resp.data
         }).catch(err => {
             return err
+        })
+    },
+
+    /* 
+    * Admin api
+    */
+    async addAdminToApi(instituteId, login, password) {
+        return await axios.request({
+            url: 'v1/auth/admin/' + instituteId,
+            method: 'POST',
+            data: {
+                login,
+                password
+            }
+        }).then(resp => {
+            return resp
+        }).catch(err => {
+            return err.response
+        })
+    },
+
+    async addSuperAdminToApi(login, password) {
+        return await axios.request({
+            url: 'v1/auth/superadmin',
+            method: 'POST',
+            data: {
+                login,
+                password
+            }
+        }).then(resp => {
+            return resp
+        }).catch(err => {
+            return err.response
+        })
+    },
+    async getAdmins() {
+        return await axios.request({
+            url: 'v1/auth/admin',
+            method: 'GET',
+        }).then(async resp => {
+            store.dispatch('changeAdminList', resp.data.admins)
+            return resp
+        }).catch(err => {
+            console.log('err', err);
+            return err.response
+        })
+    },
+    async getSuperAdmins() {
+        return await axios.request({
+            url: 'v1/auth/superadmin',
+            method: 'GET',
+        }).then(resp => {
+            store.dispatch('changeSuperAdminList', resp.data.admins)
+            return resp
+        }).catch(err => {
+            console.log('err', err);
+            return err.response
+        })
+    },
+    async deleteAdmin(adminId) {
+        return await axios.request({
+            url: 'v1/auth/admin/' + adminId,
+            method: 'DELETE',
+        }).then(resp => {
+            this.getAdmins();
+            return resp
+        }).catch(err => {
+            console.log('err', err);
+            return err.response
+        })
+    },
+    async deleteSuperAdmin(superAdminId) {
+        return await axios.request({
+            url: 'v1/auth/superadmin/' + superAdminId,
+            method: 'DELETE',
+        }).then(resp => {
+            this.getSuperAdmins();
+            return resp
+        }).catch(err => {
+            return err.response
+        })
+    },
+
+    /* 
+    * Sector Api 
+    */
+    async getSectorsList() {
+        return await axios.request({
+            url: 'v1/sector',
+            method: 'GET',
+        }).then(resp => {
+          store.dispatch('fetchSectors', resp.data.sectors)
+            return resp.data
+        }).catch(err => {
+            return err
+        })
+    },
+    // async getSectorsFromApi(institute = {id: ''}, direction = {id: ''}, profile = {id: ''}) {
+    async getSectorsFromApi(institutes, directions, profiles) {
+        return await axios.request({
+            url: 'v1/sector',
+            method: 'GET',
+            params: {institute: institutes[0]?.id, direction: directions[0]?.id, profile: profiles[0]?.id}
+        }).then(resp => {
+            return resp.data
+        }).catch(err => {
+            return err
+        })
+    },
+    async updateSectorDescription(sectorId, description) {
+        return await axios.request({
+            url: 'v1/sector/' + sectorId,
+            method: 'PUT',
+            data: {
+                description
+            }
+        }).then(resp => {
+            this.getSectorsList();
+            return resp
+        }).catch(err => {
+            return err.response
         })
     },
 

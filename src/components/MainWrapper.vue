@@ -2,21 +2,65 @@
   <div class="">
     <div class="header">
       <div class="selects-row">
-        <multiselect class="selects-row__item" v-model="selectInst"  tag-placeholder="Выберите институт" placeholder="Выберите институт" label="name" track-by="id" :options="instituteList" :taggable="true"></multiselect>
-        <multiselect class="selects-row__item" :disabled="selectInst === null || selectInst.length === 0 "  v-model="selectDirection" tag-placeholder="Выберите направление" placeholder="Выберите направление" label="name" track-by="id" :options="directionList" :taggable="true"></multiselect>
-        <multiselect class="selects-row__item" :disabled="selectDirection === null || selectDirection.length === 0 " v-model="selectProfile" tag-placeholder="Выберите профиль" placeholder="Выберите профиль" label="name" track-by="id" :options="profileList" :taggable="true" ></multiselect>
+        <multiselect 
+          class="selects-row__item" 
+          v-model="selectInst"  
+          tag-placeholder="Выберите институт" 
+          :limitText="count => `и ${count} еще`" 
+          :limit="3" 
+          placeholder="Выберите институт" 
+          label="name" 
+          track-by="id" 
+          :options="instituteList" 
+          :multiple="true" 
+        />
+        <multiselect
+          class="selects-row__item" 
+          v-model="selectDirection" 
+          tag-placeholder="Выберите направление" 
+          :limit="3"
+          :limitText="count => `и ${count} еще`" 
+          placeholder="Выберите направление" 
+          label="name" 
+          track-by="id" 
+          :options="directionList" 
+           
+          :multiple="true" 
+        />
+        <multiselect 
+          class="selects-row__item" 
+          v-model="selectProfile" 
+          tag-placeholder="Выберите профиль" 
+          :limit="3"
+          :limitText="count => `и ${count} еще`" 
+          placeholder="Выберите профиль" 
+          label="name"
+          track-by="id" 
+          :options="profileList"
+          :multiple="true" 
+        />
+      <button class="btn btn-primary" @click="findSectors"> Найти</button>
+      <button class="btn btn-enter" style="margin-left: 60px;" @click="$store.state.isAuth ? $router.push('/admin/addSector') :$router.push('/login')">
+        <span v-text="$store.state.isAuth ? 'Панель' : 'Войти'" />
+      </button>
       </div>
-      <button class="btn btn-success" @click="findSectors"> Найти</button>
     </div>
     <div class="wrapper">
       <div class="svg-layer">
         <div>
-          <b-modal id="my-modal" :title=this.modalContent.name scrollable>
+            <!-- :ok-only="$store.state.isAuth ? false : true" -->
+          <b-modal id="my-modal" 
+            :title="'TODO'" 
+            :size="$store.state.isAuth ? 'xl' : 'lg'" 
+            scrollable
+            header-class="header-preview"
+            cancel-title="Отмена"
+            @ok="$store.state.isAuth ? updateSectorDescription() : null"
+            ok-title="Сохранить"
+          >
             <ModalContent @clearModalContent="clearModalContent" :modalContent="this.modalContent" />
           </b-modal>
         </div>
-        <!-- Button trigger modal -->
-        <!-- Large modal -->
         <svg class="svg-layer__circle" viewBox="0 0 3000 3000" fill="1" xmlns="http://www.w3.org/2000/svg">
           <!--    Define styles for :active    -->
           <defs>
@@ -221,6 +265,7 @@ import Vue from "vue";
 import Multiselect from 'vue-multiselect'
 import api from '@/services/api'
 import textContent from '@/services/textContent'
+
 // register globally
 Vue.component('multiselect', Multiselect)
 Vue.component('v-select', vSelect)
@@ -231,7 +276,7 @@ export default {
   data() {
     return {
       allTextContent: '',
-      modalContent: {},
+      modalContent: '',
       instituteList: [],
       directionList: [],
       profileList: [],
@@ -243,18 +288,18 @@ export default {
     }
   },
   watch: {
-    selectInst: function (selectDir) {
-      console.log('WATCH INST', selectDir)
-      this.changeDirsList()
-    },
-    selectDirection: function (selectProf) {
-      console.log('WATCH DIR', selectProf)
-      this.changeProfList()
-    }
+    // selectInst: function (selectDir) {
+    //   console.log('WATCH INST', selectDir)
+    //   this.changeDirsList()
+    // },
+    // selectDirection: function (selectProf) {
+    //   console.log('WATCH DIR', selectProf)
+    //   this.changeProfList()
+    // }
   },
   methods: {
     clearModalContent() {
-      this.modalContent = {}
+      this.modalContent = ''
     },
     findSectors() {
       const paths = document.querySelectorAll("path, circle")
@@ -262,7 +307,6 @@ export default {
         paths.forEach((item) => {
           document.getElementById(item.id).setAttribute("style", "fill-opacity: 0.3; pointer-events: none;")
         })
-        console.log('getSectorsFromApi DATA', data)
         if (data.sectors === null) {
           paths.forEach((item) => {
             document.getElementById(item.id).setAttribute("style", "fill-opacity: 0.3; pointer-events: none;")
@@ -277,6 +321,18 @@ export default {
         }
       })
     },
+    // async getSectors() {
+    //     return await axios.request({
+    //         url: 'v1/sector',
+    //         method: 'GET',
+    //     }).then(resp => {
+    //       this.$store.dispatch('fetchSectors', resp.data.sectors)
+    //       console.log('respSec', resp.data.sectors);
+    //         return resp.data
+    //     }).catch(err => {
+    //         return err
+    //     })
+    // },
     getAllDataFromApi() {
       // get institutes
       api.getInstitutesFromApi().then(data => {
@@ -295,7 +351,6 @@ export default {
         console.log('err', err)
       })
 
-
       // get profiles
       api.getProfilesFromApi().then(data => {
         this.profileList = (data === null) ? [] : data
@@ -308,12 +363,20 @@ export default {
     setTextContent() {
       Object.keys(this.allTextContent).forEach((id) => {
         document.getElementById(id).addEventListener('click', () => {
-          this.modalContent = this.allTextContent[id]
+          this.$store.dispatch('changeselectedSectorCode', id)
+          const selectedSector = this.$store.state.sectorList.find(sector => sector.coords === id);
+          this.$store.dispatch('changeMarkdown', selectedSector.description)
+          this.modalContent = selectedSector.description
         })
       })
     },
+    updateSectorDescription() {
+      const selectedSector = this.$store.state.sectorList.find(sector => 
+        sector.coords === this.$store.state.selectedSectorCode
+      )
+      api.updateSectorDescription(selectedSector.id, this.$store.state.markdown);
+    },
     changeDirsList() {
-      console.log('changeDirsList', this.selectInst)
       if (this.selectInst !== null ) {
         if (this.selectInst.directions !== null) {
           this.directionList = this.selectInst.directions
@@ -342,9 +405,9 @@ export default {
   },
   mounted() {
     this.getAllDataFromApi()
+    api.getSectorsList().then(data => console.log('data', data))
     this.allTextContent = textContent.textContent
     this.setTextContent()
-    console.log('mounted MainWrapper')
     this.$root.$emit('modalContent', this.modalContent);
 
   }
@@ -352,9 +415,12 @@ export default {
 </script>
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 
-<style lang="scss">
+<style lang="scss" scoped>
 
-
+.img-layer, .svg-layer {
+  position: absolute;
+  left: calc((100% - 900px)/2);
+}
 .modal__title{
   text-align: left;
   font-weight: bold;
@@ -368,17 +434,7 @@ export default {
   white-space: pre-wrap;
 }
 
-.close {
-  float: right;
-  font-size: 1.5rem;
-  font-weight: 700;
-  line-height: 1;
-  border: none;
-  background: transparent;
-  color: #000;
-  text-shadow: 0 1px 0 #fff;
-  opacity: .5;
-}
+
 
 .svg-layer {
   position: absolute;
@@ -389,57 +445,56 @@ export default {
   display: flex;
   justify-content: space-between;
   margin: 0 auto 15px;
-  max-width: 900px;
+  max-width: 1200px;
 }
 .selects-row__item{
   margin-right: 30px;
   width: 33.333%;
   z-index: 1000;
 }
-@media (min-width: 768px) {
+@media (max-width: 768px) {
   /* Стили для устройств с шириной viewport, находящейся в диапазоне 768px - 991px */
   .img-layer img {
+    margin: 0 auto;
     width: 600px;
   }
   .svg-layer__circle {
+    margin: 0 auto;
     width: 600px;
     height: 600px;
   }
-  .svg-layer {
-    left: 10%;
-  }
-  .img-layer img {
-    left: 10%;
-  }
+  
 }
 
-/* Устройства со средним экраном (ноутбуки и компьютеры, 992px и выше) */
-@media (min-width: 992px){
-  /* Стили для устройств с шириной viewport, находящейся в диапазоне 992px - 1199px */
-  .img-layer img {
-    width: 900px;
-  }
-  .svg-layer__circle {
-    width: 900px;
-    height: 900px;
-  }
-  .svg-layer {
-    left: 15%;
-  }
-  .img-layer img {
-    left: 15%;
-  }
-}
+
+
+// /* Устройства со средним экраном (ноутбуки и компьютеры, 992px и выше) */
+// @media (min-width: 992px){
+//   /* Стили для устройств с шириной viewport, находящейся в диапазоне 992px - 1199px */
+//   .img-layer img {
+//     width: 900px;
+//   }
+//   .svg-layer__circle {
+//     width: 900px;
+//     height: 900px;
+//   }
+//   .svg-layer {
+//     left: 15%;
+//   }
+//   .img-layer img {
+//     left: 15%;
+//   }
+// }
 
 /* Устройства с большим экраном (компьютеры, 1200px и выше) */
-@media (min-width: 1200px) and  (min-height: 1000px) {
-  .img-layer img {
-    width: 1000px;
-  }
-  .svg-layer__circle {
-    width: 1000px;
-    height: 1000px;
-  }
-}
+// @media (min-width: 1200px) and  (min-height: 1000px) {
+//   .img-layer img {
+//     width: 1000px;
+//   }
+//   .svg-layer__circle {
+//     width: 1000px;
+//     height: 1000px;
+//   }
+// }
 
 </style>

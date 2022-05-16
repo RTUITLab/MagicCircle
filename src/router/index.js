@@ -1,8 +1,11 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import AddSector from "../components/AddSector";
-import AddProfile from "../components/AddProfile";
-import DelPage from "../components/DelPage";
+import AddSector from "../components/AdminPanel/AddSector";
+import AddProfile from "../components/AdminPanel/AddProfile";
+import DelPage from "../components/AdminPanel/DelPage";
+import Admins from "../components/AdminPanel/Admins";
+import UpdProfile from "../components/AdminPanel/UpdProfile";
+import store from "@/store"
 Vue.use(VueRouter)
 
 const routes = [
@@ -15,6 +18,7 @@ const routes = [
         path: '/admin',
         name: 'Admin',
         component: () => import('@/views/Admin'),
+        meta: { requiresAuth: true },
         children: [
             {
                 path: 'addSector',
@@ -27,8 +31,21 @@ const routes = [
             {
                 path: 'addProfile',
                 component: AddProfile
+            },
+            {
+                path: 'updProfile',
+                component: UpdProfile
+            },
+            {
+                path: 'users',
+                component: Admins
             }
         ]
+    },
+    {
+        path: '/login',
+        name: 'Login',
+        component: () => import('@/views/Login')
     },
 ]
 
@@ -38,16 +55,15 @@ const router = new VueRouter({
     routes
 })
 
-// router.beforeEach((to, from, next) => {
-//     if (to.matched.some(record => record.meta.requiresAuth)) {
-//         if (store.getters.isAuthenticated) {
-//             next()
-//             console.log("hello from router/index.js, beforeEach_func")
-//             return
-//         }
-//         next('/Authorization')
-//     } else {
-//         next()
-//     }
-// })
+router.beforeEach((to, from, next) => {
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+        if (store.state.isAuth) {
+            next()
+            return
+        }
+        next('/login')
+    } else {
+        next()
+    }
+})
 export default router
