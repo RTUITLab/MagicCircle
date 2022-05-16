@@ -4,7 +4,7 @@ import store from '../store'
 export default {
     async signIn(login, password) {
         return await axios.request({
-            url: 'v1/auth/login',
+            url: 'api/magic-circle/v1/auth/login',
             method: 'POST',
             data: {
                 login,
@@ -23,7 +23,7 @@ export default {
     },
     async refreshToken() {
         return await axios.request({
-            url: 'v1/auth/refreshToken',
+            url: 'api/magic-circle/v1/auth/refreshToken',
             method: 'GET',
         }).then(async (resp) => {
             if (resp.data.code === 200) {

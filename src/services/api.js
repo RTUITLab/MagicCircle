@@ -4,7 +4,7 @@ import store from '../store'
 export default {
     async getDirectionsFromApi() {
         return await axios.request({
-            url: 'v1/direction',
+            url: 'api/magic-circle/v1/direction',
             method: 'GET'
         }).then(resp => {
             return resp.data.directions
@@ -14,7 +14,7 @@ export default {
     },
     async getInstitutesFromApi() {
         return await axios.request({
-            url: 'v1/institute',
+            url: 'api/magic-circle/v1/institute',
             method: 'GET'
         }).then(resp => {
             store.dispatch('changeInstitutes', resp.data.institutes)
@@ -25,7 +25,7 @@ export default {
     },
     async getProfilesFromApi() {
         return await axios.request({
-            url: 'v1/profile',
+            url: 'api/magic-circle/v1/profile',
             method: 'GET'
         }).then(resp => {
             return resp.data.profiles
@@ -61,7 +61,7 @@ export default {
             })
         })
         return await axios.request({
-            url: 'v1/sectors',
+            url: 'api/magic-circle/v1/sectors',
             method: 'POST',
             data: data
         }).then(resp => {
@@ -76,7 +76,7 @@ export default {
     },
     async deleteInstituteFromApi(id) {
         return await axios.request({
-            url: 'v1/institute/' + id,
+            url: 'api/magic-circle/v1/institute/' + id,
             method: 'DELETE',
         }).then(resp => {
             if (resp.status === 200) {
@@ -90,7 +90,7 @@ export default {
     },
     async deleteDirectionFromApi(id) {
         return await axios.request({
-            url: 'v1/direction/' + id,
+            url: 'api/magic-circle/v1/direction/' + id,
             method: 'DELETE',
         }).then(resp => {
             if (resp.status === 200) {
@@ -104,7 +104,7 @@ export default {
     },
     async deleteProfileFromApi(id) {
         return await axios.request({
-            url: 'v1/profile/' + id,
+            url: 'api/magic-circle/v1/profile/' + id,
             method: 'DELETE',
         }).then(resp => {
             if (resp.status === 200) {
@@ -121,7 +121,7 @@ export default {
     */
     async addAdminToApi(instituteId, login, password) {
         return await axios.request({
-            url: 'v1/auth/admin/' + instituteId,
+            url: 'api/magic-circle/v1/auth/admin/' + instituteId,
             method: 'POST',
             data: {
                 login,
@@ -136,7 +136,7 @@ export default {
 
     async addSuperAdminToApi(login, password) {
         return await axios.request({
-            url: 'v1/auth/superadmin',
+            url: 'api/magic-circle/v1/auth/superadmin',
             method: 'POST',
             data: {
                 login,
@@ -150,7 +150,7 @@ export default {
     },
     async getAdmins() {
         return await axios.request({
-            url: 'v1/auth/admin',
+            url: 'api/magic-circle/v1/auth/admin',
             method: 'GET',
         }).then(async resp => {
             store.dispatch('changeAdminList', resp.data.admins)
@@ -162,7 +162,7 @@ export default {
     },
     async getSuperAdmins() {
         return await axios.request({
-            url: 'v1/auth/superadmin',
+            url: 'api/magic-circle/v1/auth/superadmin',
             method: 'GET',
         }).then(resp => {
             store.dispatch('changeSuperAdminList', resp.data.admins)
@@ -174,7 +174,7 @@ export default {
     },
     async deleteAdmin(adminId) {
         return await axios.request({
-            url: 'v1/auth/admin/' + adminId,
+            url: 'api/magic-circle/v1/auth/admin/' + adminId,
             method: 'DELETE',
         }).then(resp => {
             this.getAdmins();
@@ -186,7 +186,7 @@ export default {
     },
     async deleteSuperAdmin(superAdminId) {
         return await axios.request({
-            url: 'v1/auth/superadmin/' + superAdminId,
+            url: 'api/magic-circle/v1/auth/superadmin/' + superAdminId,
             method: 'DELETE',
         }).then(resp => {
             this.getSuperAdmins();
@@ -201,7 +201,7 @@ export default {
     */
     async getSectorsList() {
         return await axios.request({
-            url: 'v1/sector',
+            url: 'api/magic-circle/v1/sector',
             method: 'GET',
         }).then(resp => {
           store.dispatch('fetchSectors', resp.data.sectors)
@@ -213,7 +213,7 @@ export default {
     // async getSectorsFromApi(institute = {id: ''}, direction = {id: ''}, profile = {id: ''}) {
     async getSectorsFromApi(institutes, directions, profiles) {
         return await axios.request({
-            url: 'v1/sector',
+            url: 'api/magic-circle/v1/sector',
             method: 'GET',
             params: {institute: institutes[0]?.id, direction: directions[0]?.id, profile: profiles[0]?.id}
         }).then(resp => {
@@ -224,7 +224,7 @@ export default {
     },
     async updateSectorDescription(sectorId, description) {
         return await axios.request({
-            url: 'v1/sector/' + sectorId,
+            url: 'api/magic-circle/v1/sector/' + sectorId,
             method: 'PUT',
             data: {
                 description
