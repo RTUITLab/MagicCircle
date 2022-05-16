@@ -35,7 +35,8 @@
         <multiselect class="selects-row__item dirs" 
           v-model="selectDirection" 
           tag-placeholder="Выберите направление" 
-          placeholder="Выберите направление" 
+          placeholder="Выберите направление"
+          :disabled="selectInst === '' || selectInst === null" 
           label="name" 
           track-by="id" 
           :options="directionList" 
@@ -99,7 +100,7 @@
           />
           <multiselect
             class="selects-row__item"
-            v-model="modalSelectDir"
+            v-model="modalSelectDirection"
             tag-placeholder="Выберите направление"
             placeholder="Выберите направление"
             label="name"
@@ -330,7 +331,7 @@ export default {
       directionList: [],
       profileList: [],
 
-      selectInst: [],
+      selectInst: '',
       selectDirection: '',
       selectProfile: '',
       sectorList: [],
@@ -342,10 +343,8 @@ export default {
       allProfs: [],
       profileData: {},
       //
-      value: [],
-      options: ['Select option', 'Disable me!', 'Reset me!', 'mulitple', 'label', 'searchable'],
       modalSelectInst: '',
-      modalSelectDir: '',
+      modalSelectDirection: '',
 
       modalAddInstitute: '',
       modalAddDirection: '',
@@ -353,12 +352,16 @@ export default {
     }
   },
   watch: {
-    modalSelectInst: function (selectInst) {
-      console.log('WATCH INST', selectInst)
+    modalSelectInst: function () {
+      this.changeModalDirsList()
+    },
+    modalSelectDirection: function () {
+      this.changeModalProfList()
+    },
+    selectInst: function() {
       this.changeDirsList()
     },
-    modalSelectDir: function (selectProf) {
-      console.log('WATCH DIR', selectProf)
+    selectDirection: function() {
       this.changeProfList()
     }
   },
@@ -420,7 +423,6 @@ export default {
           coords: this.sectorList
         },
       }
-      console.log('DATA', data)
       api.postSectorsToApi(data)
     },
     setIdToPaths() {
@@ -438,10 +440,37 @@ export default {
         });
       });
     },
-    changeDirsList() {
+    changeModalDirsList() {
       if (this.modalSelectInst !== null ) {
         if (this.modalSelectInst.directions !== null) {
-          this.directionList = this.modalSelectInst.directions
+          this.directionList = this.modalSelectInst.directions  || []
+        }
+        else {
+          this.directionList = []
+        }
+      }
+      else {
+        this.directionList = this.allDirections
+      }
+    },
+    changeModalProfList() {
+      if (this.modalSelectDirection !== null ) {
+        if (this.modalSelectDirection.profiles !== null) {
+          this.profileList = this.modalSelectDirection?.profiles  || []
+        }
+        else {
+          this.profileList = []
+        }
+      }
+      else {
+        this.profileList = this.allProfs
+      }
+    },
+    changeDirsList() {
+      if (this.selectInst !== null ) {
+        if (this.selectInst?.directions !== null) {
+          console.log('null')
+          this.directionList = this.selectInst?.directions || []
         }
         else {
           this.directionList = []
@@ -452,9 +481,9 @@ export default {
       }
     },
     changeProfList() {
-      if (this.modalSelectDir !== null ) {
-        if (this.modalSelectDir.profiles !== null) {
-          this.profileList = this.modalSelectDir.profiles
+      if (this.selectDirection !== null ) {
+        if (this.selectDirection?.profiles !== null) {
+          this.profileList = this.selectDirection?.profiles || []
         }
         else {
           this.profileList = []
@@ -487,8 +516,8 @@ export default {
     addProf() {
       const data = {
         direction: {
-            id: this.modalSelectDir.id,
-            name: this.modalSelectDir.name
+            id: this.modalSelectDirection.id,
+            name: this.modalSelectDirection.name
         },
         institute: {
           id: this.modalSelectInst.id,
@@ -501,16 +530,6 @@ export default {
       api.postSectorsToApi(data)
     },
 
-    //     changeDirsList() {
-    //   if (this.selectInstOfProfs !== null && this.selectInstOfProfs.directions !== null) {
-    //     this.directionList = this.selectInstOfProfs.directions
-    //     console.log('TESTsad')
-    //   }
-    //   else {
-    //     console.log('else')
-    //     this.directionList = this.allDirections
-    //   }
-    // },
   },
   mounted() {
     this.getAllDataFromApi()
