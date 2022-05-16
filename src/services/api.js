@@ -40,12 +40,10 @@ export default {
             method: 'POST',
             data: data
         }).then(resp => {
-            console.log('postSectorsToApi ', resp)
             alert('Успешно создано!')
             return resp.data
         }).catch(err => {
             if (err.response.status === 404) {
-                console.log('404', err.response.status, data.sectors.coords[0])
                 this.postNewSectorToApi(data.sectors.coords, data)
             } else {
                 alert('Не получилось, проверьте правильность ввденных данных')
@@ -67,7 +65,6 @@ export default {
             method: 'POST',
             data: data
         }).then(resp => {
-            console.log('postNewSectorToApi ', resp)
             this.postSectorsToApi(dataLastRequest)
             return resp.data
         }).catch(err => {
@@ -82,7 +79,6 @@ export default {
             url: 'v1/institute/' + id,
             method: 'DELETE',
         }).then(resp => {
-            console.log('then')
             if (resp.status === 200) {
                 this.getInstitutesFromApi()
             }

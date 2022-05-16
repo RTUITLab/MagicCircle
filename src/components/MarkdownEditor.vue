@@ -48,10 +48,14 @@ export default {
     }
   },
   computed: {
+    markdownText() {
+     return this.$store.state.markdown
+   },
    markdownToHtml(){
      this.$store.dispatch('changeMarkdown', this.markdown)
      return marked(this.markdown);
-   }
+   },
+   
   },
   methods: {
     press(key) {
@@ -230,8 +234,11 @@ export default {
   }
   },
   mounted() {
-    const selectedSector = this.$store.state.sectorList.find(sector => sector.coords === this.$store.state.selectedSectorCode);
-    this.markdown = selectedSector.description
+    setTimeout(() => {
+      const selectedSector = this.$store.state.sectorList.find(sector => sector.coords === this.$store.state.selectedSectorCode);
+      this.markdown = selectedSector.description
+    }, 0)
+
   }
 }
 </script>

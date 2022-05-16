@@ -31,7 +31,9 @@ export default {
   </div>
   <div class="wrapper-panel">
     <div class="wrapper-panel__header">
-      <span />
+     <div>
+        <button class="btn btn-enter" @click="$router.push('/')"> На главную</button>
+      </div>
       <div class="nav-row">
         <b-link  to="/admin/addSector" title="First" active>
           Добавление сектора

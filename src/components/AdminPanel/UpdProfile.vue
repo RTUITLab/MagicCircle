@@ -4,7 +4,7 @@
       <h3> Обновить</h3>
       <multiselect class="selects-row__item inst" v-model="selectInst" tag-placeholder="Выберите институт"
                    placeholder="Выберите институт" label="name" track-by="id" :options="instituteList"
-                   :taggable="true"/>
+                   />
       <b-form-input v-model="instName" placeholder="Введите новое название института" required/>
       <button type="submit" class="btn btn-success">Добавить</button>
     </form>
@@ -40,9 +40,6 @@ export default {
     },
   },
   methods: {
-    test() {
-      console.log('testasfcsd')
-    },
     getAllDataFromApi() {
       // get institutes
       api.getInstitutesFromApi().then(data => {

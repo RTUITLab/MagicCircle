@@ -40,19 +40,22 @@
           :multiple="true" 
         />
       <button class="btn btn-primary" @click="findSectors"> Найти</button>
-      <button class="btn btn-enter" style="margin-left: 60px;" @click="$store.state.isAuth ? $router.push('/admin/addSector') :$router.push('/login')">Войти</button>
+      <button class="btn btn-enter" style="margin-left: 60px;" @click="$store.state.isAuth ? $router.push('/admin/addSector') :$router.push('/login')">
+        <span v-text="$store.state.isAuth ? 'Панель' : 'Войти'" />
+      </button>
       </div>
     </div>
     <div class="wrapper">
       <div class="svg-layer">
         <div>
+            <!-- :ok-only="$store.state.isAuth ? false : true" -->
           <b-modal id="my-modal" 
-            size="xl" 
-            :title="this.modalContent.name" 
+            :title="'TODO'" 
+            :size="$store.state.isAuth ? 'xl' : 'lg'" 
             scrollable
             header-class="header-preview"
             cancel-title="Отмена"
-            @ok="updateSectorDescription()"
+            @ok="$store.state.isAuth ? updateSectorDescription() : null"
             ok-title="Сохранить"
           >
             <ModalContent @clearModalContent="clearModalContent" :modalContent="this.modalContent" />
@@ -273,7 +276,7 @@ export default {
   data() {
     return {
       allTextContent: '',
-      modalContent: {},
+      modalContent: '',
       instituteList: [],
       directionList: [],
       profileList: [],
@@ -296,7 +299,7 @@ export default {
   },
   methods: {
     clearModalContent() {
-      this.modalContent = {}
+      this.modalContent = ''
     },
     findSectors() {
       const paths = document.querySelectorAll("path, circle")
@@ -304,7 +307,6 @@ export default {
         paths.forEach((item) => {
           document.getElementById(item.id).setAttribute("style", "fill-opacity: 0.3; pointer-events: none;")
         })
-        console.log('getSectorsFromApi DATA', data)
         if (data.sectors === null) {
           paths.forEach((item) => {
             document.getElementById(item.id).setAttribute("style", "fill-opacity: 0.3; pointer-events: none;")
@@ -362,7 +364,9 @@ export default {
       Object.keys(this.allTextContent).forEach((id) => {
         document.getElementById(id).addEventListener('click', () => {
           this.$store.dispatch('changeselectedSectorCode', id)
-          this.modalContent = this.allTextContent[id]
+          const selectedSector = this.$store.state.sectorList.find(sector => sector.coords === id);
+          this.$store.dispatch('changeMarkdown', selectedSector.description)
+          this.modalContent = selectedSector.description
         })
       })
     },
@@ -370,12 +374,9 @@ export default {
       const selectedSector = this.$store.state.sectorList.find(sector => 
         sector.coords === this.$store.state.selectedSectorCode
       )
-      api.updateSectorDescription(selectedSector.id, this.$store.state.markdown).then(data => {
-        console.log('dataSuccess', data);
-      }).catch(err => console.log('err', err))
+      api.updateSectorDescription(selectedSector.id, this.$store.state.markdown);
     },
     changeDirsList() {
-      console.log('changeDirsList', this.selectInst)
       if (this.selectInst !== null ) {
         if (this.selectInst.directions !== null) {
           this.directionList = this.selectInst.directions

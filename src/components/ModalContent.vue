@@ -2,18 +2,20 @@
   <div>
     <!-- TODO isAuth -->
     <MarkdownEditor
-      v-show="this.$store.state.isAdmin"
+      v-if="this.$store.state.isAuth"
     />
+    <MarkdownViewer v-else />
   </div>
 </template>
 
 <script>
 import MarkdownEditor from './MarkdownEditor.vue'
+import MarkdownViewer from './MarkdownViewer.vue'
 export default {
   name: "modalContent",
-  components: {MarkdownEditor},
+  components: {MarkdownEditor, MarkdownViewer},
   props: {
-    modalContent: Object,
+    modalContent: String,
   },
   destroyed() {
     this.$emit("clearModalContent")
