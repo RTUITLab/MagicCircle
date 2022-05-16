@@ -18,4 +18,3 @@ services:
         MYSQL_PASSWORD: docker
     volumes:
       - "./.docker/mysql/:/var/lib/mysql:rw"
-

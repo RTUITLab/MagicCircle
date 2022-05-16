@@ -1,7 +1,7 @@
 FROM node:14.4.0-alpine3.10 AS build
 
 WORKDIR /frontend
-COPY package.json package-lock.json ./
+COPY package*.json ./
 RUN npm ci
 COPY . .
 RUN npm run build
@@ -12,7 +12,4 @@ EXPOSE 8080
 
 RUN mkdir /app
 COPY --from=build /frontend/dist /app
-COPY ./deploy/nginx.conf /etc/nginx/nginx.conf
-COPY ./deploy/default.conf /etc/nginx/conf.d/default.conf
-
-# CMD nginx
+COPY deploy/proxy.conf /etc/nginx/conf.d/proxy.conf
