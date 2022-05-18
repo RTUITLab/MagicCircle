@@ -1,5 +1,7 @@
 import axios from "axios";
 import store from '../store'
+import Vue from 'vue'
+
 
 export default {
     async getDirectionsFromApi() {
@@ -35,18 +37,25 @@ export default {
     },
 
     async postSectorsToApi(data) {
+        
         return await axios.request({
             url: 'api/magic-circle/v1',
             method: 'POST',
             data: data
         }).then(resp => {
-            alert('Успешно создано!')
+            Vue.notify({
+                type: 'success',
+                text: 'Успешно создано!'
+            })
             return resp.data
         }).catch(err => {
             if (err.response.status === 404) {
                 this.postNewSectorToApi(data.sectors.coords, data)
             } else {
-                alert('Не получилось, проверьте правильность ввденных данных')
+                Vue.notify({
+                    type: 'error',
+                    text: 'Не получилось, проверьте правильность ввденных данных'
+                })
             }
             console.log(err)
             return err
@@ -69,7 +78,10 @@ export default {
             return resp.data
         }).catch(err => {
             console.log('404', err.response.status, idSectors)
-            alert('Не получилось, проверьте правильность ввденных данных')
+            Vue.notify({
+                type: 'error',
+                text: 'Не получилось, проверьте правильность ввденных данных'
+            })
             console.log(err)
             return err
         })
@@ -84,7 +96,10 @@ export default {
             }
             return resp.data
         }).catch(err => {
-            alert('Невозможно удалить институт. Проверьте привязаны ли к нему направления')
+            Vue.notify({
+                type: 'error',
+                text: 'Невозможно удалить институт. Проверьте привязаны ли к нему направления'
+            })
             return err
         })
     },
@@ -98,7 +113,10 @@ export default {
             }
             return resp.data
         }).catch(err => {
-            alert('Невозможно удалить институт. Проверьте привязаны ли к нему профили')
+            Vue.notify({
+                type: 'error',
+                text: 'Невозможно удалить направление. Проверьте привязаны ли к нему профили'
+            })
             return err
         })
     },

@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import AddSector from "../components/AdminPanel/AddSector";
-import AddProfile from "../components/AdminPanel/AddProfile";
 import DelPage from "../components/AdminPanel/DelPage";
 import Admins from "../components/AdminPanel/Admins";
 import UpdProfile from "../components/AdminPanel/UpdProfile";
@@ -28,10 +27,7 @@ const routes = [
                 path: 'del',
                 component: DelPage
             },
-            {
-                path: 'addProfile',
-                component: AddProfile
-            },
+
             {
                 path: 'updProfile',
                 component: UpdProfile
