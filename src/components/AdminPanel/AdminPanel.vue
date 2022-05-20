@@ -31,11 +31,11 @@ export default {
   </div>
   <div class="wrapper-panel">
     <div class="wrapper-panel__header">
-     <div>
-        <button class="btn btn-enter" @click="$router.push('/')"> На главную</button>
-      </div>
+     <router-link to="/" style="padding: 0">
+        <button class="btn btn-enter"> На главную</button>
+      </router-link>
       <div class="nav-row">
-        <b-link  to="/admin/addSector" title="First" active>
+        <b-link v-if="$store.state.role !=='super.admin'" to="/admin/addSector" title="First" active >
           Добавление сектора
         </b-link>
         <!-- <b-link  to="/admin/addProfile" title="second" active>

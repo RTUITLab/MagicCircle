@@ -40,7 +40,7 @@
           :multiple="true" 
         />
       <button class="btn btn-primary" @click="findSectors"> Найти</button>
-      <button class="btn btn-enter" style="margin-left: 60px;" @click="$store.state.isAuth ? $router.push('/admin/addSector') :$router.push('/login')">
+      <button class="btn btn-enter" style="margin-left: 60px;" @click="$store.state.isAuth ? $router.push('/admin/') :$router.push('/login')">
         <span v-text="$store.state.isAuth ? 'Панель' : 'Войти'" />
       </button>
       </div>

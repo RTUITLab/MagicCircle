@@ -35,7 +35,7 @@ axios.interceptors.response.use(
       if (err.response) {
         // Access Token was expired
         if (err.response.status === 401 && !originalConfig._retry) {
-          axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
+          axios.defaults.headers.common['Authorization'] = `Bearer ${(localStorage.getItem('token'))}`;
 
           originalConfig._retry = true;
           try {

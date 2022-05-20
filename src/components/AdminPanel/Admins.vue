@@ -71,13 +71,16 @@ export default {
     deleteSuperAdmin(idSuperAdmin) {
       api.deleteSuperAdmin(idSuperAdmin);
     },
+    findInstituteByID(id) {
+      return this.$store.state.institutes.find((institute) => institute.id === id)
+    }
   }
 }
 </script>
 <template>
   <div>
     <!-- TODO Только СУПЕРАДМИН-->
-    <div class="header" v-if="true">
+    <div class="header" v-if="$store.state.role === 'super.admin'">
 
       <!-- Modals -->
       <b-modal id="modal-add-superadmin" 
@@ -127,8 +130,8 @@ export default {
         </tr>
         <tr v-for="admin in $store.state.adminList" :key="admin.id">
           <th>{{admin.login}}</th>
-          <th>Тут номер института</th>
-          <th class="table-item__delete" @click="deleteAdmin(admin.id)">Удалить </th>
+          <th>{{findInstituteByID(admin.institute_id).name}}</th>
+          <th class="table-item__delete" @click="deleteAdmin(admin.id)"> <img src="@/assets/delete.svg" style="margin-right: 10px"> Удалить </th>
         </tr>
       </table>
     </div>
@@ -143,7 +146,7 @@ export default {
         </tr>
         <tr v-for="superadmin in $store.state.superAdminList" :key="superadmin.id">
           <th>{{superadmin.login}}</th>
-          <th class="table-item__delete" @click="deleteSuperAdmin(superadmin.id)">Удалить </th>
+          <th class="table-item__delete" @click="deleteSuperAdmin(superadmin.id)"> <img src="@/assets/delete.svg" style="margin-right: 10px"> Удалить </th>
         </tr>
       </table>
     </div>

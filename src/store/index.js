@@ -17,7 +17,7 @@ export default new Vuex.Store({
       institutes: [],
 
       isAuth: false,
-      user: null,
+      role: null,
       token: '',
 
       adminList: [],
@@ -42,8 +42,8 @@ export default new Vuex.Store({
     SET_AUTH_TO_STATE: (state, value) => {
       state.isAuth = value
     },
-    SET_USER_TO_STATE: (state, user) => {
-      state.user = user
+    SET_ROLE_TO_STATE: (state, role) => {
+      state.role = role
     },
     SET_TOKEN_TO_STATE: (state, token) => {
       state.token = token
@@ -75,15 +75,15 @@ export default new Vuex.Store({
     changeIsAuth: ({commit}, isAuth) => {
       commit('SET_AUTH_TO_STATE', isAuth)
     },
-    changeUser: ({commit}, user) => {
-      commit('SET_USER_TO_STATE', user)
+    changeRole: ({commit}, role) => {
+      commit('SET_ROLE_TO_STATE', role)
     },
     changeToken: ({commit}, token) => {
       commit('SET_TOKEN_TO_STATE', token)
     },
     signOut: ({commit}) => {
       commit('SET_TOKEN_TO_STATE', null)
-      commit('SET_USER_TO_STATE', null)
+      commit('SET_ROLE_TO_STATE', null)
       commit('SET_AUTH_TO_STATE', null)
     },
 

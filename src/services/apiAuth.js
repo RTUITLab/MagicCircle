@@ -15,6 +15,7 @@ export default {
                 await store.dispatch('changeIsAuth', true)
                 await localStorage.setItem('token', resp.data.token)
                 await store.dispatch('changeToken', resp.data.token)
+                await store.dispatch('changeRole', resp.data.role)
             } 
             return resp.data
         }).catch(err => {

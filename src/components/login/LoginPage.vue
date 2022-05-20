@@ -12,7 +12,7 @@ export default {
     fetchLogin() {
       apiAuth.signIn(this.login, this.password).then(data => {
         if (data.code === 200) {
-          this.$router.push('/admin/addSector')
+          this.$router.push('/admin/')
         }
         else  {
           this.$notify({type: 'error', text: 'Неверный логин или пароль'})
@@ -29,8 +29,8 @@ export default {
     <div class="login-wrapper">
       <div class="login-header"> Вход в панель администратора</div>
       <div class="login-form">
-        <input type="text" class="login-form__name" placeholder="Логин" v-model="login">
-        <input type="password" class="login-form__password" placeholder="Пароль" v-model="password">
+        <input type="text" class="login-form__name" placeholder="Логин" v-model="login" v-on:keyup.enter="fetchLogin">
+        <input type="password" class="login-form__password" placeholder="Пароль" v-model="password" v-on:keyup.enter="fetchLogin">
         <!-- <div>
           <input type="checkbox" class="login-form__remember" name="is_remember" id="is_remember">
           <label for="is_remember"> Запомнить</label>
