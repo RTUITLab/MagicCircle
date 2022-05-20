@@ -7,3 +7,4 @@ deploy/
 !deploy/*.conf
 **/*.md
 docker-compose*.yml
+docs/
