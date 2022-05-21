@@ -4,6 +4,7 @@
     <div class="add-form">
       <div class="add-form__selectrow">
         <multiselect
+          v-if="$store.state.role==='super.admin'"
           class="selects-row__item inst" 
           :value="selectInst"  
           v-model="selectInst"  
@@ -26,8 +27,8 @@
           >
           <b-form-input v-model="modalAddInstitute" placeholder="Введите новое название института" required/>
          </b-modal>
-         <span>
-          <img src="@/assets/add.svg" alt="" class="add-form__iconadd" v-b-modal="'modal-inst'">
+         <span style="width:34px">
+          <img src="@/assets/add.svg" alt="" class="add-form__iconadd" v-b-modal="'modal-inst'" v-if="$store.state.role==='super.admin'">
          </span>
       </div>
       
@@ -52,16 +53,16 @@
             ok-title="Создать"
             @ok="addDir()"
           >
-          <multiselect
-            class="selects-row__item"
-            v-model="modalSelectInst"
-            tag-placeholder="Выберите институт"
-            placeholder="Выберите институт"
-            label="name"
-            :options="instituteList" 
-             
-          />
-          <b-form-input v-model="modalAddDirection" placeholder="Введите новое название направления" required/>
+            <multiselect
+              v-if="$store.state.role==='super.admin'"
+              class="selects-row__item"
+              v-model="modalSelectInst"
+              tag-placeholder="Выберите институт"
+              placeholder="Выберите институт"
+              label="name"
+              :options="instituteList"
+            />
+            <b-form-input v-model="modalAddDirection" placeholder="Введите новое название направления" required/>
          </b-modal>
          <span>
           <img src="@/assets/add.svg" alt="" class="add-form__iconadd" v-b-modal="'modal-dir'">
@@ -90,6 +91,7 @@
             @ok="addProf()"
           >
           <multiselect
+           v-if="$store.state.role==='super.admin'"
             class="selects-row__item"
             v-model="modalSelectInst"
             tag-placeholder="Выберите институт"
@@ -363,6 +365,11 @@ export default {
     },
     selectDirection: function() {
       this.changeProfList()
+    },
+    directionList: function() {
+      if (this.$store.state.adminInstituteId) {
+        this.changeDirsList(); 
+      }
     }
   },
 
@@ -469,7 +476,6 @@ export default {
     changeDirsList() {
       if (this.selectInst !== null ) {
         if (this.selectInst?.directions !== null) {
-          console.log('null')
           this.directionList = this.selectInst?.directions || []
         }
         else {
@@ -507,8 +513,7 @@ export default {
           name: this.modalAddDirection
         },
         institute: {
-          id: this.modalSelectInst.id,
-          name: this.modalSelectInst.name
+          id: this.$store.state.adminInstituteId || this.modalSelectInst.id,
         }
       }
       api.postSectorsToApi(data)
@@ -534,6 +539,10 @@ export default {
   mounted() {
     this.getAllDataFromApi()
     this.setIdToPaths()
+    this.selectInst = this.$store.state.adminInstituteId
+    if (this.$store.state.adminInstituteId) {
+      this.selectInst = this.$store.state.institutes.find(inst => inst.id === this.$store.state.adminInstituteId)
+    }
   }
 }
 </script>

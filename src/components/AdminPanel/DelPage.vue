@@ -1,7 +1,7 @@
 <template>
   <div class="del-section" >
     <div class="del-section__header">
-      Институты
+      {{$store.state.adminInstituteId ? 'Направления' :'Институты'}}
     </div>
     <!-- Modals -->
     <b-modal id="modal-del-inst" 
@@ -37,30 +37,46 @@
           >
           <div class="delete-modal-body"> Вы действительно хотите удалить профиль {{selectedProfile ? selectedProfile.name : null}}?</div>
     </b-modal>
-    <!-- Accordion -->
-    <div class="accordion" role="tablist" v-for="inst in institutes" :key="inst.id">
-        <div block v-b-toggle="`accordion-inst${inst.id}`" class="accordion-item">
-          <span>{{inst.name}}</span>
-          <span v-b-modal="'modal-del-inst'" @click="selectedInstitute=inst" class="accordion-delete-label"> <img src="@/assets/delete.svg"  style="margin-right: 12px"> Удалить</span>
-        </div>
-        <b-collapse v-if="inst.directions" :id="`accordion-inst${inst.id}`" role="tabpanel">
-            <div v-for="dir in inst.directions" :key="dir.id">
-              <div block v-b-toggle="`accordion-dir${dir.id}`" class="accordion-item accordion-subitem" >
-                <span>{{dir.name}}</span>
-                <span v-b-modal="'modal-del-direction'" @click="selectedDirection=dir" class="accordion-delete-label"> <img src="@/assets/delete.svg" style="margin-right: 12px"> Удалить</span>
+    <!-- Accordion SuperAdmin -->
+    <div v-if="$store.state.role === 'super.admin'">
+      <div class="accordion" role="tablist" v-for="inst in institutes" :key="inst.id">
+          <div block v-b-toggle="`accordion-inst${inst.id}`" class="accordion-item">
+            <span>{{inst.name}}</span>
+            <span v-b-modal="'modal-del-inst'" @click="selectedInstitute=inst" class="accordion-delete-label"> <img src="@/assets/delete.svg"  style="margin-right: 12px"> Удалить</span>
+          </div>
+          <b-collapse v-if="inst.directions" :id="`accordion-inst${inst.id}`" role="tabpanel">
+              <div v-for="dir in inst.directions" :key="dir.id">
+                <div block v-b-toggle="`accordion-dir${dir.id}`" class="accordion-item accordion-subitem" >
+                  <span>{{dir.name}}</span>
+                  <span v-b-modal="'modal-del-direction'" @click="selectedDirection=dir" class="accordion-delete-label"> <img src="@/assets/delete.svg" style="margin-right: 12px"> Удалить</span>
+                </div>
+                <b-collapse v-if="dir.profiles" :id="`accordion-dir${dir.id}`" role="tabpanel">
+                    <div no-body v-for="prof in dir.profiles" :key="prof.id" >
+                        <div block v-b-toggle="`accordion-prof${prof.id}`" class="accordion-item accordion-sub-subitem">
+                          <span>{{prof.name}}</span>
+                          <span v-b-modal="'modal-del-profile'" @click="selectedProfile=prof" class="accordion-delete-label"> <img src="@/assets/delete.svg"  style="margin-right: 12px"> Удалить</span>
+                        </div>
+                    </div>
+                </b-collapse>
               </div>
-              <b-collapse v-if="dir.profiles" :id="`accordion-dir${dir.id}`" role="tabpanel">
-                  <div no-body v-for="prof in dir.profiles" :key="prof.id" >
-                      <div block v-b-toggle="`accordion-prof${prof.id}`" class="accordion-item accordion-sub-subitem">
-                        <span>{{prof.name}}</span>
-                        <span v-b-modal="'modal-del-profile'" @click="selectedProfile=prof" class="accordion-delete-label"> <img src="@/assets/delete.svg"  style="margin-right: 12px"> Удалить</span>
-                      </div>
-                  </div>
-              </b-collapse>
+          </b-collapse>
+      </div>
+    </div>
+    <!-- Accordion Admin institute -->
+    <div v-else class="accordion" role="tablist" v-for="dir in directionListByInst" :key="dir.id">
+        <div block v-b-toggle="`accordion-dir${dir.id}`" class="accordion-item accordion-subitem" >
+          <span>{{dir.name}}</span>
+          <span v-b-modal="'modal-del-direction'" @click="selectedDirection=dir" class="accordion-delete-label"> <img src="@/assets/delete.svg" style="margin-right: 12px"> Удалить</span>
+        </div>
+        <b-collapse v-if="dir.profiles" :id="`accordion-dir${dir.id}`" role="tabpanel">
+            <div no-body v-for="prof in dir.profiles" :key="prof.id" >
+                <div block v-b-toggle="`accordion-prof${prof.id}`" class="accordion-item accordion-sub-subitem">
+                  <span>{{prof.name}}</span>
+                  <span v-b-modal="'modal-del-profile'" @click="selectedProfile=prof" class="accordion-delete-label"> <img src="@/assets/delete.svg"  style="margin-right: 12px"> Удалить</span>
+                </div>
             </div>
         </b-collapse>
-    </div>
-
+      </div>
   </div>
 </template>
 
@@ -83,13 +99,20 @@ export default {
 
       instituteList: [],
       directionList: [],
-      profileList: []
+      profileList: [],
+
 
     }
   },
   computed: {
     institutes () {
         return this.$store.state.institutes
+    },
+    directionListByInst () {
+      if (this.$store.state.adminInstituteId) {
+        return this.institutes.find((inst) => inst.id === this.$store.state.adminInstituteId).directions
+      }
+      return []
     }
   },
   methods: {
@@ -140,7 +163,8 @@ export default {
     },
   },
   mounted() {
-    this.getAllDataFromApi()
+    this.getAllDataFromApi();
+
   }
 }
 </script>

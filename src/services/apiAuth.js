@@ -17,6 +17,9 @@ export default {
                 await store.dispatch('changeToken', resp.data.token)
                 await store.dispatch('changeRole', resp.data.role)
                 await store.dispatch('changeLogin', resp.data.login)
+                if (resp.data.instituteId) {
+                    await store.dispatch('changeInstituteId', resp.data.instituteId)
+                }
             } 
             return resp.data
         }).catch(err => {

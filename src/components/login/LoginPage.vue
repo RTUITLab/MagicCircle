@@ -12,7 +12,7 @@ export default {
     fetchLogin() {
       apiAuth.signIn(this.login, this.password).then(data => {
         if (data.code === 200) {
-          this.$router.push('/admin/')
+          this.$router.push('/admin/addSector')
         }
         else  {
           this.$notify({type: 'error', text: 'Неверный логин или пароль'})
