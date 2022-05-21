@@ -6,6 +6,7 @@ export default {
     return {
       login: '',
       password: '',
+      errorMessage: null,
     }
   },
   methods: {
@@ -15,12 +16,12 @@ export default {
           this.$router.push('/admin/addSector')
         }
         else  {
-          this.$notify({type: 'error', text: 'Неверный логин или пароль'})
+          this.errorMessage = 'Неверный логин или пароль'
         }
       }).catch(err => {
         console.log('err', err)
       })
-    }
+    },
   }
 }
 </script>
@@ -31,6 +32,7 @@ export default {
       <div class="login-form">
         <input type="text" class="login-form__name" placeholder="Логин" v-model="login" v-on:keyup.enter="fetchLogin">
         <input type="password" class="login-form__password" placeholder="Пароль" v-model="password" v-on:keyup.enter="fetchLogin">
+        <div v-if="errorMessage" class="login-form__error">{{errorMessage}}</div>
         <!-- <div>
           <input type="checkbox" class="login-form__remember" name="is_remember" id="is_remember">
           <label for="is_remember"> Запомнить</label>
@@ -56,6 +58,8 @@ export default {
 }
 .login-header {
   font-weight: 700;
+  display: flex;
+  flex-direction: column;
   font-size: 28px;
   line-height: 34px;
   text-align: center;
@@ -69,9 +73,24 @@ export default {
   }
 
   &__password {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
   }
-
+  &__error {
+    color: red;
+    transition: color .3s cubic-bezier(.215,.61,.355,1);
+    transition: 1s;
+    animation: show 0.3s 1;
+    animation-fill-mode: forwards;
+    @keyframes show{
+      0%{
+        margin-top: -20px;
+      }
+      100% {
+        margin-top: 4px;
+        margin-bottom: 10px;
+      }
+    }
+  }
   &__remember {
     margin-bottom: 20px;
   }
