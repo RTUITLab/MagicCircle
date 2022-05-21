@@ -18,7 +18,8 @@ export default new Vuex.Store({
 
       isAuth: false,
       role: null,
-      token: '',
+      token: null,
+      login: null,
 
       adminList: [],
       superAdminList: [],
@@ -47,6 +48,9 @@ export default new Vuex.Store({
     },
     SET_TOKEN_TO_STATE: (state, token) => {
       state.token = token
+    },
+    SET_LOGIN_TO_STATE: (state, login) => {
+      state.login = login
     },
 
     // Admins
@@ -81,10 +85,14 @@ export default new Vuex.Store({
     changeToken: ({commit}, token) => {
       commit('SET_TOKEN_TO_STATE', token)
     },
+    changeLogin: ({commit}, login) => {
+      commit('SET_LOGIN_TO_STATE', login)
+    },
     signOut: ({commit}) => {
       commit('SET_TOKEN_TO_STATE', null)
       commit('SET_ROLE_TO_STATE', null)
       commit('SET_AUTH_TO_STATE', null)
+      localStorage.clear();
     },
 
     // Admins

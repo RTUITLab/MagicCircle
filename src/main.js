@@ -24,6 +24,8 @@ Vue.use(ModalPlugin)
 Vue.use(Notifications)
 
 Vue.use(VueRouter)
+
+let isRefresh = null;
 axios.defaults.baseURL = process.env.VUE_APP_SERVER_URL || window.location.origin
 axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
 axios.interceptors.response.use(
@@ -31,13 +33,12 @@ axios.interceptors.response.use(
       return res;
     },
     async (err) => {
-      const originalConfig = err.config;
       if (err.response) {
         // Access Token was expired
-        if (err.response.status === 401 && !originalConfig._retry) {
+        if (err.response.status === 401 && !isRefresh) {
           axios.defaults.headers.common['Authorization'] = `Bearer ${(localStorage.getItem('token'))}`;
 
-          originalConfig._retry = true;
+          isRefresh = true;
           try {
             await apiAuth.refreshToken()
             return ;

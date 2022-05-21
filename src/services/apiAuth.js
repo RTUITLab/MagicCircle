@@ -11,11 +11,12 @@ export default {
                 password
             }
         }).then(async (resp) => {
-            if (resp.data.code === 200) {
+            if (resp.status === 200) {
                 await store.dispatch('changeIsAuth', true)
                 await localStorage.setItem('token', resp.data.token)
                 await store.dispatch('changeToken', resp.data.token)
                 await store.dispatch('changeRole', resp.data.role)
+                await store.dispatch('changeLogin', resp.data.login)
             } 
             return resp.data
         }).catch(err => {
@@ -28,9 +29,9 @@ export default {
             method: 'GET',
         }).then(async (resp) => {
             if (resp.data.code === 200) {
-                await store.dispatch('changeIsAuth', true)
-                await localStorage.setItem('token', resp.data.token)
-                await store.dispatch('changeToken', resp.data.token)
+                store.dispatch('changeIsAuth', true)
+                localStorage.setItem('token', resp.data.token)
+                store.dispatch('changeToken', resp.data.token)
             } 
             return resp.data
         }).catch(err => {
