@@ -12,7 +12,8 @@ export default {
   methods: {
     fetchLogin() {
       apiAuth.signIn(this.login, this.password).then(data => {
-        if (data.code === 200) {
+        // TODO data.status === 200
+        if (data.token) {
           this.$router.push('/admin/addSector')
         }
         else  {

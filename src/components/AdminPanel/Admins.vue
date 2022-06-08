@@ -79,7 +79,6 @@ export default {
 </script>
 <template>
   <div>
-    <!-- TODO Только СУПЕРАДМИН-->
     <div class="header" v-if="$store.state.role === 'super.admin'">
 
       <!-- Modals -->

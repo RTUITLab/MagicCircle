@@ -51,11 +51,10 @@
             <!-- :ok-only="$store.state.isAuth ? false : true" -->
           <b-modal id="my-modal" 
             :title="'TODO'" 
-            :size="$store.state.isAuth ? 'xl' : 'lg'" 
+            :size="'lg'" 
             scrollable
             header-class="header-preview"
             cancel-title="Отмена"
-            @ok="$store.state.isAuth ? updateSectorDescription() : null"
             ok-title="Сохранить"
           >
             <ModalContent @clearModalContent="clearModalContent" :modalContent="this.modalContent" />

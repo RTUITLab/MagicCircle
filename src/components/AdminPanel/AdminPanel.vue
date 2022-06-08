@@ -35,10 +35,15 @@ export default {
         <button class="btn btn-enter"> На главную</button>
       </router-link>
       <div class="nav-row">
-        <b-link to="/admin/addSector" title="First" active >
+        <b-link v-if="$store.state.role ==='admin'" to="/admin/addSector" title="First" active >
           Добавление сектора
         </b-link>
-
+        <b-link v-if="$store.state.role ==='admin'" to="/admin/addDescription" title="First" active >
+          Редактирование круга
+        </b-link>
+        <b-link v-if="$store.state.role ==='super.admin'" to="/admin/changeSector" title="second" active >
+          Изменение описания
+        </b-link>
         <b-link to="/admin/del" title="second" active>
           Направления и профили
         </b-link>

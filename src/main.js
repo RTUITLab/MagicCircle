@@ -13,6 +13,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 import './assets/style/style.scss'
 import './assets/style/_multiselect.scss'
+import './assets/style/_accordion.scss'
 import axios from "axios";
 // Make BootstrapVue available throughout your project
 Vue.config.productionTip = false

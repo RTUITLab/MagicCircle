@@ -1,10 +1,14 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import AddSector from "../components/AdminPanel/AddSector";
+import ChangeSector from "../components/AdminPanel/ChangeSector";
+import AddDescription from "../components/AdminPanel/AddDescription";
 import DelPage from "../components/AdminPanel/DelPage";
 import Admins from "../components/AdminPanel/Admins";
 import UpdProfile from "../components/AdminPanel/UpdProfile";
 import store from "@/store"
+
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -21,7 +25,24 @@ const routes = [
         children: [
             {
                 path: 'addSector',
-                component: AddSector
+                component: AddSector,
+                meta: {
+                    isAdmin: true
+                }
+            },
+            {
+                path: 'addDescription',
+                component: AddDescription,
+                meta: {
+                    isAdmin: true
+                }
+            },
+            {
+                path: 'changeSector',
+                component: ChangeSector,
+                meta: {
+                    isSuperAdmin: true
+                }
             },
             {
                 path: 'del',
@@ -58,6 +79,34 @@ router.beforeEach((to, from, next) => {
             return
         }
         next('/login')
+    } else {
+        next()
+    }
+
+    
+})
+
+// Проверяем Суперадмина
+router.beforeEach((to, from, next) => {
+    if (to.matched.some(record => record.meta.isSuperAdmin)) {
+        if (store.state.role==="super.admin") {
+            next()
+            return
+        }
+        next('/')
+    } else {
+        next()
+    }
+})
+
+// Проверяем админа
+router.beforeEach((to, from, next) => {
+    if (to.matched.some(record => record.meta.isAdmin)) {
+        if (store.state.role==="admin") {
+            next()
+            return
+        }
+        next('/admin/changeSector/')
     } else {
         next()
     }

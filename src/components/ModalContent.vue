@@ -2,20 +2,24 @@
   <div>
     <!-- TODO isAuth -->
     <MarkdownEditor
-      v-if="this.$store.state.isAuth"
+      v-if="isEdit"
     />
     <MarkdownViewer v-else />
+    <DescriptionViewer :additionalDescription="additionalDescription" />
   </div>
 </template>
 
 <script>
-import MarkdownEditor from './MarkdownEditor.vue'
-import MarkdownViewer from './MarkdownViewer.vue'
+import DescriptionViewer from './editor/DescriptionViewer.vue'
+import MarkdownEditor from './editor/MarkdownEditor.vue'
+import MarkdownViewer from './editor/MarkdownViewer.vue'
 export default {
   name: "modalContent",
-  components: {MarkdownEditor, MarkdownViewer},
+  components: {MarkdownEditor, MarkdownViewer, DescriptionViewer},
   props: {
     modalContent: String,
+    additionalDescription: Array,
+    isEdit: Boolean
   },
   destroyed() {
     this.$emit("clearModalContent")

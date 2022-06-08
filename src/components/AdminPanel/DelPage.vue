@@ -195,33 +195,4 @@ export default {
   font-size: 18px;
   line-height: 28px;
 }
-.accordion-item {
-  display: flex;
-  justify-content: space-between;
-  padding: 25px 35px;
-  background: #fcfcfc;
-  font-size: 18px;
-  line-height: 28px;
-  border: none;
-  &:hover {
-    background-color: #f5f4ff;
-  }
-}
-.accordion-item.not-collapsed {
-    background:#F5F6FA;
-    border-bottom: 1px solid #D7DBEC;
-  }
-.accordion-subitem {
-  padding-left: 100px;
-}
-
-.accordion-sub-subitem {
-  padding-left: 200px;
-}
-
-.accordion-delete-label {
-  color: #F12B43;
-  display: flex;
-  align-items: self-start;
-}
 </style>
