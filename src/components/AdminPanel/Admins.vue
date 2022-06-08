@@ -79,8 +79,6 @@ export default {
 </script>
 <template>
   <div>
-    <div class="header" v-if="$store.state.role === 'super.admin'">
-
       <!-- Modals -->
       <b-modal id="modal-add-superadmin" 
             size="lg"
@@ -94,7 +92,7 @@ export default {
           >
           <b-form-input v-model="superAdminLogin" placeholder="Логин" required/>
           <b-form-input v-model="superAdminPassword" placeholder="Пароль" type="password" required/>
-    </b-modal>
+      </b-modal>
       <b-modal id="modal-add-admin" 
             size="lg"
             cancel-title="Отмена"
@@ -115,13 +113,14 @@ export default {
           />
           <b-form-input v-model="adminLogin" placeholder="Логин" required/>
           <b-form-input v-model="adminPassword" placeholder="Пароль" type="password" required/>
-    </b-modal>
-      <button class="btn btn-primary" v-b-modal="'modal-add-admin'"> Создать Админа </button>
-      <button class="btn btn-primary" v-b-modal="'modal-add-superadmin'"> Создать суперадмина </button>
-    </div>
+      </b-modal>
+
     <div class="admin-table">
       <div class="admin-table__name">
         Админы
+        <span style="width:34px">
+          <img src="@/assets/add.svg" alt="" class="add-form__iconadd" v-b-modal="'modal-add-admin'">
+        </span>
       </div>
       <table border="1px">
         <tr class="admin-table__header">
@@ -138,6 +137,9 @@ export default {
     <div class="admin-table">
       <div class="admin-table__name">
         Суперадмины
+        <span style="width:34px">
+          <img src="@/assets/add.svg" alt="" class="add-form__iconadd" v-b-modal="'modal-add-superadmin'">
+        </span>
       </div>
       <table border="1px">
         <tr class="admin-table__header">
