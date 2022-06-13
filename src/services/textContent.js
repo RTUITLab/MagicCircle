@@ -1,7 +1,7 @@
 const textContent = {
     'L0-CIO': {
        id:'L0-CIO',
-       name:'todo name',
+       name:'Директор по ИТ',
     },
     'L1-CDO':{
        id:'L1-CDO',

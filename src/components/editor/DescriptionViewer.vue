@@ -33,7 +33,6 @@ export default {
   },
   data() {
     return {
-      institutes: [],
       profileEdit: '',
     }
   },
@@ -41,6 +40,9 @@ export default {
     selectedSector() {
       return this.$store.state.sectorList.find((sector) => 
         sector.coords === this.$store.state.selectedSector.coords)
+    },
+    institutes() {
+      return this.selectedSector.institutes
     }
   },
   methods: {
@@ -49,9 +51,6 @@ export default {
         sector.coords === this.selectedSector)
     }
   },
-  mounted() {
-    this.institutes = this.selectedSector.institutes
-  }
 }
 </script>
 <style lang="scss" scoped>

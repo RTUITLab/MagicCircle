@@ -50,7 +50,7 @@
         <div>
             <!-- :ok-only="$store.state.isAuth ? false : true" -->
           <b-modal id="my-modal" 
-            :title="'TODO'" 
+            :title="title" 
             :size="'lg'" 
             scrollable
             header-class="header-preview"
@@ -283,7 +283,9 @@ export default {
       selectDirection: [],
       selectProfile: [],
       allDirections: [],
-      allProfs: []
+      allProfs: [],
+
+      title: '',
     }
   },
   watch: {
@@ -361,8 +363,10 @@ export default {
     },
     setTextContent() {
       Object.keys(this.allTextContent).forEach((id) => {
+        console.log('this.allTextContent', this.allTextContent[id]);
         document.getElementById(id).addEventListener('click', () => {
           const selectedSector = this.$store.state.sectorList.find(sector => sector.coords === id);
+          this.title = this.allTextContent[id].name
           this.$store.dispatch('changeselectedSector', selectedSector)
           this.$store.dispatch('changeMarkdown', selectedSector?.description)
           this.modalContent = selectedSector?.description
