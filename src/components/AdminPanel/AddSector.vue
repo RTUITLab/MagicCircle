@@ -395,7 +395,6 @@ export default {
 
       // get profiles
       api.getProfilesFromApi().then(data => {
-        console.log('data ', data)
         this.profileList = (data === null) ? [] : data
         this.allProfs = (data === null) ? [] : data
       }).catch(err => {

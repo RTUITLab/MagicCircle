@@ -255,4 +255,19 @@ export default {
         })
     },
 
+    async updateAdditionalSectorDescription(sectorId, profileId, additionalDescription) {
+        return await axios.request({
+            url: `api/magic-circle/v1/sector/${sectorId}/profile/${profileId}`,
+            method: 'PUT',
+            data: {
+                additionalDescription
+            }
+        }).then(resp => {
+            this.getSectorsList();
+            return resp
+        }).catch(err => {
+            return err.response
+        })
+    }
+
 }

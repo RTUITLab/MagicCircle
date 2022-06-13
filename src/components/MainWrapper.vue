@@ -362,16 +362,16 @@ export default {
     setTextContent() {
       Object.keys(this.allTextContent).forEach((id) => {
         document.getElementById(id).addEventListener('click', () => {
-          this.$store.dispatch('changeselectedSectorCode', id)
           const selectedSector = this.$store.state.sectorList.find(sector => sector.coords === id);
-          this.$store.dispatch('changeMarkdown', selectedSector.description)
-          this.modalContent = selectedSector.description
+          this.$store.dispatch('changeselectedSector', selectedSector)
+          this.$store.dispatch('changeMarkdown', selectedSector?.description)
+          this.modalContent = selectedSector?.description
         })
       })
     },
     updateSectorDescription() {
       const selectedSector = this.$store.state.sectorList.find(sector => 
-        sector.coords === this.$store.state.selectedSectorCode
+        sector.coords === this.$store.state.selectedSector.coords
       )
       api.updateSectorDescription(selectedSector.id, this.$store.state.markdown);
     },
@@ -408,7 +408,16 @@ export default {
     this.allTextContent = textContent.textContent
     this.setTextContent()
     this.$root.$emit('modalContent', this.modalContent);
-
+    
+    // get Ids
+    // const ids = Array.from(new Set(Array.from(document.all).map(i => i.id).filter(i => i != ""))).sort()
+    // const obj = {}
+    // ids.forEach((id) => {
+    //   obj[id] = {
+    //     'id': id,
+    //     'name': 'todo name'
+    //   }
+    // })
   }
 }
 </script>

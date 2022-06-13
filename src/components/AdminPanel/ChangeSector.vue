@@ -291,8 +291,8 @@ export default {
     setTextContent() {
       Object.keys(this.allTextContent).forEach((id) => {
         document.getElementById(id).addEventListener('click', () => {
-          this.$store.dispatch('changeselectedSectorCode', id)
           const selectedSector = this.$store.state.sectorList.find(sector => sector.coords === id);
+          this.$store.dispatch('changeselectedSector', selectedSector)
           this.$store.dispatch('changeMarkdown', selectedSector.description)
           this.modalContent = selectedSector.description
         })
@@ -300,7 +300,7 @@ export default {
     },
     updateSectorDescription() {
       const selectedSector = this.$store.state.sectorList.find(sector => 
-        sector.coords === this.$store.state.selectedSectorCode
+        sector.coords === this.$store.state.selectedSector.coords
       )
       api.updateSectorDescription(selectedSector.id, this.$store.state.markdown);
     },

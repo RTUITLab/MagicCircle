@@ -12,10 +12,12 @@
                 header-class="header-preview"
                 cancel-title="Отмена"
                 ok-title="Сохранить"
+                @ok="changeAdditionalDirection()"
               >
                 <ModalContent 
                   :modalContent="this.modalContent"
                   :additionalDescription="this.additionalDescription"
+                  :isEditAdditional="true"
                  />
               </b-modal>
             </div>
@@ -219,6 +221,7 @@
 <script>
 import textContent from '@/services/textContent'
 import ModalContent from "../ModalContent";
+import api from '@/services/api'
 
 export default {
 
@@ -237,22 +240,24 @@ export default {
     setTextContent() {
       Object.keys(this.allTextContent).forEach((id) => {
         document.getElementById(id).addEventListener('click', async () => {
-          await this.$store.dispatch('changeselectedSectorCode', id)
           const selectedSector = this.$store.state.sectorList.find(sector => sector.coords === id);
+          await this.$store.dispatch('changeselectedSector', selectedSector)
           await this.$store.dispatch('changeMarkdown', selectedSector.description)
           this.modalContent = selectedSector.description
           this.additionalDescription = selectedSector.additionalDescriptions
         })
       })
     },
+    changeAdditionalDirection() {
+      this.$root.$emit('changeAdditional')
+    }
   },
   mounted() {
     // this.getAllDataFromApi()
-
     this.allTextContent = textContent.textContent
+    api.getSectorsList()
     this.setTextContent()
     this.$root.$emit('modalContent', this.modalContent);
-
   }
 }
 </script>

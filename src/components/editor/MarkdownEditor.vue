@@ -235,7 +235,7 @@ export default {
   },
   mounted() {
     setTimeout(() => {
-      const selectedSector = this.$store.state.sectorList.find(sector => sector.coords === this.$store.state.selectedSectorCode);
+      const selectedSector = this.$store.state.sectorList.find(sector => sector.coords === this.$store.state.selectedSector.coords);
       this.markdown = selectedSector.description
     }, 0)
 

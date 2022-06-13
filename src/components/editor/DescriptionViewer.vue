@@ -1,32 +1,31 @@
 <template>
   <div>
-      <div class="accordion" role="tablist" v-for="inst in institutes" :key="inst.id">
-          <div block v-b-toggle="`accordion-inst${inst.id}`" class="accordion-item">
-            <span>{{inst.name}}</span>
-          </div>
-          <b-collapse v-if="inst.directions" :id="`accordion-inst${inst.id}`" role="tabpanel">
-              <div v-for="dir in inst.directions" :key="dir.id">
-                <div block v-b-toggle="`accordion-dir${dir.id}`" class="accordion-item accordion-subitem" >
-                  <span>{{dir.name}}</span>
-                </div>
-                <b-collapse v-if="dir.profiles" :id="`accordion-dir${dir.id}`" role="tabpanel">
-                    <div no-body v-for="prof in dir.profiles" :key="prof.id" >
-                        <div block v-b-toggle="`accordion-prof${prof.id}`" class="accordion-item accordion-sub-subitem">
-                          <div class="profile-description">
-                            <span class="profile-description__header">{{prof.name}}</span>
-                            <span class="profile-description__body"> {{prof}}</span>
-                          </div>
-                        </div>
-                    </div>
-                </b-collapse>
+    <div class="accordion" role="tablist" v-for="inst in institutes" :key="inst.id">
+        <div block v-b-toggle="`accordion-inst${inst.id}`" class="accordion-item">
+          <span>{{inst.name}}</span>
+        </div>
+        <b-collapse v-if="inst.directions" :id="`accordion-inst${inst.id}`" role="tabpanel">
+            <div v-for="dir in inst.directions" :key="dir.id">
+              <div v-if="dir.profiles" block v-b-toggle="`accordion-dir${dir.id}`" class="accordion-item accordion-subitem" >
+                <span>{{dir.name}}</span>
               </div>
+              <b-collapse v-if="dir.profiles" :id="`accordion-dir${dir.id}`" role="tabpanel">
+                  <div no-body v-for="prof in dir.profiles" :key="prof.id" >
+                      <div block v-b-toggle="`accordion-prof${prof.id}`" class="accordion-item accordion-sub-subitem">
+                        <div class="profile-description">
+                          <span class="profile-description__header">{{prof.name}}</span>
+                          <span class="profile-description__body"> {{prof.additionalDescription}}</span>
+                        </div>
+                      </div>
+                  </div>
+              </b-collapse>
+            </div>
       </b-collapse>
     </div>
   </div>
 </template>
 
 <script>
-import api from "../../services/api";
 
 export default {
   props: {
@@ -34,53 +33,24 @@ export default {
   },
   data() {
     return {
-
+      institutes: [],
+      profileEdit: '',
     }
   },
   computed: {
-    institutes () {
-        return this.$store.state.institutes
-    },
-    selectedSectorCode() {
+    selectedSector() {
       return this.$store.state.sectorList.find((sector) => 
-        sector.coords ===this.$store.state.selectedSectorCode)
+        sector.coords === this.$store.state.selectedSector.coords)
     }
   },
   methods: {
-    getAllDataFromApi() {
-      // get institutes
-      api.getInstitutesFromApi().then(data => {
-        this.instituteList = (data === null) ? [] : data
-      }).catch(err => {
-        alert('Ошибка', err)
-        console.log('err', err)
-      })
-
-      // get directions
-      api.getDirectionsFromApi().then(data => {
-        this.directionList = (data === null) ? [] : data
-      }).catch(err => {
-        alert('Ошибка', err)
-        console.log('err', err)
-      })
-
-
-      // get profiles
-      api.getProfilesFromApi().then(data => {
-        this.profileList = (data === null) ? [] : data
-      }).catch(err => {
-        alert('Ошибка', err)
-        console.log('err', err)
-      })
-    },
     getAdditionalDescription() {
       return this.$store.state.sectorList.find((sector) => 
-        sector.coords === this.selectedSectorCode
-        )
+        sector.coords === this.selectedSector)
     }
   },
   mounted() {
-    this.getAllDataFromApi()
+    this.institutes = this.selectedSector.institutes
   }
 }
 </script>

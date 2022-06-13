@@ -5,7 +5,6 @@ import ChangeSector from "../components/AdminPanel/ChangeSector";
 import AddDescription from "../components/AdminPanel/AddDescription";
 import DelPage from "../components/AdminPanel/DelPage";
 import Admins from "../components/AdminPanel/Admins";
-import UpdProfile from "../components/AdminPanel/UpdProfile";
 import store from "@/store"
 
 
@@ -47,11 +46,6 @@ const routes = [
             {
                 path: 'del',
                 component: DelPage
-            },
-
-            {
-                path: 'updProfile',
-                component: UpdProfile
             },
             {
                 path: 'users',
