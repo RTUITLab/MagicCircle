@@ -1,236 +1,224 @@
 const textContent = {
    'L0-CIO': {
       id: 'L0-CIO',
-      name: 'Директор по ИТ'
+      name: 'Директор по ИТ/Технический директор'
    },
    'L1-CDO': {
       id: 'L1-CDO',
-      name: 'todo name'
+      name: 'Директор по данным'
    },
    'L1-EMPTY': {
       id: 'L1-EMPTY',
-      name: 'todo name'
+      name: 'EMPTY'
    },
    'L1-HD': {
       id: 'L1-HD',
-      name: 'todo name'
+      name: 'Руководитель департамента разработки'
    },
    'L1-HISO': {
       id: 'L1-HISO',
-      name: 'todo name'
+      name: 'Руководитель департамента информационной безопасности'
    },
    'L1-HITPS': {
       id: 'L1-HITPS',
-      name: 'todo name'
+      name: 'Руководитель департамента технической поддержки'
    },
    'L1-HPMO': {
       id: 'L1-HPMO',
-      name: 'todo name'
+      name: 'Руководитель проектного офиса'
    },
    'L1_HT': {
       id: 'L1_HT',
-      name: 'todo name'
+      name: 'Руководитель департамента телекоммуникации'
    },
    'L2-A': {
       id: 'L2-A',
-      name: 'todo name'
+      name: 'Архитектор'
    },
    'L2-AGILE': {
       id: 'L2-AGILE',
-      name: 'todo name'
+      name: 'Методологии разработки'
    },
    'L2-ITSA': {
       id: 'L2-ITSA',
-      name: 'todo name'
+      name: 'Архитектор решений'
    },
    'L2-PPM': {
       id: 'L2-PPM',
-      name: 'todo name'
+      name: 'Руководитель портфеля проектов'
    },
    'L2-TL1': {
       id: 'L2-TL1',
-      name: 'todo name'
+      name: 'Руководитель группы'
    },
    'L2-TL2': {
       id: 'L2-TL2',
-      name: 'todo name'
+      name: 'Руководитель группы'
    },
    'L2-TL3': {
       id: 'L2-TL3',
-      name: 'todo name'
+      name: 'Руководитель группы'
    },
    'L2-TL4': {
       id: 'L2-TL4',
-      name: 'todo name'
+      name: 'Руководитель группы'
    },
    'L2-TL5': {
       id: 'L2-TL5',
-      name: 'todo name'
+      name: 'Руководитель группы'
    },
    'L2-TL6': {
       id: 'L2-TL6',
-      name: 'todo name'
+      name: 'Руководитель группы'
    },
    'L3-DA': {
       id: 'L3-DA',
-      name: 'todo name'
+      name: 'Аналитик'
    },
    'L3-DME': {
       id: 'L3-DME',
-      name: 'todo name'
+      name: 'Инженер'
    },
    'L3-DO': {
       id: 'L3-DO',
-      name: 'todo name'
+      name: 'DevOps'
    },
    'L3-DS': {
       id: 'L3-DS',
-      name: 'todo name'
+      name: 'Методолог'
    },
    'L3-H': {
       id: 'L3-H',
-      name: 'todo name'
+      name: 'Оборудование'
    },
    'L3-ISC': {
       id: 'L3-ISC',
-      name: 'todo name'
+      name: 'Контроль информационной безопасности'
    },
    'L3-ITSM': {
       id: 'L3-ITSM',
-      name: 'todo name'
+      name: 'ITSM'
    },
    'L3-L1': {
       id: 'L3-L1',
-      name: 'todo name'
+      name: 'Первая линия'
    },
    'L3-L2': {
       id: 'L3-L2',
-      name: 'todo name'
+      name: 'Вторая линия'
    },
    'L3-L3': {
       id: 'L3-L3',
-      name: 'todo name'
+      name: 'Третья линия'
    },
    'L3-PM': {
       id: 'L3-PM',
-      name: 'todo name'
+      name: 'Руководитель проекта'
    },
    'L3-PT': {
       id: 'L3-PT',
-      name: 'todo name'
+      name: 'Тестирование на проникновение'
    },
    'L3-S': {
       id: 'L3-S',
-      name: 'todo name'
+      name: 'Программное обеспечение'
    },
    'L3-SD': {
       id: 'L3-SD',
-      name: 'todo name'
+      name: 'Ведущий разработчик'
    },
    'L3-SOC': {
       id: 'L3-SOC',
-      name: 'todo name'
+      name: 'Центр обеспечения безопасности'
    },
    'L3-SQAE': {
       id: 'L3-SQAE',
-      name: 'todo name'
+      name: 'Ведущий тестировщик'
    },
    'L3-T': {
       id: 'L3-T',
-      name: 'todo name'
+      name: 'Тестирование'
    },
    'L4-MD': {
       id: 'L4-MD',
-      name: 'todo name'
+      name: 'Разработчик'
    },
    'L4-MQAE': {
       id: 'L4-MQAE',
-      name: 'todo name'
+      name: 'Тестировщик'
    },
    'L5-BA': {
       id: 'L5-BA',
-      name: 'todo name'
+      name: 'Бизнес-аналитик'
    },
    'L5-JD': {
       id: 'L5-JD',
-      name: 'todo name'
+      name: 'Младший разработчик'
    },
    'L5-JQAE': {
       id: 'L5-JQAE',
-      name: 'todo name'
+      name: 'Младший тестировщик'
    },
    'L5-SA': {
       id: 'L5-SA',
-      name: 'todo name'
+      name: 'Системный аналитик'
    },
    'L6-AS': {
       id: 'L6-AS',
-      name: 'todo name'
+      name: ' '
    },
    'L6-ITIS': {
       id: 'L6-ITIS',
-      name: 'todo name'
+      name: 'Поддержка инфраструктуры'
    },
    'L6-SASEECT': {
       id: 'L6-SASEECT',
-      name: 'todo name'
+      name: 'Специалист/инженер по информационной безопасности'
    },
    'L6-T1': {
       id: 'L6-T1',
-      name: 'todo name'
+      name: 'Стажер'
    },
    'L6-T2': {
       id: 'L6-T2',
-      name: 'todo name'
+      name: 'Стажер'
    },
    'L6-TW': {
       id: 'L6-TW',
-      name: 'todo name'
+      name: 'Технический писатель'
    },
    'L6-US': {
       id: 'L6-US',
-      name: 'todo name'
+      name: 'Поддержка пользователей'
    },
    'L7-D': {
       id: 'L7-D',
-      name: 'todo name'
+      name: 'Разработка'
    },
    'L7-DA': {
       id: 'L7-DA',
-      name: 'todo name'
+      name: 'Анализ данных'
    },
    'L7-IS': {
       id: 'L7-IS',
-      name: 'todo name'
+      name: 'Информационная безопасность'
    },
    'L7-ITOAS': {
       id: 'L7-ITOAS',
-      name: 'todo name'
+      name: 'Операционная поддержка ИТ'
    },
    'L7-PM': {
       id: 'L7-PM',
-      name: 'todo name'
+      name: 'Управление проектами'
    },
    'L7-QA': {
       id: 'L7-QA',
-      name: 'todo name'
+      name: 'Тестирование'
    },
    'L7-T': {
       id: 'L7-T',
-      name: 'todo name'
+      name: 'Телекоммуникации'
    },
-   'MagicCircle': {
-      id: 'MagicCircle',
-      name: 'todo name'
-   },
-   'app': {
-      id: 'app',
-      name: 'todo name'
-   },
-   'inset-shadow': {
-      id: 'inset-shadow',
-      name: 'todo name'
-   }
 }
 export default {
     textContent

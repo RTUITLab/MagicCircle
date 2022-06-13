@@ -420,15 +420,14 @@ export default {
     this.$root.$emit('modalContent', this.modalContent);
     
     // get Ids
-    const ids = Array.from(new Set(Array.from(document.all).map(i => i.id).filter(i => i != ""))).sort()
-    const obj = {}
-    ids.forEach((id) => {
-      obj[id] = {
-        'id': id,
-        'name': 'todo name'
-      }
-    })
-    console.log('obj', JSON.stringify(obj));
+    // const ids = Array.from(new Set(Array.from(document.all).map(i => i.id).filter(i => i != ""))).sort()
+    // const obj = {}
+    // ids.forEach((id) => {
+    //   obj[id] = {
+    //     'id': id,
+    //     'name': 'todo name'
+    //   }
+    // })
   }
 }
 </script>

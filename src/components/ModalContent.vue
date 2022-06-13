@@ -5,7 +5,7 @@
       v-if="isEdit"
     />
     <MarkdownViewer v-else />
-    <DescriptionFormEdit v-show="isEditAdditional"  />
+    <DescriptionFormEdit v-if="isEditAdditional"  />
     <DescriptionViewer :additionalDescription="additionalDescription" />
   </div>
 </template>
