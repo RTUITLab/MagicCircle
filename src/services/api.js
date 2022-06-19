@@ -219,7 +219,7 @@ export default {
     */
     async getSectorsList() {
         return await axios.request({
-            url: 'api/magic-circle/v1/sector',
+            url: 'api/magic-circle/v1/sectorIds',
             method: 'GET',
         }).then(resp => {
           store.dispatch('fetchSectors', resp.data.sectors)
@@ -231,7 +231,7 @@ export default {
     // async getSectorsFromApi(institute = {id: ''}, direction = {id: ''}, profile = {id: ''}) {
     async getSectorsFromApi(institutes, directions, profiles) {
         return await axios.request({
-            url: 'api/magic-circle/v1/sector',
+            url: 'api/magic-circle/v1/sectorIds',
             method: 'GET',
             params: {institute: institutes[0]?.id, direction: directions[0]?.id, profile: profiles[0]?.id}
         }).then(resp => {
@@ -267,6 +267,19 @@ export default {
             return resp
         }).catch(err => {
             return err.response
+        })
+    },
+
+    async getSector(sectorId) {
+        return await axios.request({
+            url: `api/magic-circle/v1/sector/${sectorId}`,
+            method: 'GET',
+        }).then(resp => {
+          console.log('resp', resp);
+          store.dispatch('changeselectedSector', resp.data)
+            return resp.data
+        }).catch(err => {
+            return err
         })
     }
 

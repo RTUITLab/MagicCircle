@@ -49,8 +49,8 @@ export default {
   },
   computed: {
     markdownText() {
-     return this.$store.state.markdown
-   },
+      return this.$store.state.selectedSector.description
+    },
    markdownToHtml(){
      this.$store.dispatch('changeMarkdown', this.markdown)
      return marked(this.markdown);
@@ -234,10 +234,7 @@ export default {
   }
   },
   mounted() {
-    setTimeout(() => {
-      const selectedSector = this.$store.state.sectorList.find(sector => sector.coords === this.$store.state.selectedSector.coords);
-      this.markdown = selectedSector.description
-    }, 0)
+    this.markdown = this.$store.state.selectedSector.description
 
   }
 }

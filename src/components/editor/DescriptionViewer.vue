@@ -28,27 +28,9 @@
 <script>
 
 export default {
-  props: {
-    additionalDescription: Array
-  },
-  data() {
-    return {
-      profileEdit: '',
-    }
-  },
   computed: {
-    selectedSector() {
-      return this.$store.state.sectorList.find((sector) => 
-        sector.coords === this.$store.state.selectedSector.coords)
-    },
     institutes() {
-      return this.selectedSector.institutes
-    }
-  },
-  methods: {
-    getAdditionalDescription() {
-      return this.$store.state.sectorList.find((sector) => 
-        sector.coords === this.selectedSector)
+      return this.$store.state.selectedSector.institutes
     }
   },
 }

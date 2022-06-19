@@ -6,7 +6,7 @@
             <!--trigger modal -->
             <div>
               <b-modal id="my-modal" 
-                :title="'TODO'" 
+                :title="title" 
                 :size="'lg'" 
                 scrollable
                 header-class="header-preview"
@@ -18,6 +18,7 @@
                   :modalContent="this.modalContent"
                   :additionalDescription="this.additionalDescription"
                   :isEditAdditional="true"
+                  @clearModalContent="clearModalContent"
                  />
               </b-modal>
             </div>
@@ -229,6 +230,7 @@
 import textContent from '@/services/textContent'
 import ModalContent from "../ModalContent";
 import api from '@/services/api'
+import helper from '@/services/helpers'
 
 export default {
 
@@ -243,17 +245,14 @@ export default {
       additionalDescription: []
     }
   },
+  computed: {
+    title() {
+      return this.$store.state.title
+    }
+  },
   methods: {
-    setTextContent() {
-      Object.keys(this.allTextContent).forEach((id) => {
-        document.getElementById(id).addEventListener('click', async () => {
-          const selectedSector = this.$store.state.sectorList.find(sector => sector.coords === id);
-          await this.$store.dispatch('changeselectedSector', selectedSector)
-          await this.$store.dispatch('changeMarkdown', selectedSector.description)
-          this.modalContent = selectedSector.description
-          this.additionalDescription = selectedSector.additionalDescriptions
-        })
-      })
+    clearModalContent() {
+      helper.clearModalContent()
     },
     changeAdditionalDirection() {
       this.$root.$emit('changeAdditional')
@@ -263,7 +262,7 @@ export default {
     // this.getAllDataFromApi()
     this.allTextContent = textContent.textContent
     api.getSectorsList()
-    this.setTextContent()
+    helper.setTextContent()
     this.$root.$emit('modalContent', this.modalContent);
   }
 }

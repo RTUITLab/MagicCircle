@@ -7,7 +7,7 @@
           <div class="svg-layer">
             <div>
               <b-modal id="my-modal" 
-                :title="'TODO'" 
+                :title="title" 
                 :size="$store.state.isAuth ? 'xl' : 'lg'" 
                 scrollable
                 header-class="header-preview"
@@ -16,8 +16,8 @@
                 ok-title="Сохранить"
               >
                 <ModalContent 
-                  @clearModalContent="clearModalContent" 
                   :modalContent="this.modalContent"
+                  @clearModalContent="clearModalContent" 
                   :isEdit="true"
                  />
               </b-modal>
@@ -231,8 +231,8 @@
 import api from "../../services/api";
 import Vue from "vue";
 import Multiselect from "vue-multiselect";
-import ModalContent from "../ModalContent";
-import textContent from '@/services/textContent'
+import ModalContent from "@/components/ModalContent";
+import helpers from '@/services/helpers'
 
 Vue.component('multiselect', Multiselect)
 
@@ -267,9 +267,13 @@ export default {
       modalAddProfile: '',
 
       // редактирование сектора
-      allTextContent: '',
       modalContent: '',
     }
+  },
+  computed: {
+    title() {
+      return this.$store.state.title
+    },
   },
   watch: {
     modalSelectInst: function () {
@@ -293,17 +297,7 @@ export default {
 
   methods: {
     clearModalContent() {
-      this.modalContent = ''
-    },
-    setTextContent() {
-      Object.keys(this.allTextContent).forEach((id) => {
-        document.getElementById(id).addEventListener('click', () => {
-          const selectedSector = this.$store.state.sectorList.find(sector => sector.coords === id);
-          this.$store.dispatch('changeselectedSector', selectedSector)
-          this.$store.dispatch('changeMarkdown', selectedSector.description)
-          this.modalContent = selectedSector.description
-        })
-      })
+      helpers.clearModalContent()
     },
     updateSectorDescription() {
       const selectedSector = this.$store.state.sectorList.find(sector => 
@@ -463,12 +457,8 @@ export default {
   },
   mounted() {
     this.getAllDataFromApi()
-    // this.selectInst = this.$store.state.adminInstituteId
-    // if (this.$store.state.adminInstituteId) {
-    //   this.selectInst = this.$store.state.institutes.find(inst => inst.id === this.$store.state.adminInstituteId)
-    // }
-    this.allTextContent = textContent.textContent
-    this.setTextContent()
+    helpers.setTextContent()
+    this.modalContent = this.$store.state.markdown
     this.$root.$emit('modalContent', this.modalContent);
 
   }

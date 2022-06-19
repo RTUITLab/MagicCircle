@@ -46,8 +46,7 @@ export default {
   },
   computed: {
     selectedSector() {
-      return this.$store.state.sectorList.find((sector) => 
-        sector.coords === this.$store.state.selectedSector.coords)
+      return this.$store.state.selectedSector
     },
     directions() {
       return this.$store.state.selectedSector.institutes.find((inst) => inst.id === this.$store.state.adminInstituteId).directions

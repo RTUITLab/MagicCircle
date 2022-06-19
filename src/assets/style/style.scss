@@ -38,6 +38,9 @@
 .header-preview {
     border-bottom: none;
 }
+.modal-body {
+    min-height: 70vh;
+}
 .modal-footer {
     display: flex;
     justify-content: space-between;

@@ -271,6 +271,7 @@ import Vue from "vue";
 import Multiselect from 'vue-multiselect'
 import api from '@/services/api'
 import textContent from '@/services/textContent'
+import helper from '@/services/helpers'
 
 // register globally
 Vue.component('multiselect', Multiselect)
@@ -292,7 +293,11 @@ export default {
       allDirections: [],
       allProfs: [],
 
-      title: '',
+    }
+  },
+  computed: {
+    title() {
+      return this.$store.state.title
     }
   },
   watch: {
@@ -307,7 +312,7 @@ export default {
   },
   methods: {
     clearModalContent() {
-      this.modalContent = ''
+      helper.clearModalContent()
     },
     findSectors() {
       const paths = document.querySelectorAll("path, circle")
@@ -329,18 +334,6 @@ export default {
         }
       })
     },
-    // async getSectors() {
-    //     return await axios.request({
-    //         url: 'v1/sector',
-    //         method: 'GET',
-    //     }).then(resp => {
-    //       this.$store.dispatch('fetchSectors', resp.data.sectors)
-    //       console.log('respSec', resp.data.sectors);
-    //         return resp.data
-    //     }).catch(err => {
-    //         return err
-    //     })
-    // },
     getAllDataFromApi() {
       // get institutes
       api.getInstitutesFromApi().then(data => {
@@ -366,17 +359,6 @@ export default {
       }).catch(err => {
         alert('Ошибка', err)
         console.log('err', err)
-      })
-    },
-    setTextContent() {
-      Object.keys(this.allTextContent).forEach((id) => {
-        document.getElementById(id).addEventListener('click', () => {
-          const selectedSector = this.$store.state.sectorList.find(sector => sector.coords === id);
-          this.title = this.allTextContent[id].name
-          this.$store.dispatch('changeselectedSector', selectedSector)
-          this.$store.dispatch('changeMarkdown', selectedSector?.description)
-          this.modalContent = selectedSector?.description
-        })
       })
     },
     updateSectorDescription() {
@@ -416,7 +398,7 @@ export default {
     this.getAllDataFromApi()
     api.getSectorsList()
     this.allTextContent = textContent.textContent
-    this.setTextContent()
+    helper.setTextContent()
     this.$root.$emit('modalContent', this.modalContent);
     
     // get Ids

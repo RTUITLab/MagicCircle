@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="markdownText !== null">
     <!-- TODO isAuth -->
     <MarkdownEditor
       v-if="isEdit"
@@ -23,6 +23,11 @@ export default {
     additionalDescription: Array,
     isEdit: Boolean,
     isEditAdditional: Boolean
+  },
+  computed: {
+    markdownText() {
+      return this.$store.state.markdown
+    },
   },
   destroyed() {
     this.$emit("clearModalContent")

@@ -12,6 +12,7 @@ export default new Vuex.Store({
 
       markdown: '',
       selectedSector: null,
+      title: null,
       sectorList: [],
 
       institutes: [],
@@ -35,6 +36,9 @@ export default new Vuex.Store({
     },
     SET_SECTOR_TO_STATE: (state, selectedSector) => {
       state.selectedSector = selectedSector
+    },
+    SET_TITLE_TO_STATE: (state, title) => {
+      state.title = title
     },
     SET_SECTORLIST_TO_STATE: (state, sectorList) => {
       state.sectorList = sectorList
@@ -71,6 +75,9 @@ export default new Vuex.Store({
     },
     changeselectedSector: ({commit}, selectedSector) => {
       commit('SET_SECTOR_TO_STATE', selectedSector)
+    },
+    changeTitle: ({commit}, title) => {
+      commit('SET_TITLE_TO_STATE', title)
     },
     changeInstitutes: ({commit}, institutes) => {
       commit('SET_INSTITUTES_TO_STATE', institutes)
