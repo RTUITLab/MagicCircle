@@ -5,17 +5,17 @@
         <span v-text="'Редактор'" />
       </div>
       <div class="markdown-btns" style="text-align: left">
-        <img class="img-btn" :src="('svg/editor/heading.svg')" @click="() => press('h')" />
-        <img class="img-btn" :src="('svg/editor/icon_w.svg')" @click="() => press('b')" />
-        <img class="img-btn" :src="('svg/editor/italic.svg')" @click="() => press('i')" />
+        <img class="img-btn" :src="('/svg/editor/heading.svg')" @click="() => press('h')" />
+        <img class="img-btn" :src="('/svg/editor/icon_w.svg')" @click="() => press('b')" />
+        <img class="img-btn" :src="('/svg/editor/italic.svg')" @click="() => press('i')" />
 
-        <img class="img-btn" :src="('svg/editor/code-view.svg')" @click="() => press('q')" />
-        <img class="img-btn" :src="('svg/editor/link.svg')" @click="() => press('k')" />
-        <img class="img-btn" :src="('svg/editor/list-check.svg')" @click="() => press('l')" />
+        <img class="img-btn" :src="('/svg/editor/code-view.svg')" @click="() => press('q')" />
+        <img class="img-btn" :src="('/svg/editor/link.svg')" @click="() => press('k')" />
+        <img class="img-btn" :src="('/svg/editor/list-check.svg')" @click="() => press('l')" />
 
-        <img class="img-btn" :src="('svg/editor/list-unordered.svg')" @click="() => press('u')" />
-        <img class="img-btn" :src="('svg/editor/list-ordered.svg')" @click="() => press('o')" />
-        <img class="img-btn" :src="('svg/editor/checkbox-line.svg')" @click="() => press('j')" />
+        <img class="img-btn" :src="('/svg/editor/list-unordered.svg')" @click="() => press('u')" />
+        <img class="img-btn" :src="('/svg/editor/list-ordered.svg')" @click="() => press('o')" />
+        <img class="img-btn" :src="('/svg/editor/checkbox-line.svg')" @click="() => press('j')" />
 
       </div>
       <textarea 
