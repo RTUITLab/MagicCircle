@@ -24,7 +24,6 @@ export default {
 <style scoped>
 .markdown-preview {
   text-align: left;
-  min-height: 70vh;
   /* max-width: 380px; */
 }
 </style>

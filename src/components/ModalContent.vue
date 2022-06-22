@@ -1,5 +1,5 @@
 <template>
-  <div v-if="markdownText !== null">
+  <div v-if="markdownText !== null" style="min-height: 70vh;">
     <!-- TODO isAuth -->
     <MarkdownEditor
       v-if="isEdit"

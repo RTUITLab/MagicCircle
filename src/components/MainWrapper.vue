@@ -50,12 +50,11 @@
         <div>
             <!-- :ok-only="$store.state.isAuth ? false : true" -->
           <b-modal id="my-modal" 
+            hide-footer
             :title="title" 
             :size="'lg'" 
             scrollable
             header-class="header-preview"
-            cancel-title="Отмена"
-            ok-title="Сохранить"
           >
             <ModalContent @clearModalContent="clearModalContent" :modalContent="this.modalContent" />
           </b-modal>

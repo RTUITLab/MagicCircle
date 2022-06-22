@@ -13,7 +13,6 @@
           label="name" 
           track-by="id" 
           :options="instituteList"
-          
          />
          <b-modal id="modal-inst" 
             size="lg"
@@ -508,7 +507,7 @@ export default {
     addInst() {
       const data = {
         institute: {
-          name: this.modalAddInstitute
+          name: this.selectInst
         }
       }
       api.postSectorsToApi(data)
@@ -531,8 +530,8 @@ export default {
             name: this.modalSelectDirection.name
         },
         institute: {
-          id: this.modalSelectInst.id,
-          name: this.modalSelectInst.name
+          id: this.selectInst.id,
+          name: this.selectInst.name
         },
         profile: {
           name: this.modalAddProfile

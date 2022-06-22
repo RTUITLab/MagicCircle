@@ -30,7 +30,10 @@
     width: 800px;
     height: 800px;
 }
-
+.img-layer, .svg-layer {
+    position: absolute;
+    left: calc((100% - 900px)/2);
+}
 .img-layer img {
     position: absolute;
     width: 800px;
