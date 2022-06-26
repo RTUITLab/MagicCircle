@@ -222,7 +222,7 @@ export default {
             url: 'api/magic-circle/v1/sectorIds',
             method: 'GET',
         }).then(resp => {
-          store.dispatch('fetchSectors', resp.data.sectors)
+            store.dispatch('fetchSectors', resp.data.sectors)
             return resp.data
         }).catch(err => {
             return err
@@ -249,8 +249,16 @@ export default {
             }
         }).then(resp => {
             this.getSectorsList();
+            Vue.notify({
+                type: 'success',
+                text: 'Успешно!'
+            })
             return resp
         }).catch(err => {
+            Vue.notify({
+                type: 'error',
+                text: `${err}`
+            })
             return err.response
         })
     },
@@ -264,8 +272,16 @@ export default {
             }
         }).then(resp => {
             this.getSectorsList();
+            Vue.notify({
+                type: 'success',
+                text: 'Успешно!'
+            })
             return resp
         }).catch(err => {
+            Vue.notify({
+                type: 'error',
+                text: `${err}`
+            })
             return err.response
         })
     },

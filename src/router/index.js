@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import AddSector from "../components/AdminPanel/AddSector";
 import ChangeSector from "../components/AdminPanel/ChangeSector";
 import AddDescription from "../components/AdminPanel/AddDescription";
 import DelPage from "../components/AdminPanel/DelPage";
@@ -22,13 +21,13 @@ const routes = [
         component: () => import('@/views/Admin'),
         meta: { requiresAuth: true },
         children: [
-            {
-                path: 'addSector',
-                component: AddSector,
-                meta: {
-                    isAdmin: true
-                }
-            },
+            // {
+            //     path: 'addSector',
+            //     component: AddSector,
+            //     meta: {
+            //         isAdmin: true
+            //     }
+            // },
             {
                 path: 'addDescription',
                 component: AddDescription,

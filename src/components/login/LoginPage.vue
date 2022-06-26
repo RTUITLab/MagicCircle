@@ -1,5 +1,6 @@
 <script>
 import apiAuth from '@/services/apiAuth';
+import axios from "axios";
 
 export default {
   data() {
@@ -12,9 +13,9 @@ export default {
   methods: {
     fetchLogin() {
       apiAuth.signIn(this.login, this.password).then(data => {
-        // TODO data.status === 200
         if (data.token) {
-          this.$router.push('/admin/addSector')
+          axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
+          this.$router.push('/admin/addDescription')
         }
         else  {
           this.errorMessage = 'Неверный логин или пароль'

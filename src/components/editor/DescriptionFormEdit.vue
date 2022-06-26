@@ -36,7 +36,7 @@ export default {
   data() {
     return {
       selectedDirection: '',
-      selectedProfile: '',
+      selectedProfile: null,
 
       profiles: [],
 
@@ -49,7 +49,7 @@ export default {
       return this.$store.state.selectedSector
     },
     directions() {
-      return this.$store.state.selectedSector.institutes.find((inst) => inst.id === this.$store.state.adminInstituteId).directions
+      return this.$store.state.selectedSector.institutes?.find((inst) => inst.id === this.$store.state.adminInstituteId).directions
     },
   },
   watch: {

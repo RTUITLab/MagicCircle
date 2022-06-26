@@ -3,11 +3,13 @@
     <div class="accordion" role="tablist" v-for="inst in institutes" :key="inst.id">
         <div block v-b-toggle="`accordion-inst${inst.id}`" class="accordion-item">
           <span>{{inst.name}}</span>
+          <span class="accordion-chevron"> <img v-if="inst.directions" src="@/assets/chevron.svg" /> </span>
         </div>
         <b-collapse v-if="inst.directions" :id="`accordion-inst${inst.id}`" role="tabpanel">
             <div v-for="dir in inst.directions" :key="dir.id">
               <div v-if="dir.profiles" block v-b-toggle="`accordion-dir${dir.id}`" class="accordion-item accordion-subitem" >
                 <span>{{dir.name}}</span>
+                <span class="accordion-chevron"> <img v-if="dir.profiles" src="@/assets/chevron.svg" /> </span>
               </div>
               <b-collapse v-if="dir.profiles" :id="`accordion-dir${dir.id}`" role="tabpanel">
                   <div no-body v-for="prof in dir.profiles" :key="prof.id" >
