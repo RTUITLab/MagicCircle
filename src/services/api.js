@@ -230,10 +230,20 @@ export default {
     },
     // async getSectorsFromApi(institute = {id: ''}, direction = {id: ''}, profile = {id: ''}) {
     async getSectorsFromApi(institutes, directions, profiles) {
+        let formatInstitutes = '';
+        let formatDirections = '';
+        let formatProfiles = '';
+        institutes.forEach( inst => formatInstitutes = formatInstitutes + `${inst.id} `),
+        directions.forEach( dir => formatDirections = formatDirections + `${dir.id} `),
+        profiles.forEach( prof => formatProfiles = formatProfiles + `${prof.id} `)
         return await axios.request({
             url: 'api/magic-circle/v1/sectorIds',
             method: 'GET',
-            params: {institute: institutes[0]?.id, direction: directions[0]?.id, profile: profiles[0]?.id}
+            params: {
+                institute: formatInstitutes?.slice(0, -1),
+                direction: formatDirections?.slice(0, -1),
+                profile: formatProfiles?.slice(0, -1)
+            }
         }).then(resp => {
             return resp.data
         }).catch(err => {

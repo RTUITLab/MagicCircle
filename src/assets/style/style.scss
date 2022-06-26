@@ -109,16 +109,16 @@
     button {
         border-radius: 6px;
     }
-    .btn-primary {
-        color: #1E5EFF;
-        border-color: #1E5EFF;
-        background-color: #fff;
-        &:hover {
-            transition-duration: 0.3s;
-            background-color: #1E5EFF;
-            color: #fff;
-        }
-    }
+    // .btn-primary {
+    //     color: #1E5EFF;
+    //     border-color: #1E5EFF;
+    //     background-color: #fff;
+    //     &:hover {
+    //         transition-duration: 0.3s;
+    //         background-color: #1E5EFF;
+    //         color: #fff;
+    //     }
+    // }
 }
 .modal-delete {
     max-width: 720px;
