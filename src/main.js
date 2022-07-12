@@ -44,6 +44,8 @@ axios.interceptors.response.use(
             await apiAuth.refreshToken()
             return ;
           } catch (_error) {
+            store.dispatch('signOut')
+            router.push('/')
             return Promise.reject(_error);
           }
         }

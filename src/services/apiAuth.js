@@ -1,5 +1,6 @@
 import axios from "axios";
 import store from '../store'
+import router from '../router'
 
 export default {
     async signIn(login, password) {
@@ -35,9 +36,11 @@ export default {
                 store.dispatch('changeIsAuth', true)
                 localStorage.setItem('token', resp.data.token)
                 store.dispatch('changeToken', resp.data.token)
-            } 
+            }
             return resp.data
         }).catch(err => {
+            store.dispatch('signOut')
+            router.push('/')
             return err
         })
     },

@@ -327,7 +327,7 @@ export default {
         else {
           data.sectors.forEach((item) => {
             if (document.getElementById(item.coords) != null) {
-              document.getElementById(item.coords).setAttribute("style", "stroke: black; stroke-width: 3px")
+              document.getElementById(item.coords).setAttribute("style", "")
             }
           })
         }
@@ -445,6 +445,9 @@ export default {
   justify-content: space-between;
   margin: 0 auto 15px;
   max-width: 1200px;
+  button {
+    height: 46px;
+  }
 }
 .selects-row__item{
   margin-right: 30px;

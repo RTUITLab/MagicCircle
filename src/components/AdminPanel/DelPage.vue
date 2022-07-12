@@ -1,9 +1,52 @@
 <template>
   <div class="del-section" >
     <div class="del-section__header">
-      {{$store.state.adminInstituteId ? 'Направления' :'Институты'}}
+      <div v-if="$store.state.role==='super.admin'">
+        <span v-text="'Институты'" />
+        <img src="@/assets/add.svg" style="margin-left: 10px" class="add-form__iconadd" v-b-modal="'modal-inst'" width="24px">
+      </div>
+      <div v-else>
+        <span v-text="'Направления'" />
+        <img src="@/assets/add.svg" style="margin-left: 10px" class="add-form__iconadd" v-b-modal="'modal-dir'">
+      </div>
     </div>
     <!-- Modals -->
+    <b-modal id="modal-inst" 
+            size="lg"
+            title="Создание института" 
+            cancel-title="Отмена"
+            header-class="header-preview"
+            centered
+            content-class="modal-add"
+            ok-title="Создать"
+            @ok="addInst()"
+          >
+          <b-form-input v-model="modalAddInstitute" placeholder="Введите новое название института" required/>
+    </b-modal>
+    <b-modal id="modal-dir" 
+            size="lg"
+            title="Создание направления" 
+            cancel-title="Отмена"
+            header-class="header-preview"
+            centered
+            content-class="modal-add"
+            ok-title="Создать"
+            @ok="addDir()"
+          >
+            <b-form-input v-model="modalAddDirection" placeholder="Введите новое название направления" required/>
+    </b-modal>
+    <b-modal id="modal-prof" 
+            size="lg"
+            title="Создание профиля" 
+            cancel-title="Отмена"
+            header-class="header-preview"
+            centered
+            content-class="modal-add"
+            ok-title="Создать"
+            @ok="addProf()"
+          >
+          <b-form-input v-model="modalAddProfile" placeholder="Введите новое название профиля" required/>
+         </b-modal>
     <b-modal id="modal-del-inst" 
             size="xl"
             cancel-title="Отмена"
@@ -73,6 +116,7 @@
     </div>
     <!-- Accordion Admin institute -->
     <div v-else class="accordion" role="tablist" v-for="dir in directionListByInst" :key="dir.id">
+        <div class="add-dir" v-b-modal="'modal-prof'" @click="setDirectionItem(dir)"/>
         <div block v-b-toggle="`accordion-dir${dir.id}`" class="accordion-item accordion-subitem" >
           <span>{{dir.name}}</span>
           <div style="display: flex">
@@ -91,7 +135,8 @@
                 </div>
             </div>
         </b-collapse>
-      </div>
+
+    </div>
   </div>
 </template>
 
@@ -106,6 +151,10 @@ export default {
       delValueProfile: '',
       delValueDirect: '',
 
+      modalAddInstitute: '',
+      modalAddDirection: '',
+      modalAddProfile: '',
+
       selectedInstitute: null,
       selectedDirection: null,
       selectedProfile: null,
@@ -116,12 +165,12 @@ export default {
       directionList: [],
       profileList: [],
 
-
+      addDirectionItem: null,
     }
   },
   computed: {
     institutes () {
-        return this.$store.state.institutes
+      return this.$store.state.institutes
     },
     directionListByInst () {
       if (this.$store.state.adminInstituteId) {
@@ -131,6 +180,9 @@ export default {
     }
   },
   methods: {
+    setDirectionItem(profile) {
+      this.addDirectionItem = profile;
+    },
     deleteInstitute() {
       api.deleteInstituteFromApi(this.selectedInstitute.id)
     },
@@ -176,10 +228,51 @@ export default {
         console.log('err', err)
       })
     },
+
+    async addInst() {
+      const data = {
+        institute: {
+          name: this.modalAddInstitute
+        }
+      }
+      await api.postSectorsToApi(data)
+      this.getAllDataFromApi()
+      this.modalAddInstitute = ''
+
+    },
+    async addDir() {
+      const data = {
+        direction: {
+          name: this.modalAddDirection
+        },
+        institute: {
+          id: this.$store.state.adminInstituteId,
+        }
+      }
+      await api.postSectorsToApi(data)
+      this.getAllDataFromApi()
+      this.modalAddDirection = ''
+    },
+    async addProf() {
+      const data = {
+        direction: {
+          id: this.addDirectionItem.id,
+        },
+        institute: {
+          id: this.$store.state.adminInstituteId,
+        },
+        profile: {
+          name: this.modalAddProfile
+        }
+      }
+      await api.postSectorsToApi(data)
+      this.getAllDataFromApi()
+      this.modalAddProfile = ''
+
+    },
   },
   mounted() {
     this.getAllDataFromApi();
-
   }
 }
 </script>
@@ -209,5 +302,17 @@ export default {
   font-weight: 600;
   font-size: 18px;
   line-height: 28px;
+}
+.add-dir {
+  position: relative;
+  &::after {
+    content: url('../../assets/add.svg');
+    cursor: pointer;
+    width: 20px;
+    position: absolute;
+    right: -30px;
+    height: 20px;
+    top: 30px;
+  }
 }
 </style>

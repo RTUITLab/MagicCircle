@@ -507,7 +507,7 @@ export default {
     addInst() {
       const data = {
         institute: {
-          name: this.selectInst
+          name: this.modalAddInstitute
         }
       }
       api.postSectorsToApi(data)

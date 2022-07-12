@@ -43,10 +43,12 @@ export default {
             method: 'POST',
             data: data
         }).then(resp => {
-            Vue.notify({
-                type: 'success',
-                text: 'Успешно создано!'
-            })
+            if (resp.status === 201) {
+                Vue.notify({
+                    type: 'success',
+                    text: 'Успешно создано!'
+                })
+            }
             return resp.data
         }).catch(err => {
             if (err.response.status === 404) {
@@ -57,7 +59,6 @@ export default {
                     text: 'Не получилось, проверьте правильность ввденных данных'
                 })
             }
-            console.log(err)
             return err
         })
     },
@@ -301,7 +302,6 @@ export default {
             url: `api/magic-circle/v1/sector/${sectorId}`,
             method: 'GET',
         }).then(resp => {
-          console.log('resp', resp);
           store.dispatch('changeselectedSector', resp.data)
             return resp.data
         }).catch(err => {
