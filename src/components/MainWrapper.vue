@@ -5,10 +5,10 @@
         <multiselect 
           class="selects-row__item" 
           v-model="selectInst"  
-          tag-placeholder="Выберите институт" 
+          tag-placeholder="Выберать институт" 
           :limitText="count => `и ${count} еще`" 
           :limit="3" 
-          placeholder="Выберите институт" 
+          placeholder="Выберать институт" 
           label="name" 
           track-by="id" 
           :options="instituteList" 
@@ -17,10 +17,10 @@
         <multiselect
           class="selects-row__item" 
           v-model="selectDirection" 
-          tag-placeholder="Выберите направление" 
+          tag-placeholder="Выберать направление" 
           :limit="3"
           :limitText="count => `и ${count} еще`" 
-          placeholder="Выберите направление" 
+          placeholder="Выберать направление" 
           label="name" 
           track-by="id" 
           :options="directionList" 
@@ -30,10 +30,10 @@
         <multiselect 
           class="selects-row__item" 
           v-model="selectProfile" 
-          tag-placeholder="Выберите профиль" 
+          tag-placeholder="Выберать профиль" 
           :limit="3"
           :limitText="count => `и ${count} еще`" 
-          placeholder="Выберите профиль" 
+          placeholder="Выберать профиль" 
           label="name"
           track-by="id" 
           :options="profileList"
@@ -260,9 +260,13 @@
       </div>
     </div>
     <div>
-      <button class="btn btn-enter" style="margin-left: 60px;" @click="$store.state.isAuth ? $router.push('/admin/addDescription') : $router.push('/login')">
+      <span 
+        @click="$store.state.isAuth ? $router.push('/admin/addDescription') : $router.push('/login')"
+        class="controls" 
+      >Панель управления</span>
+      <!-- <button class="btn btn-enter" style="margin-left: 60px;">
         <span v-text="$store.state.isAuth ? 'Панель' : 'Войти'" />
-      </button>
+      </button> -->
     </div>
   </div>
 </template>
@@ -420,11 +424,11 @@ export default {
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 
 <style lang="scss" scoped>
-
-// .img-layer, .svg-layer {
-//   position: absolute;
-//   left: calc((100% - 900px)/2);
-// }
+.controls {
+  text-decoration: solid underline;
+  font-size: 14px;
+  opacity: .7;
+}
 
 .modal__title{
   text-align: left;
@@ -439,70 +443,34 @@ export default {
   white-space: pre-wrap;
 }
 
-
-
-// .svg-layer {
-//   position: absolute;
-//   z-index: 999;
-// }
-
 .selects-row {
   display: flex;
   justify-content: space-between;
-  margin: 0 auto 15px;
+  gap: 20px;
+  padding: 0 20px;
   max-width: 1200px;
+
+  @media (max-width: 860px) {
+    flex-direction: column;
+  }
+
   button {
     height: 46px;
   }
 }
-.selects-row__item{
-  margin-right: 30px;
-  width: 33.333%;
-  z-index: 1000;
-}
+
 @media (max-width: 768px) {
   /* Стили для устройств с шириной viewport, находящейся в диапазоне 768px - 991px */
   .img-layer img {
     margin: 0 auto;
     width: 600px;
   }
+
   .svg-layer__circle {
     margin: 0 auto;
     width: 600px;
     height: 600px;
-  }
-  
+  } 
 }
-
-
-
-// /* Устройства со средним экраном (ноутбуки и компьютеры, 992px и выше) */
-// @media (min-width: 992px){
-//   /* Стили для устройств с шириной viewport, находящейся в диапазоне 992px - 1199px */
-//   .img-layer img {
-//     width: 900px;
-//   }
-//   .svg-layer__circle {
-//     width: 900px;
-//     height: 900px;
-//   }
-//   .svg-layer {
-//     left: 15%;
-//   }
-//   .img-layer img {
-//     left: 15%;
-//   }
-// }
-
-/* Устройства с большим экраном (компьютеры, 1200px и выше) */
-// @media (min-width: 1200px) and  (min-height: 1000px) {
-//   .img-layer img {
-//     width: 1000px;
-//   }
-//   .svg-layer__circle {
-//     width: 1000px;
-//     height: 1000px;
-//   }
-// }
 
 </style>

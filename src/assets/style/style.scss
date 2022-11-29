@@ -70,6 +70,11 @@
     height: 40px;
 }
 
+.multiselect__tags {
+    overflow: hidden !important;
+    white-space: nowrap;
+  }
+
 .close {
     float: right;
     font-size: 1.5rem;
