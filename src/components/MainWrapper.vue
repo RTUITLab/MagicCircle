@@ -448,6 +448,7 @@ export default {
   justify-content: space-between;
   gap: 20px;
   padding: 0 20px;
+  margin: 0 auto;
   max-width: 1200px;
 
   @media (max-width: 860px) {
