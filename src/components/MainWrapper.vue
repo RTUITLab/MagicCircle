@@ -40,9 +40,6 @@
           :multiple="true" 
         />
       <button class="btn btn-primary" @click="findSectors"> Найти</button>
-      <button class="btn btn-enter" style="margin-left: 60px;" @click="$store.state.isAuth ? $router.push('/admin/addDescription') : $router.push('/login')">
-        <span v-text="$store.state.isAuth ? 'Панель' : 'Войти'" />
-      </button>
       </div>
     </div>
     <div class="wrapper">
@@ -59,6 +56,7 @@
             <ModalContent @clearModalContent="clearModalContent" :modalContent="this.modalContent" />
           </b-modal>
         </div>
+        <div style="width: 100%; position: absolute">
         <svg class="svg-layer__circle" viewBox="0 0 3000 3000" fill="1" xmlns="http://www.w3.org/2000/svg">
           <!--    Define styles for :active    -->
           <defs>
@@ -254,10 +252,17 @@
             <path v-b-modal="'my-modal'" id="L7-ITOAS" d="M848.5 561.5L932.5 675.5C932.5 675.5 869 717.464 803 781.5C757.913 825.245 734.51 852.107 697 902.5C657.205 955.962 637.141 988.058 607 1047.5C580.236 1100.28 567.431 1131.26 549 1187.5C530.283 1244.61 523.595 1277.93 512.5 1337C495.5 1427.5 499.5 1499 499.5 1499H357.5C357.5 1499 357 1384.5 376.5 1291C391.16 1220.7 400.216 1181.08 424.5 1113.5C447.289 1050.08 462.887 1015.24 495 956C528.036 895.052 549.436 862.106 591.5 807C634.29 750.942 660.905 721.108 712 672.5C775.07 612.5 848.5 561.5 848.5 561.5Z" fill="#C4C4C4" fill-opacity="0.01"/>
           </g>
         </svg>
+        </div>
       </div>
+      
       <div class="img-layer">
         <img :src="require(`../assets/Chudesnyi_774_krug_c_telekommunikatsiami_1.svg`)" alt="">
       </div>
+    </div>
+    <div>
+      <button class="btn btn-enter" style="margin-left: 60px;" @click="$store.state.isAuth ? $router.push('/admin/addDescription') : $router.push('/login')">
+        <span v-text="$store.state.isAuth ? 'Панель' : 'Войти'" />
+      </button>
     </div>
   </div>
 </template>
@@ -416,10 +421,11 @@ export default {
 
 <style lang="scss" scoped>
 
-.img-layer, .svg-layer {
-  position: absolute;
-  left: calc((100% - 900px)/2);
-}
+// .img-layer, .svg-layer {
+//   position: absolute;
+//   left: calc((100% - 900px)/2);
+// }
+
 .modal__title{
   text-align: left;
   font-weight: bold;
@@ -435,10 +441,10 @@ export default {
 
 
 
-.svg-layer {
-  position: absolute;
-  z-index: 999;
-}
+// .svg-layer {
+//   position: absolute;
+//   z-index: 999;
+// }
 
 .selects-row {
   display: flex;

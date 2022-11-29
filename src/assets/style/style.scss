@@ -21,21 +21,21 @@
 #L3-L1:hover, #L3-L2:hover, #L3-L3:hover, #L3-ITSM:hover {
     fill-opacity: 0.15;
 }
-.svg-layer {
-    position: absolute;
-    z-index: 999;
-}
+// .svg-layer {
+//     position: absolute;
+//     z-index: 999;
+// }
 
 .svg-layer__circle {
     width: 800px;
     height: 800px;
 }
-.img-layer, .svg-layer {
-    position: absolute;
-    left: calc((100% - 900px)/2);
-}
+// .img-layer, .svg-layer {
+//     position: absolute;
+//     left: calc((100% - 900px)/2);
+// }
 .img-layer img {
-    position: absolute;
+    // position: absolute;
     width: 800px;
 }
 .header-preview {
