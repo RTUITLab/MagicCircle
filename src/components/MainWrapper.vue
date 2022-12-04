@@ -276,18 +276,18 @@ import 'vue-select/dist/vue-select.css';
 import vSelect from 'vue-select'
 import ModalContent from "./ModalContent";
 import Vue from "vue";
-import Multiselect from 'vue-multiselect'
+// import Multiselect from 'vue-multiselect'
 import api from '@/services/api'
 import textContent from '@/services/textContent'
 import helper from '@/services/helpers'
 
 // register globally
-Vue.component('multiselect', Multiselect)
+// Vue.component('multiselect', Multiselect)
 Vue.component('v-select', vSelect)
 Vue.component('modal-content', ModalContent)
 export default {
   name: "MainWrapper",
-  components: { Multiselect, ModalContent},
+  components: { /* Multiselect, */ ModalContent},
   data() {
     return {
       allTextContent: '',
