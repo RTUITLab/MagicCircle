@@ -1,7 +1,7 @@
 <template>
   <div class="">
     <div class="header">
-      <div class="selects-row">
+      <!-- <div class="selects-row">
         <multiselect 
           class="selects-row__item" 
           v-model="selectInst"  
@@ -40,7 +40,7 @@
           :multiple="true" 
         />
       <button class="btn btn-primary" @click="findSectors"> Найти</button>
-      </div>
+      </div> -->
     </div>
     <div class="wrapper">
       <div class="svg-layer">
